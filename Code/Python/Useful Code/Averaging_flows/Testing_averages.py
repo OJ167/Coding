@@ -28,3 +28,5 @@ for i in range(1, n+1):
     u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(f"G:/Testing/RPM-0.0__Upiston-200__Stroke-50/2023-02-08__FPS-60/{i}/Data/PIV_export.mat")
     oj.progressBar(i)
 
+"averages updated"
+
