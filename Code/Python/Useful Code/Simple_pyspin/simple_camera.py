@@ -1,0 +1,11 @@
+# dead_simple.py
+
+from simple_pyspin import Camera
+import numpy as np
+
+with Camera() as cam: # Acquire and initialize Camera
+    cam.start() # Start recording
+    imgs = [cam.get_array() for n in range(10)] # Get 10 frames
+    cam.stop() # Stop recording
+
+print(imgs[0].shape, imgs[0].dtype) # Each image is a numpy array!
