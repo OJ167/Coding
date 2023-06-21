@@ -16,7 +16,7 @@ import mat73
 
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:\Coding\Code"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
@@ -26,7 +26,7 @@ cmap = plt.get_cmap("jet_r")
 
 
 def animate_cube_contourf(
-    cube_array, interval=16.7, cmap="bwr", save=0, output="15.mp4", fps=60, scale = 1, fsize = (10, 8)
+    cube_array, interval=16.7, cmap="bwr", save=0, output="15.mp4", fps=90, scale = 1, fsize = (12, 10)
 ):
 
     """
@@ -760,7 +760,8 @@ def animate_cube_quiver(
 
     """
 
-    x, y = np.meshgrid(np.arange(0, 119, 1), np.arange(0, 74, 1))
+    # x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
+    x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     V = np.sqrt((abs(u**2) + abs(v**2)))
 
     fig, ax = plt.subplots(figsize=fsize)

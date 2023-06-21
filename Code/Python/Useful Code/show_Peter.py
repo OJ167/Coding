@@ -263,3 +263,4 @@ plt.show()
 f2, ax3 = plt.subplots()
 ax3.imshow(u0_gaussian[350,:,:])
 plt.show()
+
