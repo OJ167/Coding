@@ -47,8 +47,12 @@ X, Y = np.meshgrid(x, y)
 Vmag_mean = np.sqrt(u_mean**2 + v_mean**2)
 Vmag_mean = gaussian_filter(Vmag_mean, sigma=0.9)
 
+
+vmax = np.max(u_mean)
+vmin = np.min(u_mean)
+norm = colors.TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
 f1, ax3 = plt.subplots(ncols=1, nrows=1, sharex=True, sharey=True)
-ax3.contourf(z_nd, r_nd, Vmag_mean[500])
+ax3.contourf(z_nd, r_nd, u_mean[500], cmap = "seismic", norm = norm)
 ax3.quiver(z_nd, r_nd, u_mean[500, :, :], v_mean[500, :, :])
 # plt.show()
 
@@ -63,11 +67,46 @@ ax4.quiver(z_nd, r_nd, u_mean[500, :, :], v_mean[500, :, :])
 f4, ax5 = plt.subplots(ncols=1, nrows=1, sharex=True, sharey=True)
 ax5.contour(z_nd, r_nd, vorticity_gauss[500])
 ax5.quiver(z_nd, r_nd, u_mean[500, :, :], v_mean[500, :, :])
-plt.show()
+# plt.show()
 
 
 
 
 oj.animate_cube_contourf(Vmag_mean, interval=11.1, cmap="bwr", save=0, output="15.mp4", fps=90, scale = 1, fsize = (12, 10))
 
-oj.animate_cube_quiver(u_mean, v_mean, interval=11.1, cmap="bwr", save=0, output="15.mp4", fps=90, scale = 1, fsize = (12, 10))
+u_mean9 = np.mean(u[1:], 0)
+u[0,:,:,:] = 10* u[0,:,:,:]
+u_meanSkew = np.mean(u, 0)
+
+f5, (ax6, ax7, ax8, ax9) = plt.subplots(ncols=1, nrows=4, sharex=True, sharey=True)
+plt.suptitle("first ring, mean of other 9, mean of all, skewed mean")
+ax6.contourf(z_nd, r_nd, u[0, 100, :, :])
+ax7.contourf(z_nd, r_nd, u_mean9[100, :, :])
+ax8.contourf(z_nd, r_nd, u_mean[100, :, :])
+ax9.contourf(z_nd, r_nd, u_meanSkew[100, :, :])
+plt.show()
+
+
+
+#### squaring and maintainging argument test ####
+
+
+original_array = np.array([3, -4, 5, -6])
+
+# Square the original array
+squared_array = np.square(original_array)
+
+# Apply the modulus to the squared array
+result_array = np.multiply(np.sign(original_array), squared_array)
+
+print(result_array)
+
+V_new = np.sqrt((np.multiply(np.sign(u), np.square(u))) + (np.multiply(np.sign(v), np.square(v))))
+
+V_old = np.sqrt(u**2 + v**2)
+
+f6, (ax10, ax11) = plt.subplots(ncols=1, nrows=2, sharex=True, sharey=True)
+ax10.contourf(V_new[1,100,:,:])
+ax11.contourf(V_old[1,100,:,:])
+plt.suptitle("New vs Old Magnitude")
+plt.show()

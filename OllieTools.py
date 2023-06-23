@@ -330,20 +330,9 @@ def vorticityPeakTracking(u, v, l = 0):
         l = vort_gauss.shape[0]
     
     for i in range(l):
-    # for i in range(150, 1200):
         vortTemp = vort_gauss[i, :, :]
         VortLocMax[i,:] = np.argwhere(vortTemp == np.max(vortTemp))
         VortLocMin[i,:] = np.argwhere(vortTemp == np.min(vortTemp))
-
-    # f1, (ax1) = plt.subplots(nrows=1, ncols=1)
-    # ax1.scatter(VortLocMax[:, 1], VortLocMax[:, 0])
-    # ax1.scatter(VortLocMin[:, 1], VortLocMin[:, 0])
-
-    # # Ploting a midline
-    # midline = np.zeros(vort_gauss.shape[0])
-    # midline[:] = vort_gauss.shape[1]/2
-    # ax1.plot(midline[0:vort_gauss.shape[2]])
-    # plt.show()
 
     return VortLocMax, VortLocMin
 
