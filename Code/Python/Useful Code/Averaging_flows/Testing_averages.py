@@ -110,3 +110,20 @@ ax10.contourf(V_new[1,100,:,:])
 ax11.contourf(V_old[1,100,:,:])
 plt.suptitle("New vs Old Magnitude")
 plt.show()
+
+correlation_coefficient = np.corrcoef(u[1,100,:,:], u[2,100,:,:])[0, 1]
+print("The correlation coefficient is:", correlation_coefficient)
+
+for i in range(u.shape[0]):
+    correlation_coefficient = np.corrcoef(u_mean9[300,:,:], u[3,300,:,:])[0, 1]
+    print(f"Correlation coefficient {i}:", correlation_coefficient)
+
+
+correlation_coefficient = np.corrcoef(u_mean9[300,:,:], u[3,300,:,:])[0, 1]
+print(f"Correlation coefficient 3:", correlation_coefficient)
+
+correlation_coefficient = np.corrcoef(u[3,300,:,:], u[4,300,:,:])[0, 1]
+print(f"Correlation coefficient 3-4:", correlation_coefficient)
+
+correlation_coefficient = np.corrcoef(u[:,300, 35, 56])
+print(f"Correlation coefficient point:", correlation_coefficient)

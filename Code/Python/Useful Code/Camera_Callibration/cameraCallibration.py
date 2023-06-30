@@ -1,13 +1,22 @@
 import numpy as np
-import cv2 as cv
+import os
+import sys
+import mat73
 import glob
+import cv2 as cv
 
-# Dir = "F:/Testing/grid 2/*"
+#####Import Ollie Tools
+dirPath = "C:/Coding/Code"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
-Dir = "G:/Testing/Callibration_images/*"
+##### THIS CODE WORKS TO UNDISTORT IMAGES
 
-# F:/Testing/grid 2/*
-# /F:/Experiments/Calibration/grid images/*
+Dir = "G:/Testing/Calibration files/Callibration_images/*"
+
+
+
 ################ FIND CHESSBOARD CORNERS - OBJECT POINTS AND IMAGE POINTS #############################
 
 chessboardSize = (13,9)
@@ -36,7 +45,6 @@ images = glob.glob(Dir)
 # images = glob.glob('*.bmp')
 
 for image in images:
-
     img = cv.imread(image)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     print(image)
@@ -54,7 +62,7 @@ for image in images:
         # Draw and display the corners
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
         cv.imshow('img', img)
-        cv.imwrite(f"F:/Testing/grid 2/{image}dots.png", img)
+        cv.imwrite(f"G:/Testing/Callibration_images/{image}dots.tiff", img)
         cv.waitKey(10)
 
 
@@ -108,3 +116,8 @@ for i in range(len(objpoints)):
     mean_error += error
 
 print( "total error: {}".format(mean_error/len(objpoints)) )
+
+
+#### save the matrix
+
+oj.save_coefficients(cameraMatrix, dist, "G:/Testing/Calibration files/")

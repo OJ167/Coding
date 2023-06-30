@@ -8,7 +8,7 @@ top = 0
 mtx = 0
 dist = 0
 
-dir_path = "F:\Experiments\Calibration\grid images"
+dir_path = "F:/Experiments/Calibration/grid images"
 image_format = "tiff"
 square_size = 1
 width = 13
