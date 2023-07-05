@@ -10,7 +10,7 @@ from scipy.ndimage.filters import gaussian_filter
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
@@ -20,8 +20,11 @@ print(dirPath)
 plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
-u1,  v1  = oj.importData(f"G:/Testing/PIV_Comparison/PIVlab_GUI.mat")
-u2,  v2  = oj.importData73(f"G:/Testing/PIV_Comparison/PIV_export.mat")
+# u1,  v1  = oj.importData(f"G:/Testing/PIV_Comparison/PIVlab_GUI.mat")
+# u2,  v2  = oj.importData73(f"G:/Testing/PIV_Comparison/PIV_export.mat")
+
+u1,  v1  = oj.importData73(f"G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-08__FPS-60/1/Data/PIV_export.mat") ### Original Images PIV data
+u2,  v2  = oj.importData73(f"G:/Testing/Calibration files/Test_call/1/Data/PIV_export.mat") ### New Images PIV data - settigns are different
 
 u1_gaussian,  v1_gaussian  = gaussian_filter(u1,  sigma=0.7), gaussian_filter(v1, sigma=0.7)
 u2_gaussian,  v2_gaussian  = gaussian_filter(u2,  sigma=0.7), gaussian_filter(v2, sigma=0.7)
