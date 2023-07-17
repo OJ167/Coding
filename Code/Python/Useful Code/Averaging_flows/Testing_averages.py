@@ -20,13 +20,13 @@ print(dirPath)
 
 ######## Importing multiple rings #####
 n = 10
-u, v = oj.importData73("F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/1/Data/PIV_export.mat")
+u, v = oj.importData73("G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-08__FPS-60/1/Data/PIV_export.mat")
 # u, v = oj.importData73("")
 u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
 v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
 
 for i in range(1, n+1):
-    u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(f"F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/{i}/Data/PIV_export.mat")
+    u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(f"G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-08__FPS-60/{i}/Data/PIV_export.mat")
     oj.progressBar(i, 10)
 
 u_mean = np.mean(u, 0)
@@ -86,7 +86,8 @@ ax8.contourf(z_nd, r_nd, u_mean[100, :, :])
 ax9.contourf(z_nd, r_nd, u_meanSkew[100, :, :])
 plt.show()
 
-
+u_mean9 = gaussian_filter(u_mean9,  sigma=0.7)
+oj.animate_cube_contourf(u_mean9, interval=16.6, cmap="bwr", save=0, output="15.mp4", fps=60, scale = 1, fsize = (14, 10))
 
 #### squaring and maintainging argument test ####
 
@@ -104,10 +105,10 @@ print(result_array)
 V_new = np.sqrt((np.multiply(np.sign(u), np.square(u))) + (np.multiply(np.sign(v), np.square(v))))
 
 V_old = np.sqrt(u**2 + v**2)
-
+V_old = gaussian_filter(V_old,  sigma=3)
 f6, (ax10, ax11) = plt.subplots(ncols=1, nrows=2, sharex=True, sharey=True)
-ax10.contourf(V_new[1,100,:,:])
-ax11.contourf(V_old[1,100,:,:])
+ax10.contourf(V_new[1,300,:,:])
+ax11.contourf(V_old[1,300,:,:])
 plt.suptitle("New vs Old Magnitude")
 plt.show()
 
