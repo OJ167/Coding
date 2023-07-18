@@ -14,6 +14,23 @@ import concurrent.futures
 from scipy.fft import fft2,fftshift, ifft2, fft, fftfreq, ifft
 import mat73
 
+#### OLD FILE DO NOT USE FOR UPDATED FUNCTIONS ####
+
+######
+
+#####
+
+######
+
+#####
+
+######
+
+#####
+
+######
+
+#####
 
 #####Import Ollie Tools
 dirPath = "C:/Coding/Code"
@@ -161,31 +178,31 @@ def velocityPeakTracking(vort, l = 0):
     plt.show()
 
 
-def importData73(dir):
-    """
-    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and v_filtered.
+# def importData73(dir):
+#     """
+#     loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and v_filtered.
 
-    INPUT:
-        dir         : Full path of file to be opened, must include file extension.
+#     INPUT:
+#         dir         : Full path of file to be opened, must include file extension.
 
-    OUTPUT:
-        u           : 3D Numpy tensor containing velocity data, has not been scaled.
-        v           : 3D Numpy tensor containing velocity data, has not been scaled.
-    """
+#     OUTPUT:
+#         u           : 3D Numpy tensor containing velocity data, has not been scaled.
+#         v           : 3D Numpy tensor containing velocity data, has not been scaled.
+#     """
 
-    os.chdir(os.path.dirname(dir))
-    mat_contents = mat73.loadmat(os.path.basename(dir))
-    u_temp = np.squeeze(mat_contents["u_filtered"])
-    v_temp = np.squeeze(mat_contents["v_filtered"])
-    u = np.empty((u_temp.shape[0], u_temp[0].shape[0], u_temp[0].shape[1]))
-    for i in range(u.shape[0]):
-        u[i] = u_temp[i]
-    v = np.empty((v_temp.shape[0], v_temp[0].shape[0], v_temp[0].shape[1]))
-    for i in range(v.shape[0]):
-        v[i] = v_temp[i]
-    print(str("Filtered Data Imported  -  " + str(u.shape)))
-    u, v = FlipArrayVert(u, v)
-    return u, v
+#     os.chdir(os.path.dirname(dir))
+#     mat_contents = mat73.loadmat(os.path.basename(dir))
+#     u_temp = np.squeeze(mat_contents["u_filtered"])
+#     v_temp = np.squeeze(mat_contents["v_filtered"])
+#     u = np.empty((u_temp.shape[0], u_temp[0].shape[0], u_temp[0].shape[1]))
+#     for i in range(u.shape[0]):
+#         u[i] = u_temp[i]
+#     v = np.empty((v_temp.shape[0], v_temp[0].shape[0], v_temp[0].shape[1]))
+#     for i in range(v.shape[0]):
+#         v[i] = v_temp[i]
+#     print(str("Filtered Data Imported  -  " + str(u.shape)))
+#     u, v = FlipArrayVert(u, v)
+#     return u, v
 
 
 def importData(dir):
