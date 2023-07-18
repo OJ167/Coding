@@ -18,6 +18,14 @@ import OllieTools as oj
 print(dirPath)
 
 
+####Import Ollie Tools - Mac
+dirPath = "/Users/olliejackson/Coding/Coding/"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+
+
+
 ######## Importing multiple rings #####
 n = 10
 u, v = oj.importData73("G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-08__FPS-60/1/Data/PIV_export.mat")
