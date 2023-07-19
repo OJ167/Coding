@@ -191,7 +191,7 @@ def importData73(dir):
 
 def importData(dir):
     """
-    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered', 'v_filtered', and 'vorticity'.
+    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and 'v_filtered'.
 
     INPUT:
         dir         : Full path of file to be opened, must include file extension.
@@ -199,7 +199,6 @@ def importData(dir):
     OUTPUT:
         u           : 3D Numpy tensor containing velocity data, has not been scaled.
         v           : 3D Numpy tensor containing velocity data, has not been scaled.
-        vort        : 3D Numpy tensor containing vorticity data, has not been scaled.
     """
 
     os.chdir(os.path.dirname(dir))
@@ -220,11 +219,7 @@ def importData(dir):
     print(str("Filtered Data Imported  -  " + str(u.shape)))
     u, v = FlipArrayVert(u, v)
 
-    # vorticity = np.empty((vort_temp.shape[0], vort_temp[0].shape[0], vort_temp[0].shape[1]))
-    # for i in range(vorticity.shape[0]):
-    #     vorticity[i] = vort_temp[i]
-
-    return u, v, #vorticity
+    return u, v
 
 
 def importVorticity(dir):

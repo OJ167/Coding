@@ -13,17 +13,17 @@ import matplotlib.cm
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding/Code"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-
-
-####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
+
+
+####Import Ollie Tools MAC
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -150,10 +150,34 @@ def path_integral_velocity(
     # path3 = #(75,75) - (25,75) in -x
     # path4 = #(25,75) - (25,25) in -y
 
-    sumpath1 = sum(abs(Vel[25, 25:75]))
-    sumpath2 = sum(abs(Vel[25:75, 75]))
-    sumpath3 = sum(abs(Vel[75, 75:25]))
-    sumpath4 = sum(abs(Vel[75:25, 25]))
+    sumpath1 = sum(abs(Vel[24, 24:76]))
+    sumpath2 = sum(abs(Vel[24:76, 76]))
+    sumpath3 = sum(abs(Vel[76, 76:24]))
+    sumpath4 = sum(abs(Vel[76:24, 24]))
+
+    Circulation = abs(sumpath1) + abs(sumpath2) + abs(sumpath3) + abs(sumpath4)
+
+    return Circulation
+
+def path_integral_velocityall(
+        u, v
+):
+    Vel = np.sqrt(np.square(U)+np.square(V))
+
+    point_a = [25, 25]
+    point_b = [25, 75]
+    point_c = [75, 75]
+    point_d = [75, 25]
+
+    # path1 = #(25,25) - (75,25) in x
+    # path2 = #(75,25) - (75,75) in y
+    # path3 = #(75,75) - (25,75) in -x
+    # path4 = #(25,75) - (25,25) in -y
+
+    sumpath1 = sum(abs(Vel[0, :]))
+    sumpath2 = sum(abs(Vel[:, 99]))
+    sumpath3 = sum(abs(Vel[99, :]))
+    sumpath4 = sum(abs(Vel[:, 0]))
 
     Circulation = abs(sumpath1) + abs(sumpath2) + abs(sumpath3) + abs(sumpath4)
 
@@ -162,7 +186,8 @@ def path_integral_velocity(
 
 pathCirc = path_integral_velocity(U, V)
 print(pathCirc)
-
+pathCircall = path_integral_velocityall(U, V)
+print(pathCircall)
 
 point_a = [25, 25]
 point_b = [25, 75]
@@ -176,3 +201,38 @@ plt.show()
 
 print(sum_vort)
 print(sum_vort2575)
+
+
+def importData(dir):
+    """
+    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and 'v_filtered'.
+
+    INPUT:
+        dir         : Full path of file to be opened, must include file extension.
+
+    OUTPUT:
+        u           : 3D Numpy tensor containing velocity data, has not been scaled.
+        v           : 3D Numpy tensor containing velocity data, has not been scaled.
+    """
+
+    os.chdir(os.path.dirname(dir))
+    mat_contents = io.loadmat(os.path.basename(dir))
+    u_temp = np.squeeze(mat_contents["u_original2"])
+    print(u_temp.shape)
+    print(u_temp[0])
+    v_temp = np.squeeze(mat_contents["v_original"])
+    u = np.empty((u_temp[0].shape[0], u_temp[0].shape[0], u_temp[0].shape[1]))
+    print(u_temp[0].shape[0])
+    for i in range(u.shape[0]):
+        u[i] = u_temp[i]
+    v = np.empty((v_temp[0].shape[0], v_temp[0].shape[0], v_temp[0].shape[1]))
+    for i in range(v.shape[0]):
+        v[i] = v_temp[i]
+    print(str("Filtered Data Imported  -  " + str(u.shape)))
+    u, v = oj.FlipArrayVert(u, v)
+
+    return u, v
+
+
+# u, v = importData("G:/Testing/PIV_Comparison/PIVlab_GUI")
+u, v = importData("G:/Validation_Vortex_5015_edit")

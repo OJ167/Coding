@@ -10,7 +10,7 @@ import sys
 
 
 #### CODE FROM SAM THAT APPPLIES CALLIBRATION TO IMAGES ####
-
+#### USE THIS ONE ON RESULTS FROM TANK ####
 
 #####Import Ollie Tools
 dirPath = "C:/Coding"
@@ -23,7 +23,7 @@ def load():
     Port = 'G'
     dirRoot = "G:/Testing/Calibration files/Test_call/1" #### Whatever file contains the images to undistort
 
-    mtx, dist = oj.load_coefficients(f'G:/Testing/Calibration files/Callibration_imagescalibration_chessboard.yml')
+    mtx, dist = oj.load_coefficients(f'G:/Testing/Calibration files/Callibration_images/calibration_chessboard.yml')
 
     dirTop = str(dirRoot + "/B/*")
     chars = len(os.listdir(str(dirTop)[:-1])[0])
