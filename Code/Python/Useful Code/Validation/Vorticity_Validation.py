@@ -58,16 +58,11 @@ vf_y = lambda x, y: -x
 # Stream function = (2*Y**2)+(0.5*X**2))
 
 
-x_lim = (0, 101)
-y_lim = (0, 101)
+x_lim = (0, 100)
+y_lim = (0, 100)
 step = 1
-scale = 3
-# X, Y = np.meshgrid(np.arange(x_lim[0], x_lim[1], step), np.arange(y_lim[0], y_lim[1], step))
-
-
-x = np.arange(0 , 100, 1)
-y = np.arange(0 , 100, 1)
-X, Y = np.meshgrid(x, y)
+scale = 100
+X, Y = np.meshgrid(np.arange(x_lim[0], x_lim[1], step), np.arange(y_lim[0], y_lim[1], step))
 U = np.zeros(X.shape)
 V = np.zeros(Y.shape)
 xmod = np.sign(X)
@@ -79,7 +74,7 @@ for i in range(X.shape[0]):
           V[i,j] = vf_y(X[i, j], Y[i, j])
           
 fig, ax = plt.subplots(sharex=True, sharey=True)
-ax.quiver(X, Y, U, V, units='xy', pivot = 'middle', scale=50)
+ax.quiver(X, Y, U, V, units='xy', pivot = 'middle', scale=scale)
 ax.contour((0.5*(Y**2))+(0.5*(X**2)))
 
 # plt.show()
@@ -121,7 +116,6 @@ def calculate_continuity(u, v):
     continuity = dv + du
     return continuity
 
-
 def sum_Vorticity(
     u, v
 ):
@@ -132,6 +126,7 @@ def sum_Vorticity(
 
 vort = calculate_vorticity(U, V)
 cont = calculate_continuity(U, V)
+# print(cont)
 sum_vort = sum_Vorticity(U, V)
 sum_vort2575 = sum_Vorticity(U[25:75], V[25:75])
 
@@ -185,9 +180,9 @@ def path_integral_velocityall(
 
 
 pathCirc = path_integral_velocity(U, V)
-print(pathCirc)
+print("path Circ synthetic", pathCirc)
 pathCircall = path_integral_velocityall(U, V)
-print(pathCircall)
+print("pathCircall synthetic", pathCircall)
 
 point_a = [25, 25]
 point_b = [25, 75]
@@ -195,44 +190,80 @@ point_c = [75, 75]
 point_d = [75, 25]
 
 f2, ax2 = plt.subplots()
-# ax2.contourf(vort)
-ax2.plot(point_a, point_b, point_c, point_d)
+ax2.contourf(vort)
+ax2.scatter(point_a[1],point_a[0]) 
+ax2.scatter(point_b[1],point_b[0])
+ax2.scatter(point_c[1],point_c[0])
+ax2.scatter(point_d[1],point_d[0])
+# plt.show()
+
+print("sum_vort", sum_vort)
+print("sum_vort2575", sum_vort2575)
+
+
+def path_integral_velocity97(
+        u, v
+):
+    Vel = np.sqrt(np.square(U)+np.square(V))
+
+    sumpath1 = sum(abs(Vel[0, :]))
+    sumpath2 = sum(abs(Vel[:, 97]))
+    sumpath3 = sum(abs(Vel[97, :]))
+    sumpath4 = sum(abs(Vel[:, 0]))
+
+    Circulation = abs(sumpath1) + abs(sumpath2) + abs(sumpath3) + abs(sumpath4)
+
+    return Circulation
+
+u, v = oj.importData("G:/AftificialVortex/Hamel-Oseen Vortex/PIVlab.mat")
+Hamel_Osseen = oj.sum_Vorticity(u, v)
+V_mag = np.sqrt((np.square(u) + np.square(v)))
+Hamel_Osseen_Circ = path_integral_velocity97(u[0,:,:], v[0,:,:])
+print("Hamel_Osseen_Circ: ",  int(Hamel_Osseen_Circ))
+print("Hamel_Osseen_sum_vort: ",  int(Hamel_Osseen[0]))
+
+f3, ax3 = plt.subplots()
+ax3.quiver(u[0,:,:],v[0,:,:])
+ax3.scatter(point_a[1],point_a[0], label = "Point a") 
+ax3.scatter(point_b[1],point_b[0], label = "Point b")
+ax3.scatter(point_c[1],point_c[0], label = "Point c")
+ax3.scatter(point_d[1],point_d[0], label = "Point d")
+plt.legend()
+# plt.show()
+
+Hamel_Osseen_Vort, gauss = oj.calculate_vorticity(u, v)
+
+
+f4, ax4 = plt.subplots()
+ax4.contourf(gauss[0,:,:])
+ax4.scatter(point_a[1],point_a[0], label = "Point a") 
+ax4.scatter(point_b[1],point_b[0], label = "Point b")
+ax4.scatter(point_c[1],point_c[0], label = "Point c")
+ax4.scatter(point_d[1],point_d[0], label = "Point d")
+plt.legend()
+
+print(int(Hamel_Osseen_Vort[0, int(Hamel_Osseen_Vort.shape[1]/2), int(Hamel_Osseen_Vort.shape[2]/2)]))
+
+f5, ax5 = plt.subplots()
+plt.title("Velocity Magnitude Profile midline")
+ax5.plot(V_mag[0,50,:])
+plt.legend()
+
+
+f6, ax6 = plt.subplots()
+plt.title("Vorticity Magnitude Profile midline")
+ax6.plot(Hamel_Osseen_Vort[0, int(Hamel_Osseen_Vort.shape[1]/2), :])
+plt.legend()
+
+
+f7, ax7 = plt.subplots()
+plt.title("v velocity Profile midline in y")
+ax7.plot(v[0, int(Hamel_Osseen_Vort.shape[1]/2), :])
+plt.legend()
+
+
+f8, ax8 = plt.subplots()
+plt.title("u velocity Profile midline in x")
+ax8.plot(u[0, :, int(Hamel_Osseen_Vort.shape[2]/2)])
+plt.legend()
 plt.show()
-
-print(sum_vort)
-print(sum_vort2575)
-
-
-def importData(dir):
-    """
-    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and 'v_filtered'.
-
-    INPUT:
-        dir         : Full path of file to be opened, must include file extension.
-
-    OUTPUT:
-        u           : 3D Numpy tensor containing velocity data, has not been scaled.
-        v           : 3D Numpy tensor containing velocity data, has not been scaled.
-    """
-
-    os.chdir(os.path.dirname(dir))
-    mat_contents = io.loadmat(os.path.basename(dir))
-    u_temp = np.squeeze(mat_contents["u_original2"])
-    print(u_temp.shape)
-    print(u_temp[0])
-    v_temp = np.squeeze(mat_contents["v_original"])
-    u = np.empty((u_temp[0].shape[0], u_temp[0].shape[0], u_temp[0].shape[1]))
-    print(u_temp[0].shape[0])
-    for i in range(u.shape[0]):
-        u[i] = u_temp[i]
-    v = np.empty((v_temp[0].shape[0], v_temp[0].shape[0], v_temp[0].shape[1]))
-    for i in range(v.shape[0]):
-        v[i] = v_temp[i]
-    print(str("Filtered Data Imported  -  " + str(u.shape)))
-    u, v = oj.FlipArrayVert(u, v)
-
-    return u, v
-
-
-# u, v = importData("G:/Testing/PIV_Comparison/PIVlab_GUI")
-u, v = importData("G:/Validation_Vortex_5015_edit")
