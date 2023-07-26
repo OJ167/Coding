@@ -13,7 +13,7 @@ import matplotlib.cm
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
@@ -28,6 +28,12 @@ print(dirPath)
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
+
+
+u, v = oj.importData("G:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+f1, ax1 = plt.subplots(nrows=1)
+ax1.imshow(u[60,:,:])
+plt.show()
 
 
 
@@ -356,7 +362,9 @@ ax2.contourf(vfft_u2[500,:,:], cmap="bwr")
 
 
 ###### Testing Area #####
-# u,  v = oj.importData("F:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+# u,  v = oj.importData("G:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+
+
 # r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2], widthM = 0.13574, HeightM = 0.21719, jetLocPix = 600, pixX = 1200, d = 0.05)
 
 # print("u shape: " + str(u.shape))
@@ -409,11 +417,16 @@ ax2.contourf(vfft_u2[500,:,:], cmap="bwr")
 # plt.show()
 
 u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/4/Data/PIV_export.mat")
+u1, v1 = oj.importData73("F:/Testing/RPM-1.0__Upiston-100__Stroke-50/2023-07-24__FPS-90/4/Data/PIV_export.mat")
+u2, v2 = oj.importData73("F:/Testing/RPM-2.0__Upiston-100__Stroke-50/2023-07-25__FPS-90/4/Data/PIV_export.mat")
 u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/4/Data/PIV_export.mat")
 u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/4/Data/PIV_export.mat")
 u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/4/Data/PIV_export.mat")
 u12, v12 = oj.importData73("F:/Testing/RPM-12.0__Upiston-100__Stroke-50/2023-05-19__FPS-90/4/Data/PIV_export.mat")
+
 u0_gaussian, v0_gaussian = gaussian_filter(u0, sigma=0.7), gaussian_filter(v0, sigma=0.7)
+u1_gaussian, v1_gaussian = gaussian_filter(u1, sigma=0.7), gaussian_filter(v1, sigma=0.7)
+u2_gaussian, v2_gaussian = gaussian_filter(u2, sigma=0.7), gaussian_filter(v2, sigma=0.7)
 u3_gaussian, v3_gaussian = gaussian_filter(u3, sigma=0.7), gaussian_filter(v3, sigma=0.7)
 u6_gaussian, v6_gaussian = gaussian_filter(u6, sigma=0.7), gaussian_filter(v6, sigma=0.7)
 u9_gaussian, v9_gaussian = gaussian_filter(u9, sigma=0.7), gaussian_filter(v9, sigma=0.7)
@@ -492,6 +505,8 @@ fig.suptitle('Velocity profile vs time contour')
 
 time = oj.frames_to_seconds(u0, v0, 90)
 sumVorticity0 = oj.sum_Vorticity(u0_gaussian[:,23:47,:], v0_gaussian[:,23:47,:])
+sumVorticity1 = oj.sum_Vorticity(u1_gaussian[:,23:47,:], v1_gaussian[:,23:47,:])
+sumVorticity2 = oj.sum_Vorticity(u2_gaussian[:,23:47,:], v2_gaussian[:,23:47,:])
 sumVorticity3 = oj.sum_Vorticity(u3_gaussian[:,23:47,:], v3_gaussian[:,23:47,:])
 sumVorticity6 = oj.sum_Vorticity(u6_gaussian[:,23:47,:], v6_gaussian[:,23:47,:])
 sumVorticity9 = oj.sum_Vorticity(u9_gaussian[:,23:47,:], v9_gaussian[:,23:47,:])
@@ -499,16 +514,20 @@ sumVorticity12 = oj.sum_Vorticity(u12_gaussian[:,23:47,:], v12_gaussian[:,23:47,
 
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 ax16.plot(time, sumVorticity0, label = "0 RPM")
+ax16.plot(time, sumVorticity1, label = "1 RPM", color = "b")
+ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
 ax16.plot(time, sumVorticity9, label = "9 RPM")
 ax16.plot(time, sumVorticity12, label = "12 RPM")
 ax16.set_xlabel("time [s]")
-ax16.set_ylabel("sum of vorticity")
+ax16.set_ylabel("sum of vorticity 100-50")
 plt.legend()
 
 
 sumVorticity0 = oj.sum_Vorticity(u0_gaussian[:,13:56,18:], v0_gaussian[:,13:56,18:])
+sumVorticity1 = oj.sum_Vorticity(u1_gaussian[:,13:56,18:], v1_gaussian[:,13:56,18:])
+sumVorticity2 = oj.sum_Vorticity(u1_gaussian[:,13:56,18:], v1_gaussian[:,13:56,18:])
 sumVorticity3 = oj.sum_Vorticity(u3_gaussian[:,13:56,18:], v3_gaussian[:,13:56,18:])
 sumVorticity6 = oj.sum_Vorticity(u6_gaussian[:,13:56,18:], v6_gaussian[:,13:56,18:])
 sumVorticity9 = oj.sum_Vorticity(u9_gaussian[:,13:56,18:], v9_gaussian[:,13:56,18:])
@@ -517,6 +536,8 @@ sumVorticity12 = oj.sum_Vorticity(u12_gaussian[:,13:56,18:], v12_gaussian[:,13:5
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.suptitle("Middle frame - without stopping vortex 50/100")
 ax16.plot(time, sumVorticity0, label = "0 RPM")
+ax16.plot(time, sumVorticity1, label = "1 RPM")
+ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
 ax16.plot(time, sumVorticity9, label = "9 RPM")
@@ -526,6 +547,8 @@ ax16.set_ylabel("sum of vorticity")
 plt.legend()
 
 sumEnstrophy0 = oj.sum_Enstrophy(u0_gaussian[:,:,18:], v0_gaussian[:,:,18:])
+sumEnstrophy1 = oj.sum_Enstrophy(u1_gaussian[:,:,18:], v1_gaussian[:,:,18:])
+sumEnstrophy2 = oj.sum_Enstrophy(u2_gaussian[:,:,18:], v2_gaussian[:,:,18:])
 sumEnstrophy3 = oj.sum_Enstrophy(u3_gaussian[:,:,18:], v3_gaussian[:,:,18:])
 sumEnstrophy6 = oj.sum_Enstrophy(u6_gaussian[:,:,18:], v6_gaussian[:,:,18:])
 sumEnstrophy9 = oj.sum_Enstrophy(u9_gaussian[:,:,18:], v9_gaussian[:,:,18:])
@@ -534,6 +557,8 @@ sumEnstrophy12 = oj.sum_Enstrophy(u12_gaussian[:,:,18:], v12_gaussian[:,:,18:])
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.suptitle("Enstrophy Middle Frame - without stopping vortex 50/100")
 ax16.plot(time, sumEnstrophy0, label = "0 RPM")
+ax16.plot(time, sumEnstrophy1, label = "1 RPM")
+ax16.plot(time, sumEnstrophy2, label = "2 RPM")
 ax16.plot(time, sumEnstrophy3, label = "3 RPM")
 ax16.plot(time, sumEnstrophy6, label = "6 RPM")
 ax16.plot(time, sumEnstrophy9, label = "9 RPM")
@@ -545,6 +570,8 @@ plt.legend()
 
 
 u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/4/Data/PIV_export.mat")
+u1, v1 = oj.importData73("F:/Testing/RPM-1.0__Upiston-50__Stroke-50/2023-07-24__FPS-90/4/Data/PIV_export.mat")
+u2, v2 = oj.importData73("F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/4/Data/PIV_export.mat")
 u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat")
 # u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat") # OLD
 u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/4/Data/PIV_export.mat") # NEW
@@ -552,6 +579,8 @@ u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__
 u12, v12 = oj.importData73("F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/4/Data/PIV_export.mat")
 
 u0_gaussian, v0_gaussian = gaussian_filter(u0, sigma=0.7), gaussian_filter(v0, sigma=0.7)
+u1_gaussian, v1_gaussian = gaussian_filter(u1, sigma=0.7), gaussian_filter(v1, sigma=0.7)
+u2_gaussian, v2_gaussian = gaussian_filter(u2, sigma=0.7), gaussian_filter(v2, sigma=0.7)
 u3_gaussian, v3_gaussian = gaussian_filter(u3, sigma=0.7), gaussian_filter(v3, sigma=0.7)
 u6_gaussian, v6_gaussian = gaussian_filter(u6, sigma=0.7), gaussian_filter(v6, sigma=0.7)
 u9_gaussian, v9_gaussian = gaussian_filter(u9, sigma=0.7), gaussian_filter(v9, sigma=0.7)
@@ -560,17 +589,19 @@ r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u0.shape[1], u0.shape[2])
 
 
 f9, (ax12, ax13) = plt.subplots(nrows=1, ncols=2, sharex=True, sharey=True)
-ax12.quiver(z_nd, r_nd, u3_gaussian[200,:,:], v3_gaussian[200,:,:], pivot="middle")
+ax12.quiver(z_nd, r_nd, u2_gaussian[200,:,:], v2_gaussian[200,:,:], pivot="middle")
 ax12.set_xlabel('Z')
 ax12.set_ylabel('R')
-ax13.contourf(z_nd, r_nd, u3_gaussian[200,:,:])
+ax13.contourf(z_nd, r_nd, u2_gaussian[200,:,:])
+plt.title("1RPM frame 200")
 # plt.show()
 
 f10, ax14 = plt.subplots()
-ax14.contourf(z_nd, r_nd, u3_gaussian[200,:,:])
-ax14.quiver(z_nd, r_nd, u3_gaussian[200,:,:], v3_gaussian[200,:,:], pivot="middle")
-ax14.set_xlabel('Z')
-ax14.set_ylabel('R')
+ax14.contourf(z_nd, r_nd, u2_gaussian[400,:,:])
+ax14.quiver(z_nd, r_nd, u2_gaussian[400,:,:], v2_gaussian[400,:,:], pivot="middle")
+ax14.set_xlabel('Z/D')
+ax14.set_ylabel('R/D')
+plt.title("1RPM frame 400")
 # plt.show()
 
 f11, ax15 = plt.subplots()
@@ -604,9 +635,9 @@ axs[0, 0].quiver(z_nd, r_nd, u0_gaussian[frame,:,:], v0_gaussian[frame,:,:], piv
 axs[0, 0].set_title('0RPM')
 axs[0, 0].set_xlabel("z/D")
 axs[0, 0].set_ylabel("r/D")
-axs[0, 1].contourf(z_nd, r_nd, u3_gaussian[frame,:,:], norm=norm, cmap='bwr')
-axs[0, 1].quiver(z_nd, r_nd, u3_gaussian[frame,:,:], v3_gaussian[frame,:,:], pivot="middle", scale = 100, headwidth = 1, headlength = 2)
-axs[0, 1].set_title('3RPM')
+axs[0, 1].contourf(z_nd, r_nd, u12_gaussian[frame,:,:], norm=norm, cmap='bwr')
+axs[0, 1].quiver(z_nd, r_nd, u12_gaussian[frame,:,:], v12_gaussian[frame,:,:], pivot="middle", scale = 100, headwidth = 1, headlength = 2)
+axs[0, 1].set_title('12RPM')
 axs[0, 1].set_xlabel("z/D")
 axs[0, 1].set_ylabel("r/D")
 axs[1, 0].contourf(z_nd, r_nd, u6_gaussian[frame,:,:], norm=norm, cmap='bwr')
@@ -653,7 +684,7 @@ axs[1, 1].set_title('9RPM')
 axs[1, 1].set_xlabel("Axial Distance")
 axs[1, 1].set_ylabel("Time [Frames (60FPS)]")
 fig.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap="bwr"), ax=axs)
-fig.suptitle('Velocity profile vs time contour')
+fig.suptitle('Velocity profile vs time contour 50 - 50')
 # plt.show()
 
 
@@ -665,14 +696,18 @@ fig.suptitle('Velocity profile vs time contour')
 ### Sum total vorticity in frame
 time = oj.frames_to_seconds(u0, v0, 90)
 sumVorticity0 = oj.sum_Vorticity(u0_gaussian[:,13:56,:], v0_gaussian[:,13:56,:])
+sumVorticity1 = oj.sum_Vorticity(u1_gaussian[:,13:56,:], v1_gaussian[:,13:56,:])
+sumVorticity2 = oj.sum_Vorticity(u2_gaussian[:,13:56,:], v2_gaussian[:,13:56,:])
 sumVorticity3 = oj.sum_Vorticity(u3_gaussian[:,13:56,:], v3_gaussian[:,13:56,:])
 sumVorticity6 = oj.sum_Vorticity(u6_gaussian[:,13:56,:], v6_gaussian[:,13:56,:])
 sumVorticity9 = oj.sum_Vorticity(u9_gaussian[:,13:56,:], v9_gaussian[:,13:56,:])
 sumVorticity12 = oj.sum_Vorticity(u12_gaussian[:,13:56,:], v12_gaussian[:,13:56,:])
 
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
-plt.suptitle("Middle frame - 50/50")
+plt.suptitle("Middle frame vorticity - 50/50")
 ax16.plot(time, sumVorticity0, label = "0 RPM")
+ax16.plot(time, sumVorticity1, label = "1 RPM")
+ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
 ax16.plot(time, sumVorticity9, label = "9 RPM")
@@ -682,6 +717,8 @@ ax16.set_ylabel("sum of vorticity")
 plt.legend()
 
 sumVorticity0 = oj.sum_Vorticity(u0_gaussian[:,13:56,18:], v0_gaussian[:,13:56,18:])
+sumVorticity1 = oj.sum_Vorticity(u1_gaussian[:,13:56,18:], v1_gaussian[:,13:56,18:])
+sumVorticity2 = oj.sum_Vorticity(u2_gaussian[:,13:56,18:], v2_gaussian[:,13:56,18:])
 sumVorticity3 = oj.sum_Vorticity(u3_gaussian[:,13:56,18:], v3_gaussian[:,13:56,18:])
 sumVorticity6 = oj.sum_Vorticity(u6_gaussian[:,13:56,18:], v6_gaussian[:,13:56,18:])
 sumVorticity9 = oj.sum_Vorticity(u9_gaussian[:,13:56,18:], v9_gaussian[:,13:56,18:])
@@ -690,6 +727,8 @@ sumVorticity12 = oj.sum_Vorticity(u12_gaussian[:,13:56,18:], v12_gaussian[:,13:5
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.suptitle("Middle frame vorticity - without stopping vortex 50/50")
 ax16.plot(time, sumVorticity0, label = "0 RPM")
+ax16.plot(time, sumVorticity1, label = "1 RPM")
+ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
 ax16.plot(time, sumVorticity9, label = "9 RPM")
@@ -701,6 +740,8 @@ plt.legend()
 
 
 sumEnstrophy0 = oj.sum_Enstrophy(u0_gaussian[:,:,18:], v0_gaussian[:,:,18:])
+sumEnstrophy1 = oj.sum_Enstrophy(u1_gaussian[:,:,18:], v1_gaussian[:,:,18:])
+sumEnstrophy2 = oj.sum_Enstrophy(u2_gaussian[:,:,18:], v2_gaussian[:,:,18:])
 sumEnstrophy3 = oj.sum_Enstrophy(u3_gaussian[:,:,18:], v3_gaussian[:,:,18:])
 sumEnstrophy6 = oj.sum_Enstrophy(u6_gaussian[:,:,18:], v6_gaussian[:,:,18:])
 sumEnstrophy9 = oj.sum_Enstrophy(u9_gaussian[:,:,18:], v9_gaussian[:,:,18:])
@@ -709,6 +750,8 @@ sumEnstrophy12 = oj.sum_Enstrophy(u12_gaussian[:,:,18:], v12_gaussian[:,:,18:])
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.suptitle("Enstrophy - without stopping vortex 50/50")
 ax16.plot(time, sumEnstrophy0, label = "0 RPM")
+ax16.plot(time, sumEnstrophy1, label = "1 RPM")
+ax16.plot(time, sumEnstrophy2, label = "2 RPM")
 ax16.plot(time, sumEnstrophy3, label = "3 RPM")
 ax16.plot(time, sumEnstrophy6, label = "6 RPM")
 ax16.plot(time, sumEnstrophy9, label = "9 RPM")
@@ -718,6 +761,8 @@ ax16.set_ylabel("sum of enstrophy")
 plt.legend()
 
 sumEnstrophy0 =  oj.sum_Enstrophy(u0_gaussian [:,13:56,18:], v0_gaussian [:,13:56,18:])
+sumEnstrophy1 =  oj.sum_Enstrophy(u1_gaussian [:,13:56,18:], v1_gaussian [:,13:56,18:])
+sumEnstrophy2 =  oj.sum_Enstrophy(u2_gaussian [:,13:56,18:], v2_gaussian [:,13:56,18:])
 sumEnstrophy3 =  oj.sum_Enstrophy(u3_gaussian [:,13:56,18:], v3_gaussian [:,13:56,18:])
 sumEnstrophy6 =  oj.sum_Enstrophy(u6_gaussian [:,13:56,18:], v6_gaussian [:,13:56,18:])
 sumEnstrophy9 =  oj.sum_Enstrophy(u9_gaussian [:,13:56,18:], v9_gaussian [:,13:56,18:])
@@ -726,6 +771,8 @@ sumEnstrophy12 = oj.sum_Enstrophy(u12_gaussian[:,13:56,18:], v12_gaussian[:,13:5
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.suptitle("Middle frame Enstrophy - without stopping vortex 50/50")
 ax16.plot(time, sumEnstrophy0, label = "0 RPM")
+ax16.plot(time, sumEnstrophy1, label = "1 RPM")
+ax16.plot(time, sumEnstrophy2, label = "2 RPM")
 ax16.plot(time, sumEnstrophy3, label = "3 RPM")
 ax16.plot(time, sumEnstrophy6, label = "6 RPM")
 ax16.plot(time, sumEnstrophy9, label = "9 RPM")
