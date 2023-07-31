@@ -33,37 +33,37 @@ Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[0])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[1])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[1])]
 u1mean = vels[:,:,:,0]
 v1mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[2])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[2])]
 u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[3])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[3])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[4])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[4])]
 u6mean = vels[:,:,:,0]
 v6mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[5])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[5])]
 u9mean = vels[:,:,:,0]
 v9mean = vels[:,:,:,1]
 
 h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[6])]
+vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[6])]
 u12mean = vels[:,:,:,0]
 v12mean = vels[:,:,:,1]
 
@@ -79,7 +79,7 @@ sumVorticity9  = oj.sum_Vorticity(u9mean [:,:,18:], v9mean [:,:,18:])
 sumVorticity12 = oj.sum_Vorticity(u12mean[:,:,18:], v12mean[:,:,18:])
 
 f1, (ax1) = plt.subplots(nrows=1, ncols=1)
-ax1.contourf(u0mean[1000,:,:], cmap = "seismic")
+ax1.contourf(u12mean[500,:,:], cmap = "seismic")
 plt.title("Velocity Contour")
 
 
