@@ -5,6 +5,7 @@ import numpy as np
 import os
 import sys
 
+import h5py
 import cv2
 import glob
 from scipy import ndimage, io
@@ -819,7 +820,7 @@ def animate_cube_quiver(
         ax.contourf(z_nd, r_nd, u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
         ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
         ax.set_title("Time " + str("%.1f") %time[i])
-        ax.set_title("%0.2d" % i)
+        # ax.set_title("%0.2d" % i)
         ax.set_xlabel("z/D")
         ax.set_ylabel("r/D")
 
@@ -914,3 +915,16 @@ def create_Mean(
     u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
 
     return u_mean, v_mean
+
+
+def descend_obj(obj,sep='\t'):
+    """
+    Iterate through groups in a HDF5 file and prints the groups and datasets names and datasets attributes
+    """
+    if type(obj) in [h5py._hl.group.Group,h5py._hl.files.File]:
+        for key in obj.keys():
+            print(sep,'-',key,':',obj[key])
+            descend_obj(obj[key],sep=sep+'\t')
+    elif type(obj)==h5py._hl.dataset.Dataset:
+        for key in obj.attrs.keys():
+            print(sep+'\t','-',key,':',obj.attrs[key])

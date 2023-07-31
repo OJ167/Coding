@@ -30,22 +30,57 @@ plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
 
+#### 0 RPM ####
+# Dir  = "F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
 
-Dir  = "F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/"
+#### 1 RPM ####
+# Dir  = "F:/Testing/RPM-1.0__Upiston-50__Stroke-50/2023-07-24__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+#### 2 RPM ####
+# Dir  = "F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+#### 3 RPM ####
+# Dir  = "F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+#### 6 RPM ####
+# Dir  = "F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+#### 9 RPM ####
+Dir  = "F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/"
 umean, vmean = oj.create_Mean(10, Dir) 
 umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+#### 12 RPM ####
+# Dir = "F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+r_nd, z_nd = oj.NDUnitsForPlotsNozzle(umean.shape[1], umean.shape[2])
+
 time = oj.frames_to_seconds(umean, vmean, 90)
 
 # u,  v = oj.importData73("F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/2/Data/PIV_export.mat")
 # u,  v = oj.importData73("/Volumes/T7/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/2/Data/PIV_export.mat")
 
-oj.animate_cube_quiver(u, v, interval=11.11, cmap="seismic", save=0, output="0_50_50.mp4", fps=90, scale = 1, fsize = (19, 12))
+oj.animate_cube_quiver(umean, vmean, interval=11.11, cmap="seismic", save=1, output="9_50_50_mean.mp4", fps=90, scale = 1, fsize = (19, 12))
 
-# r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
+f1, ax1 = plt.subplots()
+ax1.quiver(z_nd, r_nd, umean[126,:,:], vmean[126,:,:])
+plt.title("1RPM Frame 126")
 
-# f1, ax1 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-# ax1.quiver(z_nd, r_nd, u[80,:,:], v[80,:,:], pivot="middle")
-# ax1.set_xlabel('z/D')
-# ax1.set_ylabel('r/D')
-# plt.title("0RPM frame 80")
-# plt.show()
+
+#### 6 RPM ####
+# Dir  = "F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.scaleVel(umean, vmean, 90, 1900, 0.21918)
+
+# oj.animate_cube_quiver(umean, vmean, interval=11.11, cmap="seismic", save=1, output="2_50_50_mean.mp4", fps=90, scale = 1, fsize = (19, 12))
