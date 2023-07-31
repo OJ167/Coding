@@ -30,10 +30,10 @@ plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
 
-u, v = oj.importData("G:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
-f1, ax1 = plt.subplots(nrows=1)
-ax1.imshow(u[60,:,:])
-plt.show()
+# u, v = oj.importData("G:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+# f1, ax1 = plt.subplots(nrows=1)
+# ax1.imshow(u[60,:,:])
+# plt.show()
 
 
 

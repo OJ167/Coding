@@ -13,7 +13,7 @@ from scipy.ndimage.filters import gaussian_filter
 
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
@@ -52,11 +52,18 @@ ur,  vr = oj.importData73("G:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-
 
 #####Import GUI Rings Close to Nozzle
 
-u,   v  = oj.importData("F:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
-u0,  v0 = oj.importData("F:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
-u3,  v3 = oj.importData("F:/NozzleFOV/RPM-3.0__Upiston-100__Stroke-100/2022-11-28__FPS-30/1/Data/PIVlab.mat")
-u6,  v6 = oj.importData("F:/NozzleFOV/RPM-6.34__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
-u9,  v9 = oj.importData("F:/NozzleFOV/RPM-9.0__Upiston-100__Stroke-100/2022-11-28__FPS-30/1/Data/PIVlab.mat")
+# u,   v  = oj.importData("F:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+# u0,  v0 = oj.importData("F:/NozzleFOV/RPM-0__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+# u3,  v3 = oj.importData("F:/NozzleFOV/RPM-3.0__Upiston-100__Stroke-100/2022-11-28__FPS-30/1/Data/PIVlab.mat")
+# u6,  v6 = oj.importData("F:/NozzleFOV/RPM-6.34__Upiston-100__Stroke-100/2022-11-24__FPS-30/1/Data/PIVlab.mat")
+# u9,  v9 = oj.importData("F:/NozzleFOV/RPM-9.0__Upiston-100__Stroke-100/2022-11-28__FPS-30/1/Data/PIVlab.mat")
+
+
+u,  v = oj.importData73("G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-27__FPS-60/8/Data/PIV_export.mat")
+u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/4/Data/PIV_export.mat")
+u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat")
+u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/4/Data/PIV_export.mat")
+u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/4/Data/PIV_export.mat")
 
 u_gaussian, v_gaussian = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
 vorticity, vorticity_gaussian = oj.calculate_vorticity(u_gaussian, v_gaussian)

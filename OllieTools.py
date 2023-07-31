@@ -823,8 +823,9 @@ def animate_cube_quiver(
     # plt.colorbar()
     if save == 0:
         plt.show()
-    # else:
-    # ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
+    else:
+        ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
+        # ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
 
 
 def sum_Vorticity(
