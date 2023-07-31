@@ -808,17 +808,20 @@ def animate_cube_quiver(
     # x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     V = np.sqrt((abs(u**2) + abs(v**2)))
+    r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
+    time = oj.frames_to_seconds(u, v, 90)
 
     fig, ax = plt.subplots(figsize=fsize)
     vmin = -np.max(np.abs(V))
     vmax = np.max(np.abs(V))
     def animate(i):
         ax.clear()
-        ax.contourf(u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
-        # u = [i,:,:]
-        # v = [i,:,:]
-        ax.quiver(x, y, u[i,:,:], v[i,:,:], pivot="middle")
-        ax.set_title("%03d" % (i))
+        ax.contourf(z_nd, r_nd, u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
+        ax.set_title("Time " + str("%.1f") %time[i])
+        ax.set_title("%0.2d" % i)
+        ax.set_xlabel("z/D")
+        ax.set_ylabel("r/D")
 
     ani = animation.FuncAnimation(
         fig, animate, frames=V.shape[0], interval=interval, blit=False
@@ -828,7 +831,11 @@ def animate_cube_quiver(
     if save == 0:
         plt.show()  
     else:
-        ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
+        ani.save(output, writer="ffmpeg", fps=fps, dpi=80)
+    # ani.save("output.gif")
+    # writervideo = animation.FFMpegWriter(fps=fps)
+    # FFwriter = animation.FFMpegWriter()
+    # ani.save(output, dpi=80, writer = FFwriter)
 
 
 def sum_Vorticity(
@@ -887,3 +894,23 @@ def sum_Enstrophy(
     u = factor * u
     v = factor * v
     return u, v
+
+def create_Mean(
+        n, Dir
+):
+    ######## Importing multiple rings #####
+    n = 10
+    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
+    print(str(Dir), "\r")
+    u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
+    v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
+
+    for i in range(1, n+1):
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
+        oj.progressBar(i, 10)
+
+    u_mean = np.mean(u[1:], 0)
+    v_mean = np.mean(v[1:], 0)
+    u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
+
+    return u_mean, v_mean
