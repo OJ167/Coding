@@ -16,6 +16,7 @@ import mat73
 import pathlib
 
 
+
 #####Import Ollie Tools
 dirPath = "C:/Coding/Code"
 sys.path.insert(0, dirPath)
@@ -191,7 +192,7 @@ def importData73(dir):
 
 def importData(dir):
     """
-    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered' and 'v_filtered'.
+    loads matlab data from a .MAT file. Crucially the variables loaded in the file are 'u_filtered', 'v_filtered', and 'vorticity'.
 
     INPUT:
         dir         : Full path of file to be opened, must include file extension.
@@ -199,6 +200,7 @@ def importData(dir):
     OUTPUT:
         u           : 3D Numpy tensor containing velocity data, has not been scaled.
         v           : 3D Numpy tensor containing velocity data, has not been scaled.
+        vort        : 3D Numpy tensor containing vorticity data, has not been scaled.
     """
 
     os.chdir(os.path.dirname(dir))
@@ -219,7 +221,11 @@ def importData(dir):
     print(str("Filtered Data Imported  -  " + str(u.shape)))
     u, v = FlipArrayVert(u, v)
 
-    return u, v
+    # vorticity = np.empty((vort_temp.shape[0], vort_temp[0].shape[0], vort_temp[0].shape[1]))
+    # for i in range(vorticity.shape[0]):
+    #     vorticity[i] = vort_temp[i]
+
+    return u, v, #vorticity
 
 
 def importVorticity(dir):
@@ -244,10 +250,9 @@ def importVorticity(dir):
     return vorticity
 
 
-def scaleVel(u, v, fps, heightPixels=1920, heightImage=0.21918):
+def scaleVel(u, v, fps, heightPixels=1976, heightImage=0.405):
     """
     Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
-    ~Narrow FoV heightImage=0.21918
 
     INPUT:
         u           : 3D Numpy tensor containing velocity data, has not been scaled.
@@ -508,7 +513,6 @@ def progressBar(step,nSteps, width=40):
     percents = f"{percent:.0f}%"
     
     print("\r[", tags, spaces, "]", percents, sep="", end="", flush=True)
-    print("\r")
 
 
 def NDUnitsForPlotsWide(shapeX, shapeY, widthM = 0.66, HeightM = 1.066, jetLocPix = 600, pixX = 1200, d = 0.05):
@@ -785,7 +789,7 @@ def frames_to_seconds(u, v, FPS = 60, ):
 
 
 def animate_cube_quiver( 
-    u, v, interval=16.7, cmap="bwr", save=0, output="15.mp4", fps=60, scale = 1, fsize = (10, 8)
+    u, v, interval=11.1, cmap="bwr", save=0, output="15.mp4", fps=90, scale = 1, fsize = (19, 12)
 ):
 
     """
@@ -822,10 +826,9 @@ def animate_cube_quiver(
 
     # plt.colorbar()
     if save == 0:
-        plt.show()
+        plt.show()  
     else:
         ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
-        # ani.save(output, writer="ffmpeg", fps=fps, dpi=160)
 
 
 def sum_Vorticity(
@@ -884,23 +887,3 @@ def sum_Enstrophy(
     u = factor * u
     v = factor * v
     return u, v
-
-def create_Mean(
-        n, Dir
-):
-    ######## Importing multiple rings #####
-    n = 10
-    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
-    print(str(Dir), "\r")
-    u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
-    v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
-
-    for i in range(1, n+1):
-        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
-        oj.progressBar(i, 10)
-
-    u_mean = np.mean(u[1:], 0)
-    v_mean = np.mean(v[1:], 0)
-    u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
-
-    return u_mean, v_mean
