@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import sys
+import h5py
 import mat73
 import math as maths
 from scipy.interpolate import make_interp_spline, BSpline
@@ -233,27 +234,71 @@ print(dirPath)
 # u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/4/Data/PIV_export.mat")
 # u12, v12 = oj.importData73("F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/4/Data/PIV_export.mat")
 
-Dir0  = "F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/"
-u0mean, v0mean = oj.create_Mean(10, Dir0) 
-u0mean, v0mean = oj.scaleVel(u0mean, v0mean, 90, 1900, 0.21918)
-Dir1  = "F:/Testing/RPM-1.0__Upiston-50__Stroke-50/2023-07-24__FPS-90/"
-u1mean, v1mean = oj.create_Mean(10, Dir1) 
-u1mean, v1mean = oj.scaleVel(u1mean, v1mean, 90, 1900, 0.21918)
-Dir2  = "F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/"
-u2mean, v2mean = oj.create_Mean(10, Dir2) 
-u2mean, v2mean = oj.scaleVel(u2mean, v2mean, 90, 1900, 0.21918)
-Dir3  = "F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/"
-u3mean, v3mean = oj.create_Mean(10, Dir3) 
-u3mean, v3mean = oj.scaleVel(u3mean, v3mean, 90, 1900, 0.21918)
-Dir6  = "F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/"
-u6mean, v6mean = oj.create_Mean(10, Dir6) 
-u6mean, v6mean = oj.scaleVel(u6mean, v6mean, 90, 1900, 0.21918)
-Dir9  = "F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/"
-u9mean, v9mean = oj.create_Mean(10, Dir9) 
-u9mean, v9mean = oj.scaleVel(u9mean, v9mean, 90, 1900, 0.21918)
-Dir12 = "F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/"
-u12mean, v12mean = oj.create_Mean(10, Dir12) 
-u12mean, v12mean = oj.scaleVel(u12mean, v12mean, 90, 1900, 0.21918)
+# Dir0  = "F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/"
+# u0mean, v0mean = oj.create_Mean(10, Dir0) 
+# u0mean, v0mean = oj.scaleVel(u0mean, v0mean, 90, 1900, 0.21918)
+# Dir1  = "F:/Testing/RPM-1.0__Upiston-50__Stroke-50/2023-07-24__FPS-90/"
+# u1mean, v1mean = oj.create_Mean(10, Dir1) 
+# u1mean, v1mean = oj.scaleVel(u1mean, v1mean, 90, 1900, 0.21918)
+# Dir2  = "F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/"
+# u2mean, v2mean = oj.create_Mean(10, Dir2) 
+# u2mean, v2mean = oj.scaleVel(u2mean, v2mean, 90, 1900, 0.21918)
+# Dir3  = "F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/"
+# u3mean, v3mean = oj.create_Mean(10, Dir3) 
+# u3mean, v3mean = oj.scaleVel(u3mean, v3mean, 90, 1900, 0.21918)
+# Dir6  = "F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/"
+# u6mean, v6mean = oj.create_Mean(10, Dir6) 
+# u6mean, v6mean = oj.scaleVel(u6mean, v6mean, 90, 1900, 0.21918)
+# Dir9  = "F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/"
+# u9mean, v9mean = oj.create_Mean(10, Dir9) 
+# u9mean, v9mean = oj.scaleVel(u9mean, v9mean, 90, 1900, 0.21918)
+# Dir12 = "F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/"
+# u12mean, v12mean = oj.create_Mean(10, Dir12) 
+# u12mean, v12mean = oj.scaleVel(u12mean, v12mean, 90, 1900, 0.21918)
+
+
+
+Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
+Injection = ['U50', 'U100']
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[0])]
+u0mean = vels[:,:,:,0]
+v0mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[1])]
+u1mean = vels[:,:,:,0]
+v1mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[2])]
+u2mean = vels[:,:,:,0]
+v2mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[3])]
+u3mean = vels[:,:,:,0]
+v3mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[4])]
+u6mean = vels[:,:,:,0]
+v6mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[5])]
+u9mean = vels[:,:,:,0]
+v9mean = vels[:,:,:,1]
+
+h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(Injection[0])]['L50'][str(Rotations[6])]
+u12mean = vels[:,:,:,0]
+v12mean = vels[:,:,:,1]
+
+
+
+
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u0mean.shape[1], u0mean.shape[2])
 
 
@@ -271,7 +316,7 @@ sumVorticity12 = oj.sum_Vorticity(u12mean[:,:,18:], v12mean[:,:,18:])
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.title("Circulation without stopping vortex 50/50, full")
 ax16.plot(time, sumVorticity0, label = "0 RPM")
-ax16.plot(time, sumVorticity1, label = "1 RPM", color = "b")
+ax16.plot(time, sumVorticity1, label = "1 RPM")
 ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
@@ -289,17 +334,34 @@ maxloc6  = np.argmax(sumVorticity6)
 maxloc9  = np.argmax(sumVorticity9)
 maxloc12 = np.argmax(sumVorticity12)
 
+f1, ax1 = plt.subplots()
+ax1.plot(sumVorticity3)
+ax1.scatter(maxloc3, sumVorticity3[maxloc3])
+
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
-plt.title("Circulation without stopping vortex 50/50, full")
-ax16.scatter(maxloc0 , sumVorticity0 [maxloc0] , label = "0 RPM")
-ax16.scatter(maxloc1 , sumVorticity1 [maxloc1] , label = "1 RPM")
-ax16.scatter(maxloc2 , sumVorticity2 [maxloc2] , label = "2 RPM")
-ax16.scatter(maxloc3 , sumVorticity3 [maxloc3] , label = "3 RPM")
-ax16.scatter(maxloc6 , sumVorticity6 [maxloc6] , label = "6 RPM")
-ax16.scatter(maxloc9 , sumVorticity9 [maxloc9] , label = "9 RPM")
-ax16.scatter(maxloc12, sumVorticity12[maxloc12], label = "12 RPM")
-ax16.set_xlabel("time [s]")
-ax16.set_ylabel("sum of vorticity")
+plt.title("Circulation Peak Time against RPM 50/50")
+ax16.scatter(0 , (maxloc0/90) , label = "0 RPM")
+ax16.scatter(1 , (maxloc1/90) , label = "1 RPM")
+ax16.scatter(2 , (maxloc2/90) , label = "2 RPM")
+ax16.scatter(3 , (maxloc3/90) , label = "3 RPM")
+ax16.scatter(6 , (maxloc6/90) , label = "6 RPM")
+ax16.scatter(9 , (maxloc9/90) , label = "9 RPM")
+ax16.scatter(12, (maxloc12/90), label = "12 RPM")
+ax16.set_xlabel("Rotation Rate [RPM]")
+ax16.set_ylabel("Time of Peak Vorticity [s]")
+plt.legend()
+
+f13, ax16 = plt.subplots(nrows=1, ncols=1)
+plt.title("Circulation Peak against RPM 50/50")
+ax16.scatter(0 , sumVorticity0[maxloc0] , label = "0 RPM")
+ax16.scatter(1 , sumVorticity1[maxloc1] , label = "1 RPM")
+ax16.scatter(2 , sumVorticity2[maxloc2] , label = "2 RPM")
+ax16.scatter(3 , sumVorticity3[maxloc3] , label = "3 RPM")
+ax16.scatter(6 , sumVorticity6[maxloc6] , label = "6 RPM")
+ax16.scatter(9 , sumVorticity9[maxloc9] , label = "9 RPM")
+ax16.scatter(12, sumVorticity12[maxloc12], label = "12 RPM")
+ax16.set_xlabel("Rotation Rate [RPM]")
+ax16.set_ylabel("Peak Circulation [cm^2/s]")
 plt.legend()
 
 #### 
@@ -394,7 +456,7 @@ sumVorticity12 = oj.sum_Vorticity(u12mean[:,23:46, 18:], v12mean[:,23:46, 18:])
 f13, ax16 = plt.subplots(nrows=1, ncols=1)
 plt.title("Circulation without stopping vortex 50/50, 23-46 middle 33%")
 ax16.plot(time, sumVorticity0, label = "0 RPM")
-ax16.plot(time, sumVorticity1, label = "1 RPM", color = "b")
+ax16.plot(time, sumVorticity1, label = "1 RPM")
 ax16.plot(time, sumVorticity2, label = "2 RPM")
 ax16.plot(time, sumVorticity3, label = "3 RPM")
 ax16.plot(time, sumVorticity6, label = "6 RPM")
