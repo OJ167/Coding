@@ -31,39 +31,43 @@ plt.style.use(["science", "vibrant", "no-latex"])
 
 Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
+Stroke = ['L50', 'L100']
+I = 'U100'
+S = 'L100'
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[0])]
+
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[1])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[1])]
 u1mean = vels[:,:,:,0]
 v1mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[2])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[2])]
 u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[3])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[2])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[4])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[4])]
 u6mean = vels[:,:,:,0]
 v6mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[5])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[5])]
 u9mean = vels[:,:,:,0]
 v9mean = vels[:,:,:,1]
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[6])]
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[6])]
 u12mean = vels[:,:,:,0]
 v12mean = vels[:,:,:,1]
 
@@ -349,3 +353,4 @@ ax11.plot(r_nd, v12mean[440, :, 18], label = "4 Seconds")
 ax11.plot(r_nd, v12mean[530, :, 18], label = "5 Seconds")
 plt.legend()
 plt.show()
+

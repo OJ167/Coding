@@ -17,7 +17,7 @@ from tkinter.filedialog import askdirectory
 
 ################ To load in. move this to another file 
 
-h5file = h5py.File('F:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
 
 vels = h5file['Narrow']['U50']['L50']['RPM12']
 u = vels[:,:,:,0]
@@ -26,10 +26,17 @@ v = vels[:,:,:,1]
 umean = np.mean(u, axis=0)
 vmean = np.mean(v, axis=0)
 
-h5file.close()
 
 
 f1, (ax1) = plt.subplots(nrows=1, ncols=1)
 ax1.contourf(umean[:,:], cmap = "seismic")
 plt.title("Velocity Contour")
+plt.show()
+
+oj.descend_obj(h5file)
+h5file.close()
+
+f1, (ax1) = plt.subplots(nrows=1, ncols=1)
+ax1.contourf(u[300,:,:], cmap = "seismic")
+plt.title("Axial Velocity Contour frame 300")
 plt.show()

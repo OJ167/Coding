@@ -779,7 +779,7 @@ def sum_kinetic_energy(u, v):
 def frames_to_seconds(u, v, FPS = 60, ):
     """for plotting in seconds"""
     data_length = u.shape[0]   # 10 seconds of data at 60Hz
-    sample_rate = 60   # FPS
+    sample_rate =  FPS
 
     # calculate the time step
     time_step = 1/sample_rate
@@ -928,3 +928,48 @@ def descend_obj(obj,sep='\t'):
     elif type(obj)==h5py._hl.dataset.Dataset:
         for key in obj.attrs.keys():
             print(sep+'\t','-',key,':',obj.attrs[key])
+
+
+
+def animate_Line( 
+    u, row = 13, interval=11.1, save=0, output="15.mp4", fps=90, scale = 1, fsize = (19, 12)
+):
+
+    """
+    animates a Line from a 3D Array for quick visualisation.
+
+    INPUT:
+        cube_array  : name of 3D numpy array that needs to be animated.
+        interval    : no. of ms between each frame.
+
+
+    OUTPUT:
+        animated line graph.
+
+    """
+
+    r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
+    time = oj.frames_to_seconds(u, u, fps)
+
+    fig, ax = plt.subplots(figsize=fsize)
+
+    def animate(i):
+        ax.clear()
+        ax.plot(r_nd, u[i,:, row])
+        ax.set_title("Time " + str("%.1f") %time[i])
+        ax.set_xlabel("r/D")
+        ax.set_ylabel("u")
+        ax.set_ylim(np.min(u), np.max(u))
+
+    ani = animation.FuncAnimation(
+        fig, animate, frames=u.shape[0], interval=interval, blit=False
+    )
+
+    # plt.colorbar()
+    if save == 0:
+        plt.show()  
+    else:
+        ani.save(output, writer="ffmpeg", fps=fps, dpi=80)
+
+
+
