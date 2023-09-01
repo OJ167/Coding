@@ -44,8 +44,8 @@ def descend_obj(obj,sep='\t'):
 # umean, vmean = oj.create_Mean(10, Dir) 
 
 #### 3 RPM ####
-# Dir  = "F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/" DON'T HAVE YET
-# umean, vmean = oj.create_Mean(10, Dir) 
+Dir  = "G:/Testing/RPM-3.0__Upiston-100__Stroke-100/2023-08-24__FPS-90/"
+umean, vmean = oj.create_Mean(10, Dir) 
 
 #### 6 RPM ####
 # Dir  = "G:/Testing/RPM-6.0__Upiston-100__Stroke-100/2023-08-18__FPS-90/"
@@ -76,7 +76,7 @@ def descend_obj(obj,sep='\t'):
 # umean, vmean = oj.create_Mean(10, Dir2) 
 
 #### 3 RPM ####
-# Dir3  = "F:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/" DON'T HAVE YET
+# Dir3  = "G:/Testing/RPM-3.0__Upiston-50__Stroke-100/2023-08-24__FPS-90/" 
 # umean, vmean = oj.create_Mean(10, Dir3) 
 
 #### 6 RPM ####
@@ -88,8 +88,8 @@ def descend_obj(obj,sep='\t'):
 # umean, vmean = oj.create_Mean(10, Dir9) 
 
 #### 12 RPM ####
-Dir12 = "G:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/"
-umean, vmean = oj.create_Mean(10, Dir12) 
+# Dir12 = "G:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/"
+# umean, vmean = oj.create_Mean(10, Dir12) 
 
 
 
@@ -110,7 +110,7 @@ h5file = h5py.File('G:/H5/meandataVLS.h5', 'a')
 
 
 
-h5file.create_dataset('Narrow/U50/L100/RPM12', data=Vels)
+h5file.create_dataset('Narrow/U100/L100/RPM3', data=Vels)
 
 descend_obj(h5file)
 

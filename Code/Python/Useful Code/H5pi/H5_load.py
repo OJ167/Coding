@@ -19,7 +19,7 @@ from tkinter.filedialog import askdirectory
 
 h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
 
-vels = h5file['Narrow']['U50']['L50']['RPM12']
+vels = h5file['Narrow']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -39,4 +39,15 @@ h5file.close()
 f1, (ax1) = plt.subplots(nrows=1, ncols=1)
 ax1.contourf(u[300,:,:], cmap = "seismic")
 plt.title("Axial Velocity Contour frame 300")
+
+
+
+
+
+
+
+
+r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
+f2, ax2 = plt.subplots(nrows=1, ncols=1)
+ax2. quiver(z_nd, r_nd, u[300,:,:], v[300,:,:])
 plt.show()
