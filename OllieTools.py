@@ -776,7 +776,7 @@ def sum_kinetic_energy(u, v):
     return kinetic_energy, sum_kinetic_energy
 
 
-def frames_to_seconds(u, v, FPS = 60, ):
+def frames_to_seconds(u, v, FPS):
     """for plotting in seconds"""
     data_length = u.shape[0]   # 10 seconds of data at 60Hz
     sample_rate =  FPS
@@ -790,7 +790,7 @@ def frames_to_seconds(u, v, FPS = 60, ):
 
 
 def animate_cube_quiver( 
-    u, v, interval=11.1, cmap="bwr", save=0, output="15.mp4", fps=90, scale = 1, fsize = (19, 12)
+    u, v, interval=11.1, cmap="bwr", save=0, output="15.mp4", Dir="C:/Users/u2088308/Videos", name="vid.mp4", fps=90, scale = 1, fsize = (19, 12)
 ):
 
     """
@@ -810,19 +810,23 @@ def animate_cube_quiver(
     x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     V = np.sqrt((abs(u**2) + abs(v**2)))
     r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
-    time = oj.frames_to_seconds(u, v, 90)
+    time = oj.frames_to_seconds(u, v, fps)
+
+    output = str(Dir) + str(name)
+    print(output)
 
     fig, ax = plt.subplots(figsize=fsize)
     vmin = -np.max(np.abs(V))
     vmax = np.max(np.abs(V))
     def animate(i):
         ax.clear()
-        ax.contourf(z_nd, r_nd, u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
-        ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
+        # ax.contourf(z_nd, r_nd, u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        # ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
+        ax.quiver(u[i,:,:], v[i,:,:], pivot="middle")
         ax.set_title("Time " + str("%.1f") %time[i])
         # ax.set_title("%0.2d" % i)
-        ax.set_xlabel("z/D")
-        ax.set_ylabel("r/D")
+        # ax.set_xlabel("z/D")
+        # ax.set_ylabel("r/D")
 
     ani = animation.FuncAnimation(
         fig, animate, frames=V.shape[0], interval=interval, blit=False
@@ -900,7 +904,7 @@ def create_Mean(
         n, Dir
 ):
     ######## Importing multiple rings #####
-    n = 10
+    # n = 10
     u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
     print(str(Dir), "\r")
     u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
@@ -908,7 +912,7 @@ def create_Mean(
 
     for i in range(1, n+1):
         u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
-        oj.progressBar(i, 10)
+        oj.progressBar(i, n)
 
     u_mean = np.mean(u[1:], 0)
     v_mean = np.mean(v[1:], 0)
@@ -972,4 +976,76 @@ def animate_Line(
         ani.save(output, writer="ffmpeg", fps=fps, dpi=80)
 
 
+def ConvertCylindrical(xArg, yArg, X, Y, u, v):
 
+    widthM = np.max(X)
+    heightM = np.max(Y)
+    x0 = (xArg * widthM / X.shape[0])
+    y0 = (yArg * heightM / Y.shape[0])
+    X = X - x0
+    Y = Y - y0
+
+    X, Y = np.meshgrid(X,Y)
+
+    r = np.sqrt(X**2 + Y**2)
+    theta = np.arctan2(Y, X)
+
+    U_r = u * np.cos(theta) + v * np.sin(theta)
+
+    U_az = v * np.cos(theta) - u * np.sin(theta)
+
+    return r, theta, U_r, U_az, x0, y0
+
+def binCylindrical(r, theta, U_r, U_az, thetaBins = 18, rBins = 36):
+
+    U_rBins = np.zeros((rBins, thetaBins))
+    U_azBins = np.zeros((rBins, thetaBins))
+    theta_arr = (np.pi * 2) * (np.arange(thetaBins)+0.5) / thetaBins
+    r_arr = np.max(r) * (np.arange(rBins)+0.5) / rBins
+    # print(U_rBins.shape)
+    # print(U_rBins)
+    for thetaVal in range(thetaBins-1):
+        # print(thetaVal)
+        for rVal in range(rBins-1):
+            print(rVal)
+            mask = np.where((theta > (-np.pi + (2 * np.pi) * thetaVal / thetaBins)) | (theta < -np.pi + (2 * np.pi) * (thetaVal + 1) / thetaBins) | (r > np.max(r) * rVal / rBins) | (r < np.max(r) * (rVal + 1) / rBins))
+            print(U_r[mask])
+            U_rBins[rVal, thetaVal] = np.mean(U_r[mask])
+            # print(np.mean(U_r[mask]))
+            U_azBins[rVal, thetaVal] = np.mean(U_az[mask])
+    # print(U_rBins)
+    return r_arr, theta_arr, U_rBins, U_azBins
+
+
+
+def find_vortex_center_Vorticity(u, v, guass = 3, range = 3):
+    """
+    Finds the center of a vortex in a 2D velocity field using the vorticity field and interpolating the maxima location using a 2nd order bilinear polynomial fit at a resolution of 100* the original.
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as a tuple of (x, y) coordinates.
+    """
+    scale = 0.05
+    dvdx = np.gradient(v, axis=1)
+    dudy = np.gradient(u, axis=0)
+    
+    vorticity = (0.5 * (dvdx - dudy))
+    vortSmooth = np.abs(ndimage.gaussian_filter(vorticity, guass))
+
+    MaxLoc = np.argwhere(vortSmooth == np.max(vortSmooth))[0]
+    if MaxLoc[0] < 15 or MaxLoc[0] > u.shape[0] - 15 or MaxLoc[1] < 15 or MaxLoc[1] > u.shape[1] - 15:
+        xNew, yNew = 0, 0
+    else:
+        Sect = vortSmooth[MaxLoc[0]-range:MaxLoc[0]+range+1, MaxLoc[1]-range:MaxLoc[1]+range+1]
+        # ax2.contourf(Sect)
+        SplineSect = RectBivariateSpline(np.arange(Sect.shape[-2]), np.arange(Sect.shape[-1]), Sect, kx = 2, ky = 2)
+        SectDetailed = SplineSect(np.arange(0, Sect.shape[-2]-1, scale), np.arange(0, Sect.shape[-1]-1, scale), grid=True)
+        # ax3.contourf(SectDetailed)
+        yNew = MaxLoc[0]-range + np.argwhere(SectDetailed == np.max(SectDetailed))[0][0] * scale
+        xNew = MaxLoc[1]-range + np.argwhere(SectDetailed == np.max(SectDetailed))[0][1] * scale
+
+    return xNew, yNew, vorticity, vortSmooth

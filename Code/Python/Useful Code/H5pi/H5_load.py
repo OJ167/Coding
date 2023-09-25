@@ -17,9 +17,11 @@ from tkinter.filedialog import askdirectory
 
 ################ To load in. move this to another file 
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+# h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L100']['RPM12']
+# vels = h5file['Narrow']['U100']['L100']['RPM12']
+vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
