@@ -44,8 +44,8 @@ vmean = np.mean(v, axis=0)
 
 
 time = oj.frames_to_seconds(u, v, 150)
-oj.animate_cube_quiver(u, v, interval=6.67, cmap="seismic", save=1, output="0_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "0_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
-print("0RPM Done")
+oj.animate_cube_quiver(u, v, interval=6.67, cmap="seismic", save=1, output="1_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "1_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("1RPM Done")
 
 # vels = h5file['3D0']['U100']['L100']['RPM2']
 # u = vels[:,:,:,0]
