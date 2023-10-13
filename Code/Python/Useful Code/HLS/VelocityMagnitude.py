@@ -46,7 +46,7 @@ h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
 
 RPM = ['0', '1', '2', '3', '6', '9', '12']
 
-vels = h5file['3D0']['U100']['L100']['RPM' + str(RPM[0])]
+vels = h5file['3D0']['U100']['L100']['RPM' + str(RPM[6])]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -93,14 +93,19 @@ f3, ax3 = plt.subplots()
 ax3.quiver(x, y, U_r, U_az)
 
 
-
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
 for i in range(u.shape[0]):
-    U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
-    U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
     r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
 
 
+f2, ax2 = plt.subplots()
+ax2.quiver(x, y, U_r[1900,:,:], U_az[1900,:,:])
+plt.title("i quiver")
+plt.show()
+
 sU_r, sU_az = sum_VelocityR(u, v)
+print(sU_az[:])
 
 
 f4, ax4 = plt.subplots()

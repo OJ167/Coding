@@ -6,7 +6,7 @@ from scipy.interpolate import make_interp_spline, BSpline
 from scipy import io
 from scipy.signal import savgol_filter
 import matplotlib.pyplot as plt
-from scipy.ndimage.filters import gaussian_filter
+from scipy.ndimage import gaussian_filter
 import pandas as pd
 import matplotlib.colors as colors
 import matplotlib.cm
@@ -32,11 +32,11 @@ plt.style.use(["science", "vibrant", "no-latex"])
 Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
 Stroke = ['L50', 'L100']
-I = 'U100'
-S = 'L100'
+I = 'U50'
+S = 'L50'
 
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
@@ -52,7 +52,7 @@ u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
 h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[2])]
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[3])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
@@ -105,6 +105,43 @@ ax2.set_ylabel("sum of Enstrophy")
 plt.legend()
 # plt.show()
 
+f2, ax2 = plt.subplots(nrows=1, ncols=1)
+plt.title("Vortex Ring Circulation")
+ax2.plot(time, sumVorticity0 , label = "0 RPM" )
+ax2.plot(time, sumVorticity1 , label = "1 RPM" )
+ax2.plot(time, sumVorticity2 , label = "2 RPM" )
+ax2.plot(time, sumVorticity3 , label = "3 RPM" )
+ax2.plot(time, sumVorticity6 , label = "6 RPM" )
+ax2.plot(time, sumVorticity9 , label = "9 RPM" )
+ax2.plot(time, sumVorticity12, label = "12 RPM")
+ax2.set_xlabel("time [s]")
+ax2.set_ylabel("$\Gamma \: [cm^{2}s^{-1}]$")
+plt.legend()
+
+GammaMax0 = np.max(sumVorticity0)
+GammaMax1 = np.max(sumVorticity1)
+GammaMax2 = np.max(sumVorticity2)
+GammaMax3 = np.max(sumVorticity3)
+GammaMax6 = np.max(sumVorticity6)
+GammaMax9 = np.max(sumVorticity9)
+GammaMax12 = np.max(sumVorticity12)
+
+f3, ax3 = plt.subplots()
+plt.title("Vortex Ring Peak Circulation against Rotation Rate")
+ax3.scatter(0, GammaMax0, label = "0RPM" )
+ax3.scatter(1, GammaMax1, label = "1RPM" )
+ax3.scatter(2, 90, label = "2RPM" )# GammaMax2, label = "2RPM" )#
+ax3.scatter(3, GammaMax3, label = "3RPM" )
+ax3.scatter(6, GammaMax6, label = "6RPM" )
+ax3.scatter(9, GammaMax9, label = "9RPM" )
+ax3.scatter(12, GammaMax12, label = "12RPM" )
+ax3.set_xlabel("RPM")
+ax3.set_ylabel("$\Gamma_{peak} \: [cm^{2}s^{-1}]$")
+ax3.set_ylim(0)
+plt.legend()
+plt.show()
+
+
 
 Vorticity0r, Vorticity0  = oj.calculate_vorticity(u0mean, v0mean)
 Vorticity1r, Vorticity1  = oj.calculate_vorticity(u1mean, v1mean)
@@ -123,42 +160,42 @@ Enst6  = np.square(Vorticity6)
 Enst9  = np.square(Vorticity9)
 Enst12 = np.square(Vorticity12)
 
-f1, ax1 = plt.subplots(nrows=1, ncols=1)
-ax1.imshow(Enst0[500,:,:])
+# f1, ax1 = plt.subplots(nrows=1, ncols=1)
+# ax1.imshow(Enst0[500,:,:])
 # plt.show()
 
 
-f1, ax1 = plt.subplots(nrows=1, ncols=1)
-ax1.contourf(z_nd, r_nd, Enst0[500,:,:], cmap = "Blues")
-plt.title("Velocity Contour and Enstrophy Contour")
+# f1, ax1 = plt.subplots(nrows=1, ncols=1)
+# ax1.contourf(z_nd, r_nd, Enst0[500,:,:], cmap = "Blues")
+# plt.title("Velocity Contour and Enstrophy Contour")
 
-print(Enst0[500,10,10])
 
-f3, (ax3, ax4) = plt.subplots(nrows=1, ncols=2, sharex=True, sharey=True)
-ax3.plot(u0mean [1000, 60, :])
-ax4.plot(u12mean[1000, 60, :])
+
+# f3, (ax3, ax4) = plt.subplots(nrows=1, ncols=2, sharex=True, sharey=True)
+# ax3.plot(u0mean [1000, 60, :])
+# ax4.plot(u12mean[1000, 60, :])
 # plt.show()
 
 ### Finding a baseline where the 0RPM ring can be seen
-f3, ax5 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-ax5.plot(Vorticity0 [1000, 68, :], label = "Row 68")
-ax5.plot(Vorticity0 [1000, 60, :], label = "Row 60")
-ax5.plot(Vorticity0 [1000, 50, :], label = "Row 50")
-ax5.plot(Vorticity0 [1000, 40, :], label = "Row 40")
-ax5.plot(Vorticity0 [1000, 30, :], label = "Row 30")
-plt.legend()
+# f3, ax5 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# ax5.plot(Vorticity0 [1000, 68, :], label = "Row 68")
+# ax5.plot(Vorticity0 [1000, 60, :], label = "Row 60")
+# ax5.plot(Vorticity0 [1000, 50, :], label = "Row 50")
+# ax5.plot(Vorticity0 [1000, 40, :], label = "Row 40")
+# ax5.plot(Vorticity0 [1000, 30, :], label = "Row 30")
+# plt.legend()
 
 
-f4, ax6 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-ax6.plot(z_nd, Vorticity0 [500, 0, :] , label = "Row 0")
-ax6.plot(z_nd, Vorticity0 [500, 9, :] , label = "Row 10")
-ax6.plot(z_nd, Vorticity0 [500, 19, :], label = "Row 20")
-ax6.plot(z_nd, Vorticity0 [500, 29, :], label = "Row 30")
-ax6.plot(z_nd, Vorticity0 [500, 35, :], label = "Row 35 (mid point)")
-plt.title("Axial Vorticity Profile Frame 500 0RPM 100/50")
-ax6.set_xlabel("z/D")
-ax6.set_ylabel('Azimuthal Vorticity')
-plt.legend()
+# f4, ax6 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# ax6.plot(z_nd, Vorticity0 [500, 0, :] , label = "Row 0")
+# ax6.plot(z_nd, Vorticity0 [500, 9, :] , label = "Row 10")
+# ax6.plot(z_nd, Vorticity0 [500, 19, :], label = "Row 20")
+# ax6.plot(z_nd, Vorticity0 [500, 29, :], label = "Row 30")
+# ax6.plot(z_nd, Vorticity0 [500, 35, :], label = "Row 35 (mid point)")
+# plt.title("Axial Vorticity Profile Frame 500 0RPM 100/50")
+# ax6.set_xlabel("z/D")
+# ax6.set_ylabel('Azimuthal Vorticity')
+# plt.legend()
 # plt.show()
 
 
@@ -317,40 +354,40 @@ plt.show()
 
 
 
-f6, ax8 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-plt.title("Radial velocity profile at the nozzle 0RPM 100/50")
-ax8.plot(r_nd, v0mean[170, :, 18], label = "1 Second")
-ax8.plot(r_nd, v0mean[260, :, 18], label = "2 Seconds")
-ax8.plot(r_nd, v0mean[350, :, 18], label = "3 Seconds")
-ax8.plot(r_nd, v0mean[440, :, 18], label = "4 Seconds")
-ax8.plot(r_nd, v0mean[530, :, 18], label = "5 Seconds")
-plt.legend()
+# f6, ax8 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# plt.title("Radial velocity profile at the nozzle 0RPM 100/50")
+# ax8.plot(r_nd, v0mean[170, :, 18], label = "1 Second")
+# ax8.plot(r_nd, v0mean[260, :, 18], label = "2 Seconds")
+# ax8.plot(r_nd, v0mean[350, :, 18], label = "3 Seconds")
+# ax8.plot(r_nd, v0mean[440, :, 18], label = "4 Seconds")
+# ax8.plot(r_nd, v0mean[530, :, 18], label = "5 Seconds")
+# plt.legend()
 
-f7, ax9 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-plt.title("Radial velocity profile at the nozzle 1RPM 100/50")
-ax9.plot(r_nd, v1mean[170, :, 18], label = "1 Second")
-ax9.plot(r_nd, v1mean[260, :, 18], label = "2 Seconds")
-ax9.plot(r_nd, v1mean[350, :, 18], label = "3 Seconds")
-ax9.plot(r_nd, v1mean[440, :, 18], label = "4 Seconds")
-ax9.plot(r_nd, v1mean[530, :, 18], label = "5 Seconds")
-plt.legend()
+# f7, ax9 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# plt.title("Radial velocity profile at the nozzle 1RPM 100/50")
+# ax9.plot(r_nd, v1mean[170, :, 18], label = "1 Second")
+# ax9.plot(r_nd, v1mean[260, :, 18], label = "2 Seconds")
+# ax9.plot(r_nd, v1mean[350, :, 18], label = "3 Seconds")
+# ax9.plot(r_nd, v1mean[440, :, 18], label = "4 Seconds")
+# ax9.plot(r_nd, v1mean[530, :, 18], label = "5 Seconds")
+# plt.legend()
 
-f8, ax10 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-plt.title("Radial velocity profile at the nozzle 2RPM 100/50")
-ax10.plot(r_nd, v2mean[170, :, 18], label = "1 Second")
-ax10.plot(r_nd, v2mean[260, :, 18], label = "2 Seconds")
-ax10.plot(r_nd, v2mean[350, :, 18], label = "3 Seconds")
-ax10.plot(r_nd, v2mean[440, :, 18], label = "4 Seconds")
-ax10.plot(r_nd, v2mean[530, :, 18], label = "5 Seconds")
-plt.legend()
+# f8, ax10 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# plt.title("Radial velocity profile at the nozzle 2RPM 100/50")
+# ax10.plot(r_nd, v2mean[170, :, 18], label = "1 Second")
+# ax10.plot(r_nd, v2mean[260, :, 18], label = "2 Seconds")
+# ax10.plot(r_nd, v2mean[350, :, 18], label = "3 Seconds")
+# ax10.plot(r_nd, v2mean[440, :, 18], label = "4 Seconds")
+# ax10.plot(r_nd, v2mean[530, :, 18], label = "5 Seconds")
+# plt.legend()
 
-f9, ax11 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-plt.title("Radial velocity profile at the nozzle 12RPM 100/50")
-ax11.plot(r_nd, v12mean[170, :, 18], label = "1 Second")
-ax11.plot(r_nd, v12mean[260, :, 18], label = "2 Seconds")
-ax11.plot(r_nd, v12mean[350, :, 18], label = "3 Seconds")
-ax11.plot(r_nd, v12mean[440, :, 18], label = "4 Seconds")
-ax11.plot(r_nd, v12mean[530, :, 18], label = "5 Seconds")
-plt.legend()
+# f9, ax11 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
+# plt.title("Radial velocity profile at the nozzle 12RPM 100/50")
+# ax11.plot(r_nd, v12mean[170, :, 18], label = "1 Second")
+# ax11.plot(r_nd, v12mean[260, :, 18], label = "2 Seconds")
+# ax11.plot(r_nd, v12mean[350, :, 18], label = "3 Seconds")
+# ax11.plot(r_nd, v12mean[440, :, 18], label = "4 Seconds")
+# ax11.plot(r_nd, v12mean[530, :, 18], label = "5 Seconds")
+# plt.legend()
 plt.show()
 

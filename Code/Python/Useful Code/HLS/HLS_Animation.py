@@ -7,7 +7,7 @@ from scipy.interpolate import make_interp_spline, BSpline
 from scipy import io
 from scipy.signal import savgol_filter
 import matplotlib.pyplot as plt
-from scipy.ndimage.filters import gaussian_filter
+from scipy.ndimage import gaussian_filter
 import pandas as pd
 import matplotlib.colors as colors
 import matplotlib.cm
@@ -39,18 +39,130 @@ vels = h5file['3D0']['U100']['L100']['RPM0']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
-umean = np.mean(u, axis=0)
-vmean = np.mean(v, axis=0)
+
+
+
+x = 55
+y = 35
+x = np.linspace(0 , u.shape[2], u.shape[2])
+y = np.linspace(0 , u.shape[1], u.shape[1])
+r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[1900,:,:], v[1900,:,:])
+
+
+f2, ax2 = plt.subplots()
+cbar = ax2.contourf(U_az, cmap = "seismic")
+f2.colorbar(cbar, ax=ax2)
+
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
+
+
+f2, ax2 = plt.subplots()
+cbar = ax2.contourf(U_az[1900,:,:], cmap = "seismic")
+f2.colorbar(cbar, ax=ax2)
+plt.show()
+
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="1_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "0_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("0RPM Done")
+
+
+
+
+
+vels = h5file['3D0']['U100']['L100']['RPM1']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
 
 
 time = oj.frames_to_seconds(u, v, 150)
-oj.animate_cube_quiver(u, v, interval=6.67, cmap="seismic", save=1, output="1_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "1_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="1_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "1_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
 print("1RPM Done")
 
-# vels = h5file['3D0']['U100']['L100']['RPM2']
-# u = vels[:,:,:,0]
-# v = vels[:,:,:,1]
+vels = h5file['3D0']['U100']['L100']['RPM2']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
 
-# time = oj.frames_to_seconds(u, v, 150)
-# oj.animate_cube_quiver(u, v, interval=6.67, cmap="seismic", save=1, output="2_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "2_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
-# print("2RPM Done")
+
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="2_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "2_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("2RPM Done")
+
+
+
+
+vels = h5file['3D0']['U100']['L100']['RPM3']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
+
+    
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="3_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "3_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("3RPM Done")
+
+
+
+vels = h5file['3D0']['U100']['L100']['RPM6']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
+
+    
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="6_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "6_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("6RPM Done")
+
+
+
+vels = h5file['3D0']['U100']['L100']['RPM9']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
+
+    
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="9_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "9_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("9RPM Done")
+
+
+
+
+vels = h5file['3D0']['U100']['L100']['RPM12']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+U_r  = np.zeros([u.shape[0], u.shape[1], u.shape[2]]) 
+U_az = np.zeros([u.shape[0], u.shape[1], u.shape[2]])
+X, Y = np.meshgrid(x, y) 
+for i in range(u.shape[0]):
+    r, theta, U_r[i,:,:], U_az[i,:,:], x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[i,:,:], v[i,:,:])
+
+    
+time = oj.frames_to_seconds(u, v, 150)
+oj.animate_cube_quiver(u, v, U_az, interval=6.67, cmap="seismic", save=1, output="12_100_100_mean.mp4", Dir = "C:/Users/u2088308/Videos/3D0_100_100/", name = "12_100_100_mean.mp4", fps=150, scale = 1, fsize = (19, 12))
+print("12RPM Done")

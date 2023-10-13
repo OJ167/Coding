@@ -790,7 +790,7 @@ def frames_to_seconds(u, v, FPS):
 
 
 def animate_cube_quiver( 
-    u, v, interval=11.1, cmap="bwr", save=0, output="15.mp4", Dir="C:/Users/u2088308/Videos", name="vid.mp4", fps=90, scale = 1, fsize = (19, 12)
+    u, v, u_az, interval=11.1, cmap="bwr", save=0, output="15.mp4", Dir="C:/Users/u2088308/Videos", name="vid.mp4", fps=90, scale = 1, fsize = (19, 12)
 ):
 
     """
@@ -820,7 +820,7 @@ def animate_cube_quiver(
     vmax = np.max(np.abs(V))
     def animate(i):
         ax.clear()
-        # ax.contourf(z_nd, r_nd, u[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        ax.contourf(u_az[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
         # ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
         ax.quiver(u[i,:,:], v[i,:,:], pivot="middle")
         ax.set_title("Time " + str("%.1f") %time[i])
