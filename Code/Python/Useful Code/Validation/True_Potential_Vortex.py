@@ -10,6 +10,9 @@ from scipy.ndimage import gaussian_filter
 import pandas as pd
 import matplotlib.colors as colors
 import matplotlib.cm
+import numpy as np
+from scipy.sparse import csr_matrix
+from scipy.sparse.linalg import spsolve
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
@@ -30,9 +33,9 @@ plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
 
-N = 50                                # Number of points in each direction
-x_start, x_end = -10.0, 10.0            # x-direction boundaries
-y_start, y_end = -10.0, 10.0            # y-direction boundaries
+N = 51                                # Number of points in each direction
+x_start, x_end = -10.0, 10.0          # x-direction boundaries
+y_start, y_end = -10.0, 10.0          # y-direction boundaries
 x = np.linspace(x_start, x_end, N)    # computes a 1D-array for x
 y = np.linspace(y_start, y_end, N)    # computes a 1D-array for y
 X, Y = np.meshgrid(x, y)              # generates a mesh grid
@@ -71,7 +74,6 @@ def get_stream_function_vortex(strength, xv, yv, X, Y):
     
     return psi
 
-
 def calculate_vorticity(u, v):
     """
     calculates vorticity of velocity field
@@ -107,70 +109,74 @@ def vortex_velocity_field(K, x, y):
   v = -K * y / r**2
   return u, v
 
-# Set the strength of the vortex
-K = 1
-
-# Calculate the velocity field at a point (1, 1)
-x = 1
-y = 1
-u, v = vortex_velocity_field(K, x, y)
-print("Velocity field at point (1, 1):")
-print("u:", u)
-print("v:", v)
-
-# Calculate the velocity field at a point (0, 0)
-x = 0
-y = 0
-u, v = vortex_velocity_field(K, x, y)
-print("Velocity field at point (0, 0):")
-print("u:", u)
-print("v:", v)
 
 
-# computes the velocity field on the mesh grid
-u_vortex, v_vortex = get_velocity_vortex(gamma, x_vortex, y_vortex, X, Y)
-
-# computes the stream-function on the mesh grid
-psi_vortex = get_stream_function_vortex(gamma, x_vortex, y_vortex, X, Y)
-
-# plots the streamlines
-# %matplotlib inline
-
-size = 10
-plt.figure(figsize=(size, (y_end-y_start)/(x_end-x_start)*size))
-plt.xlabel('x', fontsize=16)
-plt.ylabel('y', fontsize=16)
-plt.xlim(x_start, x_end)
-plt.ylim(y_start, y_end)
-plt.streamplot(X, Y, u_vortex, v_vortex, density=2, linewidth=1, arrowsize=1, arrowstyle='->', color='b')
-plt.scatter(x_vortex, y_vortex, color='#CD2305', s=80, marker='o');
-
-print(u_vortex.shape)
-f1, ax1 = plt.subplots()
-ax1.plot(u_vortex[:,25])
 
 
-Vorticity, vorticity_gauss = calculate_vorticity(u_vortex, v_vortex)
+
+
+Gamma = 1.0  # Circulation strength of the vortex
+x0, y0 = 0, 0  # Vortex center coordinates
+
+# Grid parameters
+x_min, x_max, y_min, y_max = -10, 10, -10, 10
+num_points = 101
+x = np.linspace(x_min, x_max, num_points)
+y = np.linspace(y_min, y_max, num_points)
+X, Y = np.meshgrid(x, y)
+
+# Calculate velocity components due to the vortex
+u =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
+v = -(Gamma / (2 * np.pi)) * (X - x0) / ((X - x0)**2 + (Y - y0)**2)
+
+# Plot the streamlines
+plt.figure(figsize=(8, 6))
+plt.streamplot(X, Y, u, v, density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="b")
+
+
+# Plot the vortex center
+plt.plot(x0, y0, 'ro')  # Red dot for the vortex center
+
+# Set plot limits and labels
+plt.xlim(x_min, x_max)
+plt.ylim(y_min, y_max)
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.title('2D Vortex Flow Field')
+plt.grid(True)
+# plt.show()
+
+
+if u.shape[0] % 2 != 0:
+    u[int((u.shape[0]/2)),int((u.shape[1]/2))] = 0
+    v[int((v.shape[0]/2)),int((v.shape[1]/2))] = 0
+
+Vorticity, vorticity_gauss = calculate_vorticity(u, v)
+
+if u.shape[0] % 2 != 0:
+    Vorticity = np.nan_to_num(Vorticity)
+    Vorticity[int((Vorticity.shape[0]/2)),int((Vorticity.shape[1]/2))] = 0
+
+# Vorticity= gaussian_filter(Vorticity, sigma = 1)
 
 f2, ax2 = plt.subplots()
-ax2.contourf(vorticity_gauss, cmap = "bwr")
+ax2.imshow(Vorticity, cmap = "bwr")
 f2.colorbar(matplotlib.cm.ScalarMappable(cmap="bwr"), ax=ax2)
 
 
-# f3, ax3 = plt.subplots()
-# ax3.imshow(u_vortex, cmap = "bwr")
-# f2.colorbar(matplotlib.cm.ScalarMappable(cmap="bwr"), ax=ax2)
+f3, ax3 = plt.subplots()
+ax3.quiver(u, v, pivot = "middle")#, cmap = "bwr")
+ax3.plot(((u.shape[0]-1)/2), ((u.shape[1]-1)/2), 'ro')
+# f3.colorbar(matplotlib.cm.ScalarMappable(cmap="bwr"), ax=ax3)
 
-
-
-
-print(v_vortex.shape[1])
 
 fig, ax = plt.subplots(2, 2, sharex=True, sharey=True)
-ax[0,0].plot(u_vortex[int(u_vortex.shape[0]/2),:], label = "u deviation in x") # u deviation in x
-ax[0,1].plot(u_vortex[:,int(u_vortex.shape[1]/2)], label = "u deviation in y") # u deviation in y
-ax[1,0].plot(v_vortex[int(v_vortex.shape[0]/2),:], label = "v deviation in x") # v deviation in x
-ax[1,1].plot(v_vortex[:,int(v_vortex.shape[1]/2)], label = "v deviation in y") # v deviation in y
+ax[0,0].plot(u[int(u.shape[0]/2),:], c = "b") # u deviation in x
+ax[0,1].plot(u[:,int(u.shape[1]/2)], c = "b") # u deviation in y
+# ax[0,1].axvline(x = (u.shape[0]-1)/2, linestyle = "--")
+ax[1,0].plot(v[int(v.shape[0]/2),:], c = "b") # v deviation in x
+# ax[1,0].axvline(x = (v.shape[0]-1)/2, linestyle = "--")
+ax[1,1].plot(v[:,int(v.shape[1]/2)], c = "b") # v deviation in y
 ax[0,0].set_title("u deviation in x")
 ax[0,1].set_title("u deviation in y")
 ax[1,0].set_title("v deviation in x")
@@ -178,5 +184,5 @@ ax[1,1].set_title("v deviation in y")
 plt.legend()
 plt.show()
 
-sVorticity = sum_Vorticity(u_vortex, v_vortex)
+sVorticity = sum_Vorticity(u, v)
 print(sVorticity)
