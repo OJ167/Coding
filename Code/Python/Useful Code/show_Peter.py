@@ -12,7 +12,7 @@ from scipy.ndimage.filters import gaussian_filter
 
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
@@ -28,12 +28,12 @@ print(dirPath)
 # u3,  v3 = oj.importData73("G:/Testing/RPM-3.0__Upiston-200__Stroke-100/2023-03-14__FPS-60/2/Data/PIV_export.mat")
 # u6,  v6 = oj.importData73("G:/Testing/RPM-6.0__Upiston-200__Stroke-100/2023-03-15__FPS-60/2/Data/PIV_export.mat")
 # u9,  v9 = oj.importData73("G:/Testing/RPM-9.0__Upiston-200__Stroke-100/2023-03-16__FPS-60/2/Data/PIV_export.mat")
-u12,  v12 = oj.importData73("G:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-17__FPS-60/1/Data/PIV_export.mat")
+u12,  v12 = oj.importData73("F:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-17__FPS-60/1/Data/PIV_export.mat")
 
-u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/4/Data/PIV_export.mat")
-u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/4/Data/PIV_export.mat")
-u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/4/Data/PIV_export.mat")
-u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/4/Data/PIV_export.mat")
+u0, v0 = oj.importData73("G:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/4/Data/PIV_export.mat")
+u3, v3 = oj.importData73("G:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/4/Data/PIV_export.mat")
+u6, v6 = oj.importData73("G:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/4/Data/PIV_export.mat")
+u9, v9 = oj.importData73("G:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/4/Data/PIV_export.mat")
 
 # u0,  v0 = oj.importData73("F:/useful_data_copy_from_samsung/RPM-0.0__Upiston-200__Stroke-100/2023-02-27__FPS-60/8/PIV_export.mat")
 # u3,  v3 = oj.importData73("F:/useful_data_copy_from_samsung/RPM-3.0__Upiston-200__Stroke-100/2023-02-14__FPS-60/1/PIV_export.mat")

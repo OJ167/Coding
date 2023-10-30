@@ -153,9 +153,9 @@ if u.shape[0] % 2 != 0:
 
 Vorticity, vorticity_gauss = calculate_vorticity(u, v)
 
-if u.shape[0] % 2 != 0:
-    Vorticity = np.nan_to_num(Vorticity)
-    Vorticity[int((Vorticity.shape[0]/2)),int((Vorticity.shape[1]/2))] = 0
+# if u.shape[0] % 2 != 0:
+#     Vorticity = np.nan_to_num(Vorticity)
+#     Vorticity[int((Vorticity.shape[0]/2)),int((Vorticity.shape[1]/2))] = 0
 
 # Vorticity= gaussian_filter(Vorticity, sigma = 1)
 
@@ -186,3 +186,26 @@ plt.show()
 
 sVorticity = sum_Vorticity(u, v)
 print(sVorticity)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

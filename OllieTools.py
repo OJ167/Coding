@@ -326,7 +326,7 @@ def vorticityPeakTracking(u, v, l = 0):
     vorticity, vort_gauss = calculate_vorticity(u, v)
     VortLocMax = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
     VortLocMin = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
-    
+
     if l == 0:
         l = vort_gauss.shape[0]
     elif l > vort_gauss.shape[0]:
@@ -336,6 +336,13 @@ def vorticityPeakTracking(u, v, l = 0):
         vortTemp = vort_gauss[i, :, :]
         VortLocMax[i,:] = np.argwhere(vortTemp == np.max(vortTemp))
         VortLocMin[i,:] = np.argwhere(vortTemp == np.min(vortTemp))
+        # VortLocMax[i,:] = np.argwhere(np.max(vortTemp))
+        # VortLocMax[i,:] = np.argmax(vortTemp)
+        # VortLocMin[i,:] = np.argmin(vortTemp)
+        # VortLocMin[i,:] = np.argwhere(np.min(vortTemp))
+
+
+
 
     return VortLocMax, VortLocMin
 
@@ -820,11 +827,11 @@ def animate_cube_quiver(
     vmax = np.max(np.abs(V))
     def animate(i):
         ax.clear()
-        ax.contourf(u_az[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        # ax.contourf(u_az[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
         # ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
         ax.quiver(u[i,:,:], v[i,:,:], pivot="middle")
         ax.set_title("Time " + str("%.1f") %time[i])
-        # ax.set_title("%0.2d" % i)
+        ax.set_title("%0.2d" % i)
         # ax.set_xlabel("z/D")
         # ax.set_ylabel("r/D")
 
