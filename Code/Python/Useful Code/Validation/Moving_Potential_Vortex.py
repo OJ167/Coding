@@ -180,13 +180,13 @@ plt.grid(True)
 # plt.show()
 
 f3, ax3 = plt.subplots()
-ax3.quiver(X, Y, u[9,:,:], v[9,:,:], pivot = "middle")
+ax3.quiver(X, Y, u[7,:,:], v[7,:,:], pivot = "middle")
 # plt.show()
 
 vort, vortG = oj.calculate_vorticity(u, v)
 
 f4, ax4 = plt.subplots()
-ax4.imshow(vort[9,:,:])
+ax4.imshow(vort[7,:,:])
 # plt.show()
 
 VortLocMax, VortLocMin = vorticityPeakTracking(u, v)
@@ -234,13 +234,40 @@ u_az = 0
 oj.animate_cube_quiver(u, v, u_az, interval=11.1, cmap="bwr", save=0, output="15.mp4", Dir="C:/Users/u2088308/Videos", name="vid.mp4", fps=90, scale = 1, fsize = (19, 12))
 
 
+#TRYING SAM'S CODE - xNew, yNew are x and y coords of vortex centre for a single frame, vorticity is vorticity, and smooth has been filtered.
 xNew, yNew, vorticity, vortSmooth = find_vortex_center_Vorticity(u[7,:,:], v[7,:,:], guass = 3, range = 3)
 
+print(xNew, yNew)
 
-vortMax = np.zeros((u.shape[0],u.shape[1],u.shape[2]))
+#creating a new 3d variable for vortex location
+xMax = np.zeros((u.shape[0], 1))
+yMax = np.zeros((u.shape[0], 1))
+print(xMax.shape)
 
 for i in range(time):
-    vortMax, yNew, vorticity, vortSmooth = find_vortex_center_Vorticity(u[i,:,:], v[i,:,:], guass = 3, range = 3)
+    xMax[i,:], yMax[i,:], vorticity, vortSmooth = find_vortex_center_Vorticity(u[i,:,:], v[i,:,:], guass = 3, range = 10)
 
-print(xNew)
-print(vortMax)
+
+print(xMax[7,:])
+print(yMax[7,:])
+
+
+f4, axs = plt.subplots(2, 2, sharex=True, sharey=True)
+axs[0,0].contourf(vort[0,:,:])
+axs[0,0].plot(xMax[0,0], yMax[0,0])
+axs[0,1].contourf(vort[3,:,:])
+axs[0,1].scatter(VortLocMin[:,0],VortLocMin[:,1])
+axs[1,0].contourf(vort[6,:,:])
+axs[1,0].scatter(VortLocMin[6,0],VortLocMin[6,1])
+axs[1,1].contourf(vort[9,:,:])
+axs[1,1].scatter(VortLocMin[9,1],VortLocMin[9,0])
+axs[0,0].set_title("vorticity frame 0")
+axs[0,1].set_title("vorticity frame 3")
+axs[1,0].set_title("vorticity frame 6")
+axs[1,1].set_title("vorticity frame 9")
+plt.legend()
+
+f1, ax1 = plt.subplots()
+ax1.plot(xMax[:,0])#, yMax[:,0])
+ax1.plot(VortLocMin[:,1])
+plt.show()
