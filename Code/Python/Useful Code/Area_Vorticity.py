@@ -389,5 +389,27 @@ plt.show()
 # ax11.plot(r_nd, v12mean[440, :, 18], label = "4 Seconds")
 # ax11.plot(r_nd, v12mean[530, :, 18], label = "5 Seconds")
 # plt.legend()
+
+
+
+Enstmin = min(np.min(Enst0), np.min(Enst12))
+Enstmax = max(np.max(Enst0), np.max(Enst12))
+norme = colors.TwoSlopeNorm(vmin=0,vcenter= (Enstmax/2), vmax=Enstmax)
+
+Vortmin = min(np.min(Vorticity0), np.min(Vorticity12))
+Vortmax = max(np.max(Vorticity0), np.max(Vorticity12))
+normv = colors.TwoSlopeNorm(vmin=Vortmin, vcenter=0, vmax=Vortmax)
+
+f1, ax = plt.subplots(2, 2)
+ax[0,0].imshow(Vorticity0[400,:,:], norm=normv, cmap = "seismic")
+ax[0,0].set_title("0RPM Vorticity")
+ax[0,1].imshow(Enst0[400,:,:], norm=norme, cmap = "seismic")
+ax[0,1].set_title("0RPM Enstrophy")
+ax[1,0].imshow(Vorticity12[400,:,:], norm=normv, cmap = "seismic")
+ax[1,0].set_title("12RPM Vorticity")
+ax[1,1].imshow(Enst12[400,:,:], norm=norme, cmap = "seismic")
+ax[1,1].set_title("12RPM Enstrophy")
+plt.suptitle("frame 400")
+# plt.colorbar(cmap = "seismic")
 plt.show()
 

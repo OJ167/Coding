@@ -14,20 +14,33 @@ plt.style.use(["science", "vibrant", "no-latex"])
 
 from tkinter.filedialog import askdirectory
 
+def descend_obj(obj,sep='\t'):
+    """
+    Iterate through groups in a HDF5 file and prints the groups and datasets names and datasets attributes
+    """
+    if type(obj) in [h5py._hl.group.Group,h5py._hl.files.File]:
+        for key in obj.keys():
+            print(sep,'-',key,':',obj[key])
+            descend_obj(obj[key],sep=sep+'\t')
+    elif type(obj)==h5py._hl.dataset.Dataset:
+        for key in obj.attrs.keys():
+            print(sep+'\t','-',key,':',obj.attrs[key])
 
 ################ To load in. move this to another file 
 
-# h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
-h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
+h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
 
-# vels = h5file['Narrow']['U100']['L100']['RPM12']
-vels = h5file['3D0']['U100']['L100']['RPM3']
+vels = h5file['Narrow']['U100']['L100']['RPM12']
+# vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
 umean = np.mean(u, axis=0)
 vmean = np.mean(v, axis=0)
 
+
+descend_obj(h5file)
 
 
 f1, (ax1) = plt.subplots(nrows=1, ncols=1)

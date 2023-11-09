@@ -17,17 +17,17 @@ from scipy.interpolate import RectBivariateSpline
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-
-
-####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
+
+
+####Import Ollie Tools MAC
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -148,8 +148,10 @@ u = np.empty((time, num_points, num_points))
 v = np.empty((time, num_points, num_points))
 
 
+xlist = []
 for i in range(time):
-    x0 = x_min + 2*i
+    x0 = -5 + i
+    xlist.append(x0)
     # y0 = y_min + 2*i
     # Calculate velocity components due to the vortex
     u[(i),:,:] =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
@@ -268,6 +270,15 @@ axs[1,1].set_title("vorticity frame 9")
 plt.legend()
 
 f1, ax1 = plt.subplots()
-ax1.plot(xMax[:,0])#, yMax[:,0])
-ax1.plot(VortLocMin[:,1])
+ax1.plot(xMax[:], label = "new method")#, yMax[:,0])
+ax1.plot(VortLocMin[:,1], label = "old method")
+ax1.plot(xlist[:], label = "x0")
+plt.legend()
+
+
+
+
+f2, ax2 = plt.subplots()
+ax2.contourf(u[5,:,:])
+plt.legend()
 plt.show()
