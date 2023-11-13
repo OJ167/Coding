@@ -136,7 +136,7 @@ def find_vortex_center_Vorticity(u, v, guass = 3, range = 3):
 time = 10 # Number of time steps
 Gamma = 1.0  # Circulation strength of the vortex
 x0, y0 = 0, 0  # Vortex center coordinates
-
+x0 = 
 
 # Grid parameters
 x_min, x_max, y_min, y_max = -10, 10, -10, 10
@@ -150,7 +150,7 @@ v = np.empty((time, num_points, num_points))
 
 xlist = []
 for i in range(time):
-    x0 = -5 + i
+    # x0 = -5 + i
     xlist.append(x0)
     # y0 = y_min + 2*i
     # Calculate velocity components due to the vortex

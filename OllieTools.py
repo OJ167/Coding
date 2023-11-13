@@ -15,7 +15,7 @@ import concurrent.futures
 from scipy.fft import fft2,fftshift, ifft2, fft, fftfreq, ifft
 import mat73
 import pathlib
-
+from scipy.interpolate import RectBivariateSpline
 
 
 #####Import Ollie Tools
@@ -323,6 +323,17 @@ def vorticity_animation(u, v):
 
 
 def vorticityPeakTracking(u, v, l = 0):
+    """
+     Finds the center of a vortex in a 2D velocity field using the local maximum enstrophy field.
+    It does this for each time step in a field of length u.shape[0]
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as an array of (y, x) coordinates.   
+    """
     vorticity, vort_gauss = calculate_vorticity(u, v)
     VortLocMax = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
     VortLocMin = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
@@ -336,13 +347,6 @@ def vorticityPeakTracking(u, v, l = 0):
         vortTemp = vort_gauss[i, :, :]
         VortLocMax[i,:] = np.argwhere(vortTemp == np.max(vortTemp))
         VortLocMin[i,:] = np.argwhere(vortTemp == np.min(vortTemp))
-        # VortLocMax[i,:] = np.argwhere(np.max(vortTemp))
-        # VortLocMax[i,:] = np.argmax(vortTemp)
-        # VortLocMin[i,:] = np.argmin(vortTemp)
-        # VortLocMin[i,:] = np.argwhere(np.min(vortTemp))
-
-
-
 
     return VortLocMax, VortLocMin
 
@@ -1040,7 +1044,7 @@ def find_vortex_center_Vorticity(u, v, guass = 3, range = 3):
     dvdx = np.gradient(v, axis=1)
     dudy = np.gradient(u, axis=0)
     
-    vorticity = (0.5 * (dvdx - dudy))
+    vorticity = (dvdx - dudy)
     vortSmooth = np.abs(ndimage.gaussian_filter(vorticity, guass))
 
     MaxLoc = np.argwhere(vortSmooth == np.max(vortSmooth))[0]
@@ -1056,3 +1060,147 @@ def find_vortex_center_Vorticity(u, v, guass = 3, range = 3):
         xNew = MaxLoc[1]-range + np.argwhere(SectDetailed == np.max(SectDetailed))[0][1] * scale
 
     return xNew, yNew, vorticity, vortSmooth
+
+def find_vortex_Max_center(vorticity, guass = 3, range = 3):
+    """
+    Finds the center of a vortex in a 2D velocity field using the vorticity field and interpolating the maxima location using a 2nd order bilinear polynomial fit at a resolution of 100* the original.
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as a tuple of (x, y) coordinates.
+    """
+    scale = 0.05
+
+    vortSmooth = ndimage.gaussian_filter(vorticity, guass)
+
+    MaxLoc = np.argwhere(vortSmooth == np.max(vortSmooth))[0]
+    if MaxLoc[0] < 5 or MaxLoc[0] > vorticity.shape[0] - 5 or MaxLoc[1] < 5 or MaxLoc[1] > vorticity.shape[1] - 5:
+        xNew, yNew = 0, 0
+    else:
+        Sect = vortSmooth[MaxLoc[0]-range:MaxLoc[0]+range+1, MaxLoc[1]-range:MaxLoc[1]+range+1]
+        SplineSect = RectBivariateSpline(np.arange(Sect.shape[-2]), np.arange(Sect.shape[-1]), Sect, kx = 2, ky = 2)
+        SectDetailed = SplineSect(np.arange(0, Sect.shape[-2]-1, scale), np.arange(0, Sect.shape[-1]-1, scale), grid=True)
+        yNew = MaxLoc[0]-range + np.argwhere(SectDetailed == np.max(SectDetailed))[0][0] * scale
+        xNew = MaxLoc[1]-range + np.argwhere(SectDetailed == np.max(SectDetailed))[0][1] * scale
+
+    return yNew ,xNew
+
+def find_vortex_Min_center(vorticity, guass = 3, range = 3):
+    """
+    Finds the center of a vortex in a 2D velocity field using the vorticity field and interpolating the maxima location using a 2nd order bilinear polynomial fit at a resolution of 100* the original.
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as a tuple of (x, y) coordinates.
+    """
+    scale = 0.05
+    vortSmooth = ndimage.gaussian_filter(vorticity, guass)
+
+    MinLoc = np.argwhere(vortSmooth == np.min(vortSmooth))[0]
+    if MinLoc[0] < 5 or MinLoc[0] > vorticity.shape[0] - 5 or MinLoc[1] < 5 or MinLoc[1] > vorticity.shape[1] - 5:
+        xNew, yNew = 0, 0
+    else:
+        Sect = vortSmooth[MinLoc[0]-range:MinLoc[0]+range+1, MinLoc[1]-range:MinLoc[1]+range+1]
+        SplineSect = RectBivariateSpline(np.arange(Sect.shape[-2]), np.arange(Sect.shape[-1]), Sect, kx = 2, ky = 2)
+        SectDetailed = SplineSect(np.arange(0, Sect.shape[-2]-1, scale), np.arange(0, Sect.shape[-1]-1, scale), grid=True)
+        yNew = MinLoc[0]-range + np.argwhere(SectDetailed == np.min(SectDetailed))[0][0] * scale
+        xNew = MinLoc[1]-range + np.argwhere(SectDetailed == np.min(SectDetailed))[0][1] * scale
+
+    return  yNew ,xNew
+
+
+
+
+def vorticityPeakTracking_inter(u, v, l = 0):
+    """
+    Finds the center of a vortex in a 2D velocity field using the vorticity field and interpolating the maxima location using a 2nd order bilinear polynomial fit at a resolution of 100* the original.
+    It does this for each time step in a field of length u.shape[0]
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as an array of (y, x) coordinates.
+    """
+    
+    vorticity, vort_gauss = calculate_vorticity(u, v)
+    VortLocMax = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
+    VortLocMin = np.zeros((vort_gauss.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
+
+    if l == 0:
+        l = vort_gauss.shape[0]
+    elif l > vort_gauss.shape[0]:
+        l = vort_gauss.shape[0]
+    
+    for i in range(l):
+        vortTemp = vort_gauss[i, :, :]
+        VortLocMax[i,:] = find_vortex_Max_center(vortTemp)
+        VortLocMin[i,:] = find_vortex_Min_center(vortTemp)
+    
+    return VortLocMax, VortLocMin
+
+
+
+def enstrophyPeakTracking(u, v, l = 0):
+    """
+     Finds the center of a vortex in a 2D velocity field using the local maximum enstrophy field.
+    It does this for each time step in a field of length u.shape[0]
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the vortex, as an array of (y, x) coordinates.   
+    """
+    vorticity, vort_gauss = calculate_vorticity(u, v)
+    enstrophy = np.square(vort_gauss)
+    EnstLocMax = np.zeros((enstrophy.shape[0], 2)) #same length in time as enstrophy field, 2 rows - 0 for y, 1 for x
+
+    if l == 0:
+        l = enstrophy.shape[0]
+    elif l > enstrophy.shape[0]:
+        l = enstrophy.shape[0]
+    
+    for i in range(l):
+        enstTemp = enstrophy[i, :, :]
+        EnstLocMax[i,:] = np.argwhere(enstTemp == np.max(enstTemp))
+
+    return EnstLocMax
+
+def enstrophyPeakTracking_inter(u, v, l = 0):
+    """
+    Finds the center of a vortex in a 2D velocity field using the enstrophy field and interpolating the maxima location using a 2nd order bilinear polynomial fit at a resolution of 100* the original.
+    It does this for each time step in a field of length u.shape[0]
+
+    Args:
+        u: The x-component of the velocity field.
+        v: The y-component of the velocity field.
+
+    Returns:
+        The center of the peak enstrophy, as an array of (y, x) coordinates.
+    """
+    
+    vorticity, vort_gauss = calculate_vorticity(u, v)
+    enstrophy = np.square(vort_gauss)
+    EnstLocMax = np.zeros((enstrophy.shape[0], 2)) #same length in time as vorticity field, 2 rows - 0 for y, 1 for x
+
+    if l == 0:
+        l = enstrophy.shape[0]
+    elif l > enstrophy.shape[0]:
+        l = enstrophy.shape[0]
+    
+    for i in range(l):
+        EnstTemp = enstrophy[i, :, :]
+        EnstLocMax[i,:] = find_vortex_Max_center(EnstTemp)
+
+    
+    return EnstLocMax
+
