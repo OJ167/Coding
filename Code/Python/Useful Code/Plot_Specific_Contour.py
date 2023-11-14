@@ -60,11 +60,21 @@ contour_value = [-0.5, 0.5]
 
 contours = plt.contour(z_nd, r_nd, vortGauss[300,:,:], contour_value, colors='black')
 plt.clabel(contours, inline=True, fontsize=8)
+# plt.set_xlabel
 
-plt.contourf(u[300,:,:], extent=[z_nd[0], z_nd[-1], r_nd[0], r_nd[-1]], cmap='bwr')
+plt.contourf(vortGauss[300,:,:], extent=[z_nd[0], z_nd[-1], r_nd[0], r_nd[-1]], cmap='bwr')
 plt.colorbar()
 
 plt.show()
 
-contour_points = contours.get_paths()[0].vertices
-contour_points = sorted(contour_points, key=lambda point: point[0])
+# contour_points = contours.get_paths()[0].vertices
+# contour_points = sorted(contour_points, key=lambda point: point[0])
+
+# for item in contours.collections:
+#    for i in item.get_paths():
+#       v = i.vertices
+#       x = v[:, 0]
+#       y = v[:, 1]
+#       print(x, y)
+
+# vertices = contours.allsegs[contour_value][j]

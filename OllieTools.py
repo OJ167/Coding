@@ -1018,9 +1018,9 @@ def binCylindrical(r, theta, U_r, U_az, thetaBins = 18, rBins = 36):
     for thetaVal in range(thetaBins-1):
         # print(thetaVal)
         for rVal in range(rBins-1):
-            print(rVal)
+            # print(rVal)
             mask = np.where((theta > (-np.pi + (2 * np.pi) * thetaVal / thetaBins)) | (theta < -np.pi + (2 * np.pi) * (thetaVal + 1) / thetaBins) | (r > np.max(r) * rVal / rBins) | (r < np.max(r) * (rVal + 1) / rBins))
-            print(U_r[mask])
+            # print(U_r[mask])
             U_rBins[rVal, thetaVal] = np.mean(U_r[mask])
             # print(np.mean(U_r[mask]))
             U_azBins[rVal, thetaVal] = np.mean(U_az[mask])
@@ -1201,6 +1201,12 @@ def enstrophyPeakTracking_inter(u, v, l = 0):
         EnstTemp = enstrophy[i, :, :]
         EnstLocMax[i,:] = find_vortex_Max_center(EnstTemp)
 
-    
+    f1, ax1 = plt.subplots()
+
     return EnstLocMax
 
+def Re(Upiston):
+    d = 0.05  # Diameter of hole
+    vk = 0.000001  # Kinematic viscosity
+    Re = (Upiston/1000) * d / vk
+    return Re

@@ -136,7 +136,7 @@ def find_vortex_center_Vorticity(u, v, guass = 3, range = 3):
 time = 10 # Number of time steps
 Gamma = 1.0  # Circulation strength of the vortex
 x0, y0 = 0, 0  # Vortex center coordinates
-x0 = 
+x0 = [-5, -3, -1, 0, 1, 3, 5, 5, 5, 5, 5]
 
 # Grid parameters
 x_min, x_max, y_min, y_max = -10, 10, -10, 10
@@ -151,11 +151,13 @@ v = np.empty((time, num_points, num_points))
 xlist = []
 for i in range(time):
     # x0 = -5 + i
-    xlist.append(x0)
+    # xlist.append(x0)
     # y0 = y_min + 2*i
     # Calculate velocity components due to the vortex
-    u[(i),:,:] =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
-    v[(i),:,:] = -(Gamma / (2 * np.pi)) * (X - x0) / ((X - x0)**2 + (Y - y0)**2)
+    # u[(i),:,:] =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
+    # v[(i),:,:] = -(Gamma / (2 * np.pi)) * (X - x0) / ((X - x0)**2 + (Y - y0)**2)
+    u[(i),:,:] =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0[i])**2 + (Y - y0)**2)
+    v[(i),:,:] = -(Gamma / (2 * np.pi)) * (X - x0[i]) / ((X - x0[i])**2 + (Y - y0)**2)
 
 
 if u.shape[1] % 2 != 0:
@@ -170,7 +172,7 @@ if u.shape[1] % 2 != 0:
 plt.streamplot(X, Y, u[9,:,:], v[9,:,:], density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="b")
 
 # Plot the vortex center
-plt.plot(x0, y0, 'ro')  # Red dot for the vortex center
+plt.plot(x0[9], y0, 'ro')  # Red dot for the vortex center
 
 # Set plot limits and labels
 plt.xlim(x_min, x_max)
