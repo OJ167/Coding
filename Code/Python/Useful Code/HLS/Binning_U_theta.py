@@ -32,7 +32,7 @@ print(dirPath)
 
 h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
 
-vels = h5file['3D0']['U100']['L100']['RPM6']
+vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -49,7 +49,7 @@ r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[1400,:,:], v
 r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=5, rBins=5)
 
 f1, (ax1, ax2) = plt.subplots(ncols=2)
-ax1.plot(U_az[ 35, :])
-ax2.plot(U_r[ 35, :])
-# ax2.plot(u[800, 35, :])
+ax1.plot(U_az[ :, 55])
+# ax2.plot(U_r[ 35, :])
+ax2.plot(u[800, :, 55])
 plt.show()

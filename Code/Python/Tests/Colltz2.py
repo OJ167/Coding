@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.fft as sp
 
 # input_number = 27
-input_range = 10000000
+input_range = 100000
 steps = 0
 answer_list = []
 

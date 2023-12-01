@@ -42,7 +42,7 @@ def sum_VelocityR(U_r, U_az):
     return sum_Velocity_Radial, sum_Velocity_Azimuthal
 
 
-h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
+h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
 
 RPM = ['0', '1', '2', '3', '6', '9', '12']
 

@@ -14,16 +14,16 @@ import matplotlib.cm
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
+dirPath = "C:/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 
 ####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
 print(dirPath)
 
 ##### Set plot style #####
@@ -33,37 +33,37 @@ cmap = plt.get_cmap("jet_r")
 Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[1])]
 u1mean = vels[:,:,:,0]
 v1mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[2])]
 u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[3])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[4])]
 u6mean = vels[:,:,:,0]
 v6mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[5])]
 u9mean = vels[:,:,:,0]
 v9mean = vels[:,:,:,1]
 
-h5file = h5py.File('/Volumes/T7/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[6])]
 u12mean = vels[:,:,:,0]
 v12mean = vels[:,:,:,1]
@@ -93,4 +93,18 @@ ax[0,0].contourf(z_nd, r_nd, iw20[600,:,:], cmap = 'bwr')
 ax[0,1].contourf(z_nd, r_nd, iw40[600,:,:], cmap = 'bwr')
 ax[1,0].contourf(z_nd, r_nd, iw60[600,:,:], cmap = 'bwr')
 ax[1,1].contourf(z_nd, r_nd, iw80[600,:,:], cmap = 'bwr')
+# plt.show()
+
+h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
+vels = h5file['3D0']['U100']['L100']['RPM12']
+u12mean = vels[:,:,:,0]
+v12mean = vels[:,:,:,1]
+
+iw = oj.IWFilter(u12mean, 80, 150, 12)
+
+f3, ax3 = plt.subplots()
+ax3.imshow(iw[2000,:,:], cmap = 'bwr')
+ax3.set_xlabel("x/D")
+ax3.set_ylabel("y/D")
 plt.show()
+

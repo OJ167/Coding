@@ -86,7 +86,7 @@ ax[0,1].set_title("Frame 1000")
 ax[1,0].set_title("Frame 1200")
 ax[1,1].set_title("Frame 1400")
 plt.legend()
-plt.show()
+# plt.show()
 
 
 # f3, ax3 = plt.subplots()
@@ -108,35 +108,38 @@ def create_Mean(
 ):
     ######## Importing multiple rings #####
     # n = 20
-    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
+    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export_fine.mat")
     print(str(Dir), "\r")
     u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
     v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
+    # u = np.zeros([2999,149,239])
+    # v = np.zeros([2999,149,239])
+
 
     for i in range(1, n+1):
-        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export_fine.mat")
         oj.progressBar(i, n)
 
     u_mean = np.mean(u[1:], 0)
     v_mean = np.mean(v[1:], 0)
-    u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
+    u_mean, v_mean = gaussian_filter(u_mean, sigma=1.4), gaussian_filter(v_mean, sigma=1.4)
 
     return u_mean, v_mean, u, v
 
-# u_mean20, v_mean20, u, v = create_Mean(19, "G:/Testing/3Do/RPM-0.0__Upiston-100__Stroke-100/2023-09-21__FPS-150/")
+u_mean20, v_mean20, u, v = create_Mean(10, "F:/Testing/3Do/RPM-3.0__Upiston-100__Stroke-100/2023-09-18__FPS-150/")
 
-# f1, ax = plt.subplots(2, 2, sharex=True, sharey=True)
-# plt.suptitle("20 ring mean")
-# ax[0,0].quiver(u_mean20[800,:,:],  v_mean20[800,:,:])
-# ax[0,1].quiver(u_mean20[1000,:,:], v_mean20[1000,:,:])
-# ax[1,0].quiver(u_mean20[1200,:,:], v_mean20[1200,:,:])
-# ax[1,1].quiver(u_mean20[1400,:,:], v_mean20[1800,:,:])
-# ax[0,0].set_title("Frame 800")
-# ax[0,1].set_title("Frame 1000")
-# ax[1,0].set_title("Frame 1200")
-# ax[1,1].set_title("Frame 1400")
-# plt.legend()
-# # plt.show()
+f1, ax = plt.subplots(2, 2, sharex=True, sharey=True)
+plt.suptitle("20 ring mean")
+ax[0,0].quiver(u_mean20[800,:,:],  v_mean20[800,:,:])
+ax[0,1].quiver(u_mean20[1000,:,:], v_mean20[1000,:,:])
+ax[1,0].quiver(u_mean20[1200,:,:], v_mean20[1200,:,:])
+ax[1,1].quiver(u_mean20[1400,:,:], v_mean20[1800,:,:])
+ax[0,0].set_title("Frame 800")
+ax[0,1].set_title("Frame 1000")
+ax[1,0].set_title("Frame 1200")
+ax[1,1].set_title("Frame 1400")
+plt.legend()
+plt.show()
 
 
 # u_mean10 = np.mean(u[1:10], 0)

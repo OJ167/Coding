@@ -617,9 +617,9 @@ def animate_cube_contourf_points(
 
     if save == 0:
         plt.show()
-    # else:
-    #     print("save loop")
-    #     anim.save(output, writer="ffmpeg", fps=fps, dpi=160)
+    else:
+        print("save loop")
+        anim.save(output, writer="ffmpeg", fps=fps, dpi=160)
 
     # writervideo = animation.FFMpegWriter(fps=60)
     # anim.save(output, writer=writervideo, dpi=160)
@@ -820,7 +820,7 @@ def animate_cube_quiver(
     # x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     x, y = np.meshgrid(np.arange(0, 111, 1), np.arange(0, 69, 1))
     V = np.sqrt((abs(u**2) + abs(v**2)))
-    r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
+    # r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
     time = oj.frames_to_seconds(u, v, fps)
 
     output = str(Dir) + str(name)
@@ -831,7 +831,7 @@ def animate_cube_quiver(
     vmax = np.max(np.abs(V))
     def animate(i):
         ax.clear()
-        # ax.contourf(u_az[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        ax.contourf(u_az[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
         # ax.quiver(z_nd, r_nd, u[i,:,:], v[i,:,:], pivot="middle")
         ax.quiver(u[i,:,:], v[i,:,:], pivot="middle")
         ax.set_title("Time " + str("%.1f") %time[i])
@@ -890,39 +890,18 @@ def sum_Enstrophy(
     return sumEnstrophy
 
 
-
-
-
-
-    """
-    Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
-
-    INPUT:
-        u           : 3D Numpy tensor containing velocity data, has not been scaled.
-        v           : 3D Numpy tensor containing velocity data, has not been scaled.
-
-    OUTPUT:
-        u           : 3D Numpy tensor containing scaled velocity data.
-        v           : 3D Numpy tensor containing scaled velocity data.
-    """
-
-    factor = fps * heightImage / heightPixels
-    u = factor * u
-    v = factor * v
-    return u, v
-
 def create_Mean(
         n, Dir
 ):
     ######## Importing multiple rings #####
     # n = 10
-    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
+    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export_fine.mat")
     print(str(Dir), "\r")
     u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
     v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
 
     for i in range(1, n+1):
-        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export_fine.mat")
         oj.progressBar(i, n)
 
     u_mean = np.mean(u[1:], 0)
@@ -1201,8 +1180,6 @@ def enstrophyPeakTracking_inter(u, v, l = 0):
         EnstTemp = enstrophy[i, :, :]
         EnstLocMax[i,:] = find_vortex_Max_center(EnstTemp)
 
-    f1, ax1 = plt.subplots()
-
     return EnstLocMax
 
 def Re(Upiston):
@@ -1210,3 +1187,41 @@ def Re(Upiston):
     vk = 0.000001  # Kinematic viscosity
     Re = (Upiston/1000) * d / vk
     return Re
+
+
+def animate_cube_contourf_line(
+    cube_array, EnstLocMax, interval=17, cmap="seismic", save=0, output="line.mp4", fps=60, scale = 1, fsize = (10, 8), 
+):
+
+    """
+    animates a numpy 3D Array for quick visualisation (specific to contourf). This function animates the velocity field with line indicating location of highest enstrophy.
+
+    INPUT:
+        cube_array  : name of 3D numpy array that needs to be animated.
+        interval    : #of ms between each frame.
+        cmap        : colormap. Default='seismic'
+
+    OUTPUT:
+        animated window going through the cube.
+
+    """
+    print("Start")
+    fig, ax1 = plt.subplots(nrows = 1, ncols = 1, figsize=fsize, sharex = True, sharey = True)
+    vmin = -np.max(np.abs(cube_array))
+    vmax = np.max(np.abs(cube_array))
+    def animate(i):
+        ax1.clear()
+        ax1.contourf(cube_array[i, :, :], cmap=cmap, levels = np.linspace(scale*vmin,scale*vmax,20))
+        ax1.vlines(EnstLocMax[i,1], ymin = 0, ymax = (cube_array.shape[1]-1), colors='g', linestyles='dashed')
+        ax1.scatter(EnstLocMax[i,1], EnstLocMax[i,0], color = 'k')
+        ax1.set_title("%03d" % (i))
+    print("2")
+    anim = animation.FuncAnimation(
+        fig, animate, frames=cube_array.shape[0], interval=interval, blit=False
+    )
+
+    if save == 0:
+        plt.show()
+    else:
+        print("save loop")
+        anim.save(output, writer="ffmpeg", fps=fps, dpi=160)

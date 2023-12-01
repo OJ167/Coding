@@ -32,8 +32,8 @@ def descend_obj(obj,sep='\t'):
 # u, v = oj.importData73(str(dir + '/Data/PIV_export.mat'))
 
 #### 0 RPM ####
-Dir  = "F:/Testing/3Do/RPM-0.0__Upiston-100__Stroke-100/2023-09-21__FPS-150/"
-umean, vmean = oj.create_Mean(19, Dir) 
+# Dir  = "F:/Testing/3Do/RPM-0.0__Upiston-100__Stroke-100/2023-09-21__FPS-150/"
+# umean, vmean = oj.create_Mean(19, Dir) 
 
 #### 1 RPM ####
 # Dir  = "F:/Testing/3Do/RPM-1.0__Upiston-100__Stroke-100/2023-09-22__FPS-150/"
@@ -56,8 +56,8 @@ umean, vmean = oj.create_Mean(19, Dir)
 # umean, vmean = oj.create_Mean(10, Dir) 
 
 #### 12 RPM ####
-# Dir = "F:/Testing/3Do/RPM-12.0__Upiston-100__Stroke-100/2023-09-20__FPS-150/"
-# umean, vmean = oj.create_Mean(10, Dir) 
+Dir = "F:/Testing/3Do/RPM-12.0__Upiston-100__Stroke-100/2023-09-20__FPS-150/"
+umean, vmean = oj.create_Mean(10, Dir) 
 
 
 
@@ -68,19 +68,19 @@ umean, vmean = oj.create_Mean(19, Dir)
 Vels = np.stack((umean, vmean), axis=-1)
 
 ## Use this to write ‘w’
-# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'w')
+# h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'w')
 
 # ### Use this to append ‘a’
-# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'a')
+h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'a')
 
 ############# these exist to correct incorrectly saved data and comment out the create_dataset line
-h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r+')
-data = h5file['3D0/U100/L100/RPM0']
-data[...] = Vels
+# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r+')
+# data = h5file['3D0/U100/L100/RPM0']
+# data[...] = Vels
 
 
 
-# h5file.create_dataset('3D0/U100/L100/RPM0', data=Vels)
+h5file.create_dataset('3D0/U100/L100/RPM12', data=Vels)
 
 descend_obj(h5file)
 
