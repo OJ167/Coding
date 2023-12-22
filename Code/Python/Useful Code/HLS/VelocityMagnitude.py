@@ -42,11 +42,13 @@ def sum_VelocityR(U_r, U_az):
     return sum_Velocity_Radial, sum_Velocity_Azimuthal
 
 
-h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
+# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
+h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'r')
 
 RPM = ['0', '1', '2', '3', '6', '9', '12']
 
-vels = h5file['3D0']['U100']['L100']['RPM' + str(RPM[6])]
+# vels = h5file['3D0']['U100']['L100']['RPM' + str(RPM[6])]
+vels = h5file['3D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -70,7 +72,7 @@ ax1.plot(time, sEk)
 ax1.set_xlabel("Time [s]")
 ax1.set_ylabel("$\Sigma$ Ek")
 
-
+frame = 940
 
 
 x = 55
@@ -79,7 +81,7 @@ x = np.linspace(0 , u.shape[2], u.shape[2])
 y = np.linspace(0 , u.shape[1], u.shape[1])
 X, Y = np.meshgrid(x, y) 
 
-r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[1900,:,:], v[1900,:,:])
+r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(55, 35, x, y, u[frame,:,:], v[frame,:,:])
 
 
 f2, ax2 = plt.subplots()
@@ -100,9 +102,9 @@ for i in range(u.shape[0]):
 
 
 f2, ax2 = plt.subplots()
-ax2.quiver(x, y, U_r[1900,:,:], U_az[1900,:,:])
+ax2.quiver(x, y, U_r[frame,:,:], U_az[frame,:,:])
 plt.title("i quiver")
-plt.show()
+# plt.show()
 
 sU_r, sU_az = sum_VelocityR(u, v)
 print(sU_az[:])

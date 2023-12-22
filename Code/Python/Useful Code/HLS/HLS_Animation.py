@@ -34,10 +34,10 @@ cmap = plt.get_cmap("jet_r")
 
 
 # h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
-
-# vels = h5file['3D0']['U100']['L100']['RPM0']
-# u = vels[:,:,:,0]
-# v = vels[:,:,:,1]
+h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'r')
+vels = h5file['3D0']['U100']['L50']['RPM0']
+u_mean = vels[:,:,:,0]
+v_mean = vels[:,:,:,1]
 
 
 
@@ -123,7 +123,7 @@ def create_Mean(
 
     return u_mean, v_mean, u, v
 
-u_mean, v_mean, u, v = create_Mean(10, "F:/Testing/3Do/RPM-3.0__Upiston-100__Stroke-100/2023-09-18__FPS-150/")
+# u_mean, v_mean, u, v = create_Mean(10, "F:/Testing/3Do/RPM-3.0__Upiston-100__Stroke-100/2023-09-18__FPS-150/")
 
 # x = u_mean.shape[2]/2
 # y = u_mean.shape[1]/2

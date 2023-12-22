@@ -32,7 +32,7 @@ def descend_obj(obj,sep='\t'):
 h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'r')
 
 # vels = h5file['Narrow']['U100']['L100']['RPM12']
-vels = h5file['3D0']['U100']['L100']['RPM0']
+vels = h5file['3D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -64,7 +64,7 @@ plt.title("Axial Velocity Contour frame 300")
 
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
 f2, ax2 = plt.subplots(nrows=1, ncols=1)
-ax2. quiver(z_nd, r_nd, u[750,:,:], v[750,:,:])
+ax2. quiver(z_nd, r_nd, u[1000,:,:], v[1000,:,:])
 
 
 
