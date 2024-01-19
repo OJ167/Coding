@@ -43,7 +43,7 @@ def sum_VelocityR(U_r, U_az):
 
 
 # h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
-h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
 RPM = ['0', '1', '2', '3', '6', '9', '12']
 
@@ -72,7 +72,7 @@ ax1.plot(time, sEk)
 ax1.set_xlabel("Time [s]")
 ax1.set_ylabel("$\Sigma$ Ek")
 
-frame = 940
+frame = 800
 
 
 x = 55
