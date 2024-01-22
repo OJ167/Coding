@@ -101,7 +101,7 @@ p = np.poly1d(np.polyfit(r2, U_az2, 11))(r2)
 max = np.argmax(p)
 
 
-f3, ax3 =plt.subplots()
+f3, ax3 = plt.subplots()
 ax3.scatter(r2*d, U_az2)
 ax3.set_xlabel("$r/d$")
 ax3.set_ylabel("$U_{az}$")
