@@ -48,7 +48,7 @@ h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 RPM = ['0', '1', '2', '3', '6', '9', '12']
 
 # vels = h5file['3D0']['U100']['L100']['RPM' + str(RPM[6])]
-vels = h5file['3D0']['U100']['L100']['RPM12']
+vels = h5file['3D0']['U100']['L100']['RPM0']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 

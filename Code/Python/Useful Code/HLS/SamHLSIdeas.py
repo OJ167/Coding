@@ -27,11 +27,12 @@ print(dirPath)
 # import OllieTools as oj
 # print(dirPath)
 
-
+oj.tic()
 # h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
 h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
-frame = 1000
+frame = 1200
+frametime = frame/150
 d = 0.1
 vels = h5file['3D0']['U100']['L100']['RPM9']
 u = vels[:,:,:,0]
@@ -68,22 +69,17 @@ f3, ax3 =plt.subplots()
 # ax3.scatter(r2*d, U_az2)
 ax3.plot(r2*d, pf)
 ax3.set_xlabel("$r/d$")
-ax3.set_ylabel("$U_{az}$")
+ax3.set_ylabel(r"$U_{az}$")
 
 f1, ax = plt.subplots(2, 2,)
 ax[0,0].scatter(r2*d, U_az)
-ax[0,0].set_title("U_az")
+ax[0,0].set_title(r"$U_{az}$")
 ax[0,1].scatter(r2*d, U_az2)
 ax[0,1].set_title("U_az2")
 ax[1,0].scatter(r2*d, pf)
 ax[1,0].set_title("Pf")
 ax[1,1].plot(r_arr, np.mean(U_azBins, axis = 1))
-ax[1,1].set_title("Uaz_bins")
-
-f2, ax2 = plt.subplots()
-ax2.imshow(U_azBins, cmap = "seismic")
-# plt.show()
-
+ax[1,1].set_title(r"$U_{az}$ bins")
 
 
 #### Averaging the value frame by frame and seeing what happens
@@ -102,28 +98,48 @@ for i in range(u.shape[0]):
     max = np.argmax(p)
     U_az_Mean[i] = np.mean(p)
     U_az_Peak[i] = np.max(p)
-
-print(U_az_Mean)
-print(U_az_Peak)
-
-f3, ax3 = plt.subplots()
-ax3.plot(U_az_Mean, label = "Uaz Mean")
-# ax3.set_label("Uaz Mean")
-ax3.plot(U_az_Peak, label = "Uaz Peak")
-# ax3.set_label()
-ax3.plot(r2*d, pf, label = "p")
-plt.legend()
+    radial_Position[i] = max
 
 
-
-
-f4, ax = plt.subplots(2, 2,)
+f4, ax = plt.subplots(2, 2)
 ax[0,0].plot(r2*d, pf)
-ax[0,0].set_title("U_az Polynomial - single frame")
+# ax[0,0].plot( pf)
+ax[0,0].set_title(r"$U_{az}$ Polynomial" + f" - Time = {frametime}")
+ax[0,0].set_xlabel("$r/d$")
+ax[0,0].set_ylabel(r"$U_{az}$")
 ax[0,1].plot(time, U_az_Mean)
-ax[0,1].set_title("Uaz Mean/time")
+ax[0,1].set_title(r"$U_{az}$ Mean/time")
+ax[0,1].set_xlabel("$Time [s]$")
+ax[0,1].set_ylabel(r"$\bar{U}_{az}$")
 ax[1,0].plot(time, U_az_Peak)
-ax[1,0].set_title("Uaz Peak/time")
-ax[1,1].plot()
-ax[1,1].set_title("U_az_Peak location")
+ax[1,0].set_title(r"$U_{az}$ Peak/time")
+ax[1,0].set_xlabel("$Time [s]$")
+ax[1,0].set_ylabel(r"$U_{az} Peak$")
+ax[1,1].plot(time, radial_Position)
+ax[1,1].set_title(r"$U_{az}$ Peak location")
+ax[1,1].set_xlabel("not defined")
+ax[1,1].set_ylabel("radial location")
+oj.toc()
+# plt.show()
+
+
+f5, ax = plt.subplots(2, 2)
+ax[0,0].plot(U_r)
+# ax[0,0].plot( pf)
+ax[0,0].set_title(r"$U_{az}$ Polynomial" + f" - Time = {frametime}")
+ax[0,0].set_xlabel("$r/d$")
+ax[0,0].set_ylabel(r"$U_{az}$")
+ax[0,1].plot(time, U_az_Mean)
+ax[0,1].set_title(r"$U_{az}$ Mean/time")
+ax[0,1].set_xlabel("$Time [s]$")
+ax[0,1].set_ylabel(r"$\bar{U}_{az}$")
+ax[1,0].plot(time, U_az_Peak)
+ax[1,0].set_title(r"$U_{az}$ Peak/time")
+ax[1,0].set_xlabel("$Time [s]$")
+ax[1,0].set_ylabel(r"$U_{az} Peak$")
+ax[1,1].plot(time, radial_Position)
+ax[1,1].set_title(r"$U_{az}$ Peak location")
+ax[1,1].set_xlabel("not defined")
+ax[1,1].set_ylabel("radial location")
 plt.show()
+
