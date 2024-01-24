@@ -31,10 +31,10 @@ oj.tic()
 # h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
 h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
-frame = 1200
+frame = 750
 frametime = frame/150
 d = 0.1
-vels = h5file['3D0']['U100']['L100']['RPM9']
+vels = h5file['3D0']['U100']['L100']['RPM6']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 h5file.close()
@@ -63,10 +63,11 @@ U_az2 = (U_az.flatten())[inds]
 pf = np.poly1d(np.polyfit(r2, U_az2, 11))(r2) #This turns the graph into a polynomial line
 # max = np.argmax(p)
 max = np.max(pf)
-print(max)
+print(pf.shape)
 
 f3, ax3 =plt.subplots()
 # ax3.scatter(r2*d, U_az2)
+plt.title(r"$U_{az}$ " + f"against Radius for frame {frame}")
 ax3.plot(r2*d, pf)
 ax3.set_xlabel("$r/d$")
 ax3.set_ylabel(r"$U_{az}$")
@@ -95,6 +96,7 @@ for i in range(u.shape[0]):
     r2 = (r.flatten())[inds]
     U_az2 = (U_az.flatten())[inds]
     p = np.poly1d(np.polyfit(r2, U_az2, 11))(r2) #This turns the graph into a polynomial line
+    # max = np.argmax(U_az2)
     max = np.argmax(p)
     U_az_Mean[i] = np.mean(p)
     U_az_Peak[i] = np.max(p)
@@ -102,6 +104,7 @@ for i in range(u.shape[0]):
 
 
 f4, ax = plt.subplots(2, 2)
+plt.suptitle("Azimuthal Velocity Graphs")
 ax[0,0].plot(r2*d, pf)
 # ax[0,0].plot( pf)
 ax[0,0].set_title(r"$U_{az}$ Polynomial" + f" - Time = {frametime}")
@@ -123,22 +126,54 @@ oj.toc()
 # plt.show()
 
 
+#################################################################################
+#### Radial flow Graphs:
+#################################################################################
+
+
+r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[frame,:,:], v_gaussian[frame,:,:])
+r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=30, rBins=45)
+inds = (r.flatten()).argsort()
+r2 = (r.flatten())[inds]
+U_r2 = (U_r.flatten())[inds]
+pr = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
+
+
+radial_Position = np.zeros(u.shape[0])
+U_r_Mean = np.zeros(u.shape[0])
+U_r_Peak = np.zeros(u.shape[0])
+
+for i in range(u.shape[0]):
+# for i in range(10): # for testing
+    r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[i,:,:], v_gaussian[i,:,:])
+    inds = (r.flatten()).argsort()
+    r2 = (r.flatten())[inds]
+    U_r2 = (U_r.flatten())[inds]
+    p = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
+    # max = np.argmax(U_az2)
+    max = np.argmax(p)
+    U_r_Mean[i] = np.mean(U_r2)
+    U_r_Peak[i] = np.max(U_r2)
+    radial_Position[i] = max
+
+
 f5, ax = plt.subplots(2, 2)
-ax[0,0].plot(U_r)
-# ax[0,0].plot( pf)
-ax[0,0].set_title(r"$U_{az}$ Polynomial" + f" - Time = {frametime}")
+plt.suptitle("Radial Velocity Graphs")
+# ax[0,0].plot(U_r2)
+ax[0,0].plot(pr)
+ax[0,0].set_title(r"$U_{r}$ Polynomial" + f" - Time = {frametime}")
 ax[0,0].set_xlabel("$r/d$")
-ax[0,0].set_ylabel(r"$U_{az}$")
-ax[0,1].plot(time, U_az_Mean)
-ax[0,1].set_title(r"$U_{az}$ Mean/time")
+ax[0,0].set_ylabel(r"$U_{r}$")
+ax[0,1].plot(time, U_r_Mean)
+ax[0,1].set_title(r"$U_{r}$ Mean/time")
 ax[0,1].set_xlabel("$Time [s]$")
-ax[0,1].set_ylabel(r"$\bar{U}_{az}$")
-ax[1,0].plot(time, U_az_Peak)
-ax[1,0].set_title(r"$U_{az}$ Peak/time")
+ax[0,1].set_ylabel(r"$\bar{U}_{r}$")
+ax[1,0].plot(time, U_r_Peak)
+ax[1,0].set_title(r"$U_{r}$ Peak/time")
 ax[1,0].set_xlabel("$Time [s]$")
-ax[1,0].set_ylabel(r"$U_{az} Peak$")
+ax[1,0].set_ylabel(r"$U_{r} Peak$")
 ax[1,1].plot(time, radial_Position)
-ax[1,1].set_title(r"$U_{az}$ Peak location")
+ax[1,1].set_title(r"$U_{r}$ Peak location")
 ax[1,1].set_xlabel("not defined")
 ax[1,1].set_ylabel("radial location")
 plt.show()

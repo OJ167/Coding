@@ -1251,3 +1251,71 @@ def toc(tempBool=True):
 def tic():
     # Records a time in TicToc, marks the beginning of a time interval
     toc(False)
+
+
+
+def filterTankRPM(u,v,fps,rpm):
+    filtfreq=(rpm*0.98)/60
+    thresh = 0.015
+    u_FFT = fft(u, axis=0)
+    v_FFT = fft(v, axis=0)
+    FFTFreq = fftfreq(u.shape[0], 1 / fps)
+    mask1 = np.where(np.logical_and(filtfreq-thresh<FFTFreq, filtfreq+thresh>FFTFreq))
+    mask2 = np.where(np.logical_and(-filtfreq-thresh<FFTFreq, -filtfreq+thresh>FFTFreq))
+
+    u_FFT[mask1,:,:] = 0
+    u_FFT[mask2,:,:] = 0
+    v_FFT[mask1,:,:] = 0
+    v_FFT[mask2,:,:] = 0
+
+    u = ifft(u_FFT, axis=0)
+    v = ifft(v_FFT, axis=0)
+    u = np.real(u)
+    v = np.real(v)
+    return u, v
+
+def filterTankRPM2(u,v,fps,rpm, rpmAdjust = 0.98):
+    filtfreq=(rpm*rpmAdjust)/60
+    filtfreq2=filtfreq*2
+    thresh = 0.02
+    u_FFT = fft(u, axis=0)
+    v_FFT = fft(v, axis=0)
+    FFTFreq = fftfreq(u.shape[0], 1 / fps)
+    
+    mask1 = np.where(np.logical_and(filtfreq-thresh<FFTFreq, filtfreq+thresh>FFTFreq))
+    mask2 = np.where(np.logical_and(-filtfreq-thresh<FFTFreq, -filtfreq+thresh>FFTFreq))
+    
+    mask3 = np.where(np.logical_and(filtfreq2-thresh<FFTFreq, filtfreq2+thresh>FFTFreq))
+    mask4 = np.where(np.logical_and(-filtfreq2-thresh<FFTFreq, -filtfreq2+thresh>FFTFreq))    
+
+    window1 = np.zeros_like(FFTFreq)
+    window1[mask1] = 1
+    width = np.sum(window1)
+    window1[mask1] = np.hanning(width)
+    
+    window2 = np.zeros_like(FFTFreq)
+    window2[mask2] = 1
+    window2[mask2] = np.hanning(width)
+
+    window3 = np.zeros_like(FFTFreq)
+    window3[mask3] = 1
+    width2 = np.sum(window3)
+    window3[mask3] = np.hanning(width2)
+
+    window4 = np.zeros_like(FFTFreq)
+    window4[mask4] = 1
+    window4[mask4] = np.hanning(width2)
+
+    maskT = mask1 + mask2 + mask3 + mask4
+    windowT = window1 + window2 + window3 + window4
+
+    u_FFT = u_FFT - u_FFT*windowT[:, None, None]
+    # u_FFT[mask2,:,:] = u_FFT[mask2,:,:] - u_FFT[mask2,:,:]*window2[mask2, None, None]
+    # v_FFT[mask1,:,:] = v_FFT[mask1,:,:] - v_FFT[mask1,:,:]*window1[mask1, None, None]
+    v_FFT = v_FFT - v_FFT*windowT[:, None, None]
+
+    u = ifft(u_FFT, axis=0)
+    v = ifft(v_FFT, axis=0)
+    u = np.real(u)
+    v = np.real(v)
+    return u, v
