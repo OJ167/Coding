@@ -12,6 +12,7 @@ import matplotlib.colors as colors
 import matplotlib.cm
 import h5py
 from matplotlib import animation
+from scipy.fft import fft, fftfreq, rfft, rfftfreq
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
@@ -122,7 +123,6 @@ ax[1,1].plot(time, radial_Position)
 ax[1,1].set_title(r"$U_{az}$ Peak location")
 ax[1,1].set_xlabel("not defined")
 ax[1,1].set_ylabel("radial location")
-oj.toc()
 # plt.show()
 
 
@@ -155,6 +155,7 @@ for i in range(u.shape[0]):
     U_r_Mean[i] = np.mean(U_r2)
     U_r_Peak[i] = np.max(U_r2)
     radial_Position[i] = max
+oj.toc()
 
 
 f5, ax = plt.subplots(2, 2)
@@ -176,5 +177,65 @@ ax[1,1].plot(time, radial_Position)
 ax[1,1].set_title(r"$U_{r}$ Peak location")
 ax[1,1].set_xlabel("not defined")
 ax[1,1].set_ylabel("radial location")
-plt.show()
+# plt.show()
 
+
+#########################################################################################################
+#### FFT on the results
+#########################################################################################################
+
+def FFT(Array, captureRate):
+    """
+    Uses Scipy real FFT function to give the frequencies and magnitudes of oscillations up to 1/2 of the sampling rate of the input data (fps). Abs value of spectra output.
+
+    INPUT:
+        Array       : 1D or 3D array containing velocity vectors over time.
+        captureRate : The sampling rate of the data, this is usually fps. Do not input the frequency, instead number of samples per second. 
+
+    OUTPUT:
+        Fourier     : Magnitude of oscillations. 
+        FFTfreq     : The frequency spectra correlating to the number of data points given and scaled using the sampling rate.
+
+    """
+
+    if Array.ndim == 1:
+        Array = Array - np.mean(Array)
+        Fourier = np.abs(rfft(Array))  # F[1:Array.shape[0]//2]
+        FFTfreq = rfftfreq(Array.shape[0], 1 / captureRate)
+        # FFTfreq = FFTfreq[1:Array.shape[0]//2]
+    elif Array.ndim == 3:
+        print('3D FFT')
+        Array -= np.mean(Array, axis=0)
+        Fourier = rfft(Array, axis=0)  # F[1:Array.shape[0]//2]
+        FFTfreq = rfftfreq(Array.shape[0], 1 / captureRate)
+        Fourier = np.mean(Fourier, axis=1)
+        Fourier = np.mean(Fourier, axis=1)
+        Fourier = np.abs(Fourier)
+    return Fourier, FFTfreq
+
+#fft of U_az 
+Fourieraz, U_az_Mean_fft = FFT(U_az_Mean, 150)
+
+#fft of U_r 
+Fourierr, U_r_Mean_fft = FFT(U_r_Mean, 150)
+
+
+f4, (ax4, ax5) = plt.subplots(ncols=2, nrows = 1)
+ax4.plot(Fourieraz)
+ax5.plot(Fourierr)
+# plt.show()
+
+
+# Number of sample points
+N = 35611
+# sample spacing
+T = 1.0 / 800.0
+x = np.linspace(0.0, N*T, N, endpoint=False)
+y = np.sin(50.0 * 2.0*np.pi*x) + 0.5*np.sin(80.0 * 2.0*np.pi*x)
+yf = fft(y)
+xf = fftfreq(N, T)[:N//2]
+
+f6, (ax6, ax7) = plt.subplots(nrows=1, ncols=2)
+ax6.plot(y)
+ax7.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+plt.show()

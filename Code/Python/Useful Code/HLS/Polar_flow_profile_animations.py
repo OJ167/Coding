@@ -27,7 +27,20 @@ print(dirPath)
 # import OllieTools as oj
 # print(dirPath)
 
-# h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
+
+
+
+
+##########################################################################################################################################
+#### This script produces animations of line plots of the radial and azimuthal flow profiles in the HLS configuration. The main code for
+#### calculation is taken from the 'SamHLSIdeas.py' script and any profile generated in that script can be animated in this one.
+#### The
+##########################################################################################################################################
+
+
+
+
+
 h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
 frame = 1000
@@ -50,10 +63,11 @@ def animate_Line(
 ):
 
     """
-    animates a line of .
+    animates a line of a flow profile.
 
     INPUT:
         cube_array  : name of 3D numpy array that needs to be animated.
+        2D numpy array
         interval    : no. of ms between each frame.
 
 
