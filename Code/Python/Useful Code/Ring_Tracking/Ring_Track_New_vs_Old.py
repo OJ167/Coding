@@ -46,7 +46,7 @@ I = 'U100'
 S = 'L50'
 
 h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
-vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[6])]
+vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[2])]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
