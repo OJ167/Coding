@@ -12,7 +12,8 @@ import OllieTools as oj
 print(dirPath)
 
 # Parameters
-IMAGES_DIR = 'G:/Testing/Calibration files/Callibration_images'
+# IMAGES_DIR = 'G:/Testing/Calibration files/Callibration_images'
+IMAGES_DIR = 'F:/Calibration3D0/Small'
 IMAGES_FORMAT = 'tiff'
 SQUARE_SIZE = 1
 WIDTH = 13
@@ -30,5 +31,5 @@ print("cal complete")
 
 # Save coefficients into a file
 # oj.save_coefficients(mtx, dist, str(IMAGES_DIR+"calibration_chessboard.yml"))
-oj.save_coefficients(mtx, dist, "G:/Testing/Calibration files/Callibration_images/calibration_chessboard.yml")
+oj.save_coefficients(mtx, dist, "F:/Calibration3D0/Small/calibration_chessboard.yml")
 print("saving complete")

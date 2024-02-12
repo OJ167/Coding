@@ -1,4 +1,4 @@
-#include <AccelStepper.h>
+ #include <AccelStepper.h>
 volatile byte state = LOW;
 
 long receivedMMdistance = 0; //distance in mm from the computer

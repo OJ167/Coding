@@ -10,6 +10,7 @@ from scipy.signal import savgol_filter #my old fave
 
 
 plt.style.use(['notebook', 'grid'])
+plt.style.use(['science', 'no-latex', 'grid'])
 
 
 N = 360 # Number of samples
@@ -59,11 +60,17 @@ for i in range(len(quad)):
 cube_savgol = savgol_filter(cube, 50, 3)
 cube_polyfit = np.poly1d(np.polyfit(x, cube, 3))(x)
 
-plt.style.use(['science', 'no-latex', 'grid'])
 
 f4, ax4 = plt.subplots()
-ax4.scatter(x, cube)
+ax4.scatter((x*2), cube)
 ax4.plot(x, cube_savgol)
 ax4.plot(x, cube_polyfit)
-plt.savefig('C:/Users/u2088308/Videos/3D0_100_100/plot1.png', dpi = 200)
+dydx = np.gradient(cube_polyfit, x)
+ax4.plot(x, dydx)
+int = np.cumsum(cube_polyfit)
+sum = np.sum(cube_polyfit)
+ax4.plot(x, int)
+print(int[-1])
+print(sum)
+# plt.savefig('C:/Users/u2088308/Videos/3D0_100_100/plot1.png', dpi = 200)
 plt.show()

@@ -35,7 +35,7 @@ h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 frame = 750
 frametime = frame/150
 d = 0.1
-vels = h5file['3D0']['U100']['L100']['RPM6']
+vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 h5file.close()
@@ -214,10 +214,11 @@ def FFT(Array, captureRate):
     return Fourier, FFTfreq
 
 #fft of U_az 
-Fourieraz, U_az_Mean_fft = FFT(U_az_Mean, 150)
+Fourieraz, U_az_Mean_fft = FFT(U_az_Mean, 1/150)
+
 
 #fft of U_r 
-Fourierr, U_r_Mean_fft = FFT(U_r_Mean, 150)
+Fourierr, U_r_Mean_fft = FFT(U_r_Mean, 1/150)
 
 
 f4, (ax4, ax5) = plt.subplots(ncols=2, nrows = 1)
@@ -238,4 +239,22 @@ xf = fftfreq(N, T)[:N//2]
 f6, (ax6, ax7) = plt.subplots(nrows=1, ncols=2)
 ax6.plot(y)
 ax7.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+
+
+
+# Number of sample points
+N = 2999
+# sample spacing
+T = 1 / 150
+# x = np.linspace(0.0, N*T, N, endpoint=False)
+y = U_az_Mean
+yf = fft(y)
+xf = fftfreq(N, T)[:N//2]
+
+f7, (ax8, ax9) = plt.subplots(nrows=1, ncols=2)
+ax8.plot(y)
+ax9.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
+
+
+
 plt.show()

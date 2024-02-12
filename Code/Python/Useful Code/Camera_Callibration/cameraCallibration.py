@@ -15,7 +15,7 @@ print(dirPath)
 
 Dir = "G:/Testing/Calibration files/Callibration_images/*"
 
-
+Dir = 'F:/Calibration3D0/Big/*'
 
 ################ FIND CHESSBOARD CORNERS - OBJECT POINTS AND IMAGE POINTS #############################
 
@@ -62,7 +62,8 @@ for image in images:
         # Draw and display the corners
         cv.drawChessboardCorners(img, chessboardSize, corners2, ret)
         cv.imshow('img', img)
-        cv.imwrite(f"G:/Testing/Callibration_images/{image}dots.tiff", img)
+        # cv.imwrite(f"G:/Testing/Callibration_images/{image}dots.tiff", img)
+        cv.imwrite(f"F:/Calibration3D0/Big/{image}dots.tiff", img)
         cv.waitKey(10)
 
 
@@ -90,8 +91,8 @@ dst = cv.undistort(img, cameraMatrix, dist, None, newCameraMatrix)
 # crop the image
 x, y, w, h = roi
 dst = dst[y:y+h, x:x+w]
-cv.imwrite('G:/Testing/Callibration_images/caliResult1.png', dst)
-
+# cv.imwrite('G:/Testing/Callibration_images/caliResult1.png', dst)
+cv.imwrite('F:/Calibration3D0/Big/caliResult1.png', dst)
 
 
 
@@ -102,8 +103,8 @@ dst = cv.remap(img, mapx, mapy, cv.INTER_LINEAR)
 # crop the image
 x, y, w, h = roi
 dst = dst[y-h:y+h, x-w:x+w]
-cv.imwrite('G:/Testing/Callibration_images/caliResult1x.png', dst)
-
+# cv.imwrite('G:/Testing/Callibration_images/caliResult1x.png', dst)
+cv.imwrite('F:/Calibration3D0/Big/caliResult1x.png', dst)
 
 
 
@@ -120,4 +121,5 @@ print( "total error: {}".format(mean_error/len(objpoints)) )
 
 #### save the matrix
 
-oj.save_coefficients(cameraMatrix, dist, "G:/Testing/Calibration files/")
+# oj.save_coefficients(cameraMatrix, dist, "G:/Testing/Calibration files/")
+oj.save_coefficients(cameraMatrix, dist, "F:/Calibration3D0/Big/")
