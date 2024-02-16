@@ -32,8 +32,11 @@ print(dirPath)
 plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
+###########################################
+####THIS IS THE ONE TO USE FOR THESIS WORK
+###########################################
 
-N = 51                                # Number of points in each direction
+N = 50                                # Number of points in each direction
 x_start, x_end = -10.0, 10.0          # x-direction boundaries
 y_start, y_end = -10.0, 10.0          # y-direction boundaries
 x = np.linspace(x_start, x_end, N)    # computes a 1D-array for x
@@ -120,7 +123,7 @@ x0, y0 = 0, 0  # Vortex center coordinates
 
 # Grid parameters
 x_min, x_max, y_min, y_max = -10, 10, -10, 10
-num_points = 101
+num_points = 100
 x = np.linspace(x_min, x_max, num_points)
 y = np.linspace(y_min, y_max, num_points)
 X, Y = np.meshgrid(x, y)

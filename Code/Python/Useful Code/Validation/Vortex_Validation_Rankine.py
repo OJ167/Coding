@@ -30,7 +30,7 @@ plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
 
-N = 50                                # Number of points in each direction
+N = 1000                                # Number of points in each direction
 x_start, x_end = -10.0, 10.0            # x-direction boundaries
 y_start, y_end = -10.0, 10.0            # y-direction boundaries
 x = np.linspace(x_start, x_end, N)    # computes a 1D-array for x

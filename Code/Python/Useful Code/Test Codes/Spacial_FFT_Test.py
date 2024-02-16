@@ -19,3 +19,9 @@ ax6.plot(y)
 ax7.plot(xf, 2.0/N * np.abs(yf[0:N//2]))
 plt.show()
 print(x.shape)
+
+
+fps = 150
+
+v_FFT = fft(u, axis=0)
+FFTFreq = fftfreq(u.shape[0], 1 / fps)

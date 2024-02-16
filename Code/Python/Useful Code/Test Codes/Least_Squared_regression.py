@@ -62,7 +62,7 @@ cube_polyfit = np.poly1d(np.polyfit(x, cube, 3))(x)
 
 
 f4, ax4 = plt.subplots()
-ax4.scatter((x*2), cube)
+ax4.scatter(x, cube)
 ax4.plot(x, cube_savgol)
 ax4.plot(x, cube_polyfit)
 dydx = np.gradient(cube_polyfit, x)

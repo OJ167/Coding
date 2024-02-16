@@ -131,32 +131,38 @@ for i in range(u.shape[0]):
 # ax[1,1].set_ylabel("radial location")
 # plt.show()
 
-radial_Position = np.zeros([7, u.shape[0]])
-U_r_Mean =        np.zeros([7, u.shape[0]])
-U_r_Peak =        np.zeros([7, u.shape[0]])
+radial_Positionr = np.zeros([7, u.shape[0]])
+U_r_Mean =         np.zeros([7, u.shape[0]])
+U_r_Peak =         np.zeros([7, u.shape[0]])
 
-print(U_r_Peak.shape)
+radial_Positionaz = np.zeros([7, u.shape[0]])
+U_az_Mean =         np.zeros([7, u.shape[0]])
+U_az_Peak =         np.zeros([7, u.shape[0]])
 
 oj.tic()
 for i in range(len(rpm)):
+# for i in range(2):
     print('RPM{0}'.format(rpm[i]))
     vels = h5file['3D0']['U100']['L100']['RPM{0}'.format(rpm[i])]
     u = vels[:,:,:,0]
     v = vels[:,:,:,1]
     u_gaussian, v_gaussian = gaussian_filter(u, sigma=6), gaussian_filter(v, sigma=6)
 
-
-
     for j in range(u.shape[0]):
-        r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[i,:,:], v_gaussian[i,:,:])
+        r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[j,:,:], v_gaussian[j,:,:])
         inds = (r.flatten()).argsort()
         r2 = (r.flatten())[inds]
         U_r2 = (U_r.flatten())[inds]
-        p = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
-        max = np.argmax(p)
+        pr = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
         U_r_Mean[i, j] = np.mean(U_r2)
         U_r_Peak[i, j] = np.max(U_r2)
-        radial_Position[i, j] = max
+        radial_Positionr[i, j] = np.argmax(pr)
+
+        U_az2 = (U_az.flatten())[inds]
+        paz = np.poly1d(np.polyfit(r2, U_az2, 11))(r2) #This turns the graph into a polynomial line
+        U_az_Mean[i, j] = np.mean(U_az2)
+        U_az_Peak[i, j] = np.max(U_az2)
+        radial_Positionaz[i, j] = np.argmax(paz)
 
 oj.toc()    
 
@@ -177,15 +183,72 @@ ax[0,1].plot(time*rate[3], U_r_Mean[3,:], label = '3RPM')
 ax[0,1].plot(time*rate[4], U_r_Mean[4,:], label = '6RPM')
 ax[0,1].plot(time*rate[5], U_r_Mean[5,:], label = '9RPM')
 ax[0,1].plot(time*rate[6], U_r_Mean[6,:], label = '12RPM')
+ax[0,1].legend()
 ax[0,1].set_title(r"$U_{r}$ Mean/time")
-ax[0,1].set_xlabel("$Time [s]$")
+ax[0,1].set_xlabel("$Number of Rotations$")
 ax[0,1].set_ylabel(r"$\bar{U}_{r}$")
 ax[1,0].plot(time, U_r_Peak[1,:])
 ax[1,0].set_title(r"$U_{r}$ Peak/time")
 ax[1,0].set_xlabel("$Time [s]$")
 ax[1,0].set_ylabel(r"$U_{r} Peak$")
-ax[1,1].plot(time, radial_Position[1,:])
+ax[1,1].plot(time, radial_Positionr[1,:])
 ax[1,1].set_title(r"$U_{r}$ Peak location")
 ax[1,1].set_xlabel("not defined")
 ax[1,1].set_ylabel("radial location")
+
+f6, ax7 = plt.subplots()
+plt.suptitle("Radial Velocity Graphs")
+ax7.plot(time*rate[1], U_r_Mean[1,:], label = '1RPM')
+ax7.plot(time*rate[2], U_r_Mean[2,:], label = '2RPM')
+ax7.plot(time*rate[3], U_r_Mean[3,:], label = '3RPM')
+ax7.plot(time*rate[4], U_r_Mean[4,:], label = '6RPM')
+ax7.plot(time*rate[5], U_r_Mean[5,:], label = '9RPM')
+ax7.plot(time*rate[6], U_r_Mean[6,:], label = '12RPM')
+ax7.legend()
+ax7.set_title(r"$U_{r}$ Mean/time")
+ax7.set_xlabel("$Number of rotations$")
+ax7.set_ylabel(r"$\bar{U}_{r}$")
+
+
+f7, ax8 = plt.subplots()
+plt.suptitle("Azimuthal Velocity Graphs")
+ax8.plot(time*rate[1], U_az_Mean[1,:], label = '1RPM')
+ax8.plot(time*rate[2], U_az_Mean[2,:], label = '2RPM')
+ax8.plot(time*rate[3], U_az_Mean[3,:], label = '3RPM')
+ax8.plot(time*rate[4], U_az_Mean[4,:], label = '6RPM')
+ax8.plot(time*rate[5], U_az_Mean[5,:], label = '9RPM')
+ax8.plot(time*rate[6], U_az_Mean[6,:], label = '12RPM')
+ax8.legend()
+ax8.set_title(r"$U_{az}$ Mean/time")
+ax8.set_xlabel("$Number of rotations$")
+ax8.set_ylabel(r"$\bar{U}_{az}$")
+
+
+
+f9, ax10 = plt.subplots()
+plt.suptitle("Radial Velocity Graphs")
+ax10.plot(time*rate[1], U_r_Peak[1,:], label = '1RPM')
+ax10.plot(time*rate[2], U_r_Peak[2,:], label = '2RPM')
+ax10.plot(time*rate[3], U_r_Peak[3,:], label = '3RPM')
+ax10.plot(time*rate[4], U_r_Peak[4,:], label = '6RPM')
+ax10.plot(time*rate[5], U_r_Peak[5,:], label = '9RPM')
+ax10.plot(time*rate[6], U_r_Peak[6,:], label = '12RPM')
+ax10.legend()
+ax10.set_title(r"$U_{r}$ Peak/time")
+ax10.set_xlabel("$Number of rotations$")
+ax10.set_ylabel(r"$U_{r}$")
+
+
+f10, ax11 = plt.subplots()
+plt.suptitle("Azimuthal Velocity Graphs")
+ax11.plot(time*rate[1], U_az_Peak[1,:], label = '1RPM')
+ax11.plot(time*rate[2], U_az_Peak[2,:], label = '2RPM')
+ax11.plot(time*rate[3], U_az_Peak[3,:], label = '3RPM')
+ax11.plot(time*rate[4], U_az_Peak[4,:], label = '6RPM')
+ax11.plot(time*rate[5], U_az_Peak[5,:], label = '9RPM')
+ax11.plot(time*rate[6], U_az_Peak[6,:], label = '12RPM')
+ax11.legend()
+ax11.set_title(r"$U_{az}$ Peak/time")
+ax11.set_xlabel("$Number of rotations$")
+ax11.set_ylabel(r"$U_{az}$")
 plt.show()
