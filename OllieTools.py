@@ -12,7 +12,7 @@ from scipy import ndimage, io
 from scipy.ndimage.filters import gaussian_filter
 from scipy import interpolate
 import concurrent.futures
-from scipy.fft import fft2,fftshift, ifft2, fft, fftfreq, ifft
+from scipy.fft import fft2,fftshift, ifft2, fft, fftfreq, ifft, rfft, rfftfreq
 import mat73
 import pathlib
 from scipy.interpolate import RectBivariateSpline
@@ -1319,3 +1319,32 @@ def filterTankRPM2(u,v,fps,rpm, rpmAdjust = 0.98):
     u = np.real(u)
     v = np.real(v)
     return u, v
+
+def FFT(Array, captureRate):
+    """
+    Uses Scipy real FFT function to give the frequencies and magnitudes of oscillations up to 1/2 of the sampling rate of the input data (fps). Abs value of spectra output.
+
+    INPUT:
+        Array       : 1D or 3D array containing velocity vectors over time.
+        captureRate : The sampling rate of the data, this is usually fps. Do not input the frequency, instead number of samples per second. 
+
+    OUTPUT:
+        Fourier     : Magnitude of oscillations. 
+        FFTfreq     : The frequency spectra correlating to the number of data points given and scaled using the sampling rate.
+
+    """
+
+    if Array.ndim == 1:
+        Array = Array - np.mean(Array)
+        Fourier = np.abs(rfft(Array))  # F[1:Array.shape[0]//2]
+        FFTfreq = rfftfreq(Array.shape[0], 1 / captureRate)
+        # FFTfreq = FFTfreq[1:Array.shape[0]//2]
+    elif Array.ndim == 3:
+        print('3D FFT')
+        Array -= np.mean(Array, axis=0)
+        Fourier = rfft(Array, axis=0)  # F[1:Array.shape[0]//2]
+        FFTfreq = rfftfreq(Array.shape[0], 1 / captureRate)
+        Fourier = np.mean(Fourier, axis=1)
+        Fourier = np.mean(Fourier, axis=1)
+        Fourier = np.abs(Fourier)
+    return Fourier, FFTfreq

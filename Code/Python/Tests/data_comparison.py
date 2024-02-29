@@ -13,24 +13,24 @@ import matplotlib.cm
 import timeit
 
 #####Import Ollie Tools
-dirPath = "C:/Coding/Code"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
 
 
 
-uGUI, vGUI =   oj.importData("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/1/Data/PIVlab_GUI.mat")
-uCMD, vCMD = oj.importData73("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat")
+uGUI, vGUI =   oj.importData("G:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/1/Data/PIVlab_GUI.mat")
+uCMD, vCMD = oj.importData73("G:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat")
 # u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/4/Data/PIV_export.mat")
 # u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/4/Data/PIV_export.mat")
 # u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/4/Data/PIV_export.mat")
 # u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/4/Data/PIV_export.mat")
 
-u0, v0 = oj.importData73("F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/4/Data/PIV_export.mat")
-u3, v3 = oj.importData73("F:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/4/Data/PIV_export.mat")
-u6, v6 = oj.importData73("F:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/4/Data/PIV_export.mat")
-u9, v9 = oj.importData73("F:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/4/Data/PIV_export.mat")
+u0, v0 = oj.importData73("G:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/4/Data/PIV_export.mat")
+u3, v3 = oj.importData73("G:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/4/Data/PIV_export.mat")
+u6, v6 = oj.importData73("G:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/4/Data/PIV_export.mat")
+u9, v9 = oj.importData73("G:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/4/Data/PIV_export.mat")
 
 r_ndGUI, z_ndGUI = oj.NDUnitsForPlotsNozzle(uGUI.shape[1], uGUI.shape[2])
 r_ndCMD, z_ndCMD = oj.NDUnitsForPlotsNozzle(uCMD.shape[1], uCMD.shape[2])
