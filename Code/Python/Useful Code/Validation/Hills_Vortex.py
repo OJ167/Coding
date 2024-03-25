@@ -92,7 +92,7 @@ for i in range(len(r)):
 
 
 f1, ax1 = plt.subplots()
-ax1.contourf(psi)
+ax1.contour(X, Y, psi)
 plt.show()
 
 # x, y = pol2cart(r, theta, x, y)
