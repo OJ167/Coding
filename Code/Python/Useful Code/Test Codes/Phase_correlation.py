@@ -47,11 +47,11 @@ plt.legend()
 h = random.uniform(0, 1000)
 print('random shift = ' + str(h))
 x = np.linspace(-10, 10, 1000)
-# y1 = 3*x**3 + h
-# y2 = x**3
+y1 = 3*(x + h)**3
+y2 = x**3
 
-y1 = np.sin(x + h)
-y2 = np.sin(x)
+# y1 = np.sin(x + h)
+# y2 = np.sin(x)
 
 cubic_cor = correlate(y1, y2, 'same')
 maxcor = np.argmax(cubic_cor)
@@ -64,7 +64,7 @@ print(lag)
 
 print('correlation peak location = ' +str(maxcor))
 phase_correct = y1 - lag
-xphase_correct = x - lag
+xphase_correct = x + lag
 
 f1, (ax1, ax2, ax3) = plt.subplots(ncols = 3)
 ax1.plot(x, y1, label = 'y1')
@@ -94,6 +94,6 @@ f2, (ax4, ax5) = plt.subplots(ncols=2)
 ax4.plot(x, sig1, label = 'sig1')
 ax4.plot(x, sig2, label = 'sig2')
 ax5.plot(x, sig1, label = 'sig1')
-ax5.plot(x[:-296], sig2[296:], label = 'sig2')
+ax5.plot(x[:], sig2[:], label = 'sig2')
 plt.legend()
 plt.show()

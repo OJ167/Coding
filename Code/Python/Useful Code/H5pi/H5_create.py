@@ -56,7 +56,41 @@ def descend_obj(obj,sep='\t'):
 # umean, vmean = oj.create_Mean(10, Dir) 
 
 #### 12 RPM ####
-Dir = "F:/Testing/3Do/RPM-12.0__Upiston-100__Stroke-50/2023-12-21__FPS-150/"
+# Dir = "F:/Testing/3Do/RPM-12.0__Upiston-100__Stroke-50/2023-12-21__FPS-150/"
+
+
+#################blue drive
+# Dir = 'F:/Testing/RPM-0.0__Upiston-50__Stroke-100/2023-08-22__FPS-90/'
+# Dir = 'F:/Testing/RPM-0.0__Upiston-50__Stroke-50/2023-05-25__FPS-90/'
+# Dir = 'F:/Testing/RPM-1.0__Upiston-50__Stroke-50/2023-07-24__FPS-90/'
+# Dir = 'F:/Testing/RPM-1.0__Upiston-50__Stroke-100/2023-08-23__FPS-90/'
+# Dir = 'F:/Testing/RPM-2.0__Upiston-50__Stroke-100/2023-08-17__FPS-90/'
+# Dir = 'F:/Testing/RPM-2.0__Upiston-50__Stroke-50/2023-07-25__FPS-90/'
+# Dir = 'F:/Testing/RPM-3.0__Upiston-50__Stroke-100/2023-08-24__FPS-90/'
+# Dir = 'F:/Testing/RPM-3.0__Upiston-50__Stroke-50/2023-05-23__FPS-90/'
+# Dir = 'F:/Testing/RPM-6.0__Upiston-50__Stroke-100/2023-08-18__FPS-90/'
+# Dir = 'F:/Testing/RPM-6.0__Upiston-50__Stroke-50/2023-06-07__FPS-90/'
+# Dir = 'F:/Testing/RPM-9.0__Upiston-50__Stroke-100/2023-08-19__FPS-90/'
+# Dir = 'F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/'
+# Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/'
+Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/'
+
+
+#################red drive
+# Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/'
+# Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/'
+# Dir = 'G:/Testing/RPM-1.0__Upiston-100__Stroke-50/2023-07-24__FPS-90/'
+# Dir = 'G:/Testing/RPM-1.0__Upiston-100__Stroke-100/2023-08-23__FPS-90/'
+# Dir = 'G:/Testing/RPM-2.0__Upiston-100__Stroke-50/2023-07-25__FPS-90/'
+# Dir = 'G:/Testing/RPM-2.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/'
+# Dir = 'G:/Testing/RPM-3.0__Upiston-100__Stroke-50/2023-05-15__FPS-90/'
+# Dir = 'G:/Testing/RPM-3.0__Upiston-100__Stroke-100/2023-08-24__FPS-90/'
+# Dir = 'G:/Testing/RPM-6.0__Upiston-100__Stroke-50/2023-05-11__FPS-90/'
+# Dir = 'G:/Testing/RPM-6.0__Upiston-100__Stroke-100/2023-08-18__FPS-90/'
+# Dir = 'G:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/'
+# Dir = 'G:/Testing/RPM-9.0__Upiston-100__Stroke-100/2023-08-19__FPS-90/'
+Dir = 'G:/Testing/RPM-12.0__Upiston-100__Stroke-50/2023-05-19__FPS-90/'
+# Dir = 'G:/Testing/RPM-12.0__Upiston-100__Stroke-100/2023-08-21__FPS-90/'
 umean, vmean = oj.create_Mean(10, Dir) 
 
 
@@ -68,10 +102,10 @@ umean, vmean = oj.create_Mean(10, Dir)
 Vels = np.stack((umean, vmean), axis=-1)
 
 ## Use this to write ‘w’
-# h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'w')
+# h5file = h5py.File('F:/H5/meandataVLSFine.h5', 'w')
 
 # ### Use this to append ‘a’
-h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'a')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'a')
 
 ############# these exist to correct incorrectly saved data and comment out the create_dataset line
 # h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r+')
@@ -80,7 +114,8 @@ h5file = h5py.File('F:/H5/3D0HLSFine.h5', 'a')
 
 
 
-h5file.create_dataset('3D0/U100/L50/RPM12', data=Vels)
+# h5file.create_dataset('3D0/U100/L50/RPM12', data=Vels)
+h5file.create_dataset('Narrow/U100/L50/RPM12', data=Vels)
 
 descend_obj(h5file)
 

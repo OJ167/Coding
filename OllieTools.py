@@ -1348,3 +1348,163 @@ def FFT(Array, captureRate):
         Fourier = np.mean(Fourier, axis=1)
         Fourier = np.abs(Fourier)
     return Fourier, FFTfreq
+
+
+
+def TwoPtCorrIWs(Arr):
+    ExX = Arr.shape[2]
+    ExY = Arr.shape[1]
+ 
+    nPairsHor = int(math.factorial(ExX+2-1)/ math.factorial(2) / math.factorial(ExX-1))
+    nPairsVer = int(math.factorial(ExY+2-1)/ math.factorial(2) / math.factorial(ExY-1))
+ 
+    corr_Hor = np.zeros(ExY * nPairsHor)
+    dist_Hor = np.zeros(ExY * nPairsHor)
+ 
+    corr_Ver = np.zeros(ExX * nPairsVer)
+    dist_Ver = np.zeros(ExX * nPairsVer)
+ 
+    for i in range(ExY):
+        for pair, indexi in zip(itertools.combinations_with_replacement(range(ExX), 2), range(nPairsHor)):
+            corr_Hor[indexi+i*nPairsHor] = np.dot(Arr[:,i,pair[0]], Arr[:,i,pair[1]])
+            dist_Hor[indexi+i*nPairsHor] = abs(pair[0] - pair[1])
+ 
+    for j in range(ExX):
+        for pair, indexj in zip(itertools.combinations_with_replacement(range(ExY), 2), range(nPairsVer)):
+            corr_Ver[indexj+j*nPairsVer] = np.dot(Arr[:,pair[0],j], Arr[:,pair[1],j])
+            dist_Ver[indexj+j*nPairsVer] = abs(pair[0] - pair[1])
+ 
+    distH, corrH = f_dict(dist_Hor, corr_Hor)
+    distV, corrV = f_dict(dist_Ver, corr_Ver)
+    corrH = corrH/corrH[0]
+    corrV = corrV/corrV[0]
+ 
+    XC = FindFirstIntercept(corrH)
+    YC = FindFirstIntercept(corrV)
+ 
+    Angle = np.round(np.degrees(np.arctan(YC/XC)), 3)
+ 
+    return distH, distV, corrH, corrV, XC, YC, Angle
+
+
+def f_dict(listA, listB):
+ 
+    """
+    Averages listB values with corresponding identical listA values.
+    
+    Parameters
+    ----------
+    listA : list
+        List of 'keys' which form catagories.
+ 
+    listB : list
+        List of corresponding data to be averaged.
+ 
+    Returns
+    -------
+    distances : list
+        List of concatenated keys.
+ 
+    avg : list
+        List of corresponding average values.
+ 
+    """
+    d = {}
+ 
+    for a, b in zip(listA, listB):
+        d.setdefault(a, []).append(b)
+ 
+    avg = []
+    for key in d:
+        avg.append(sum(d[key])/len(d[key]))
+    distances = list(d.keys())
+ 
+    return distances, avg
+
+
+
+def FindFirstIntercept(Corr):
+    """
+    Linearly interpolates the point of first intercept with y=0 on a graph.
+    
+    Parameters
+    ----------
+    Corr : list
+        List of values for which to find intercept
+ 
+    Returns
+    -------
+    interpolatedValue : float
+        x value at which y = 0.
+ 
+    """
+ 
+    Corr = np.array(Corr)
+    CorrLess = np.where(Corr<0)
+    CorrLess = CorrLess[0]
+ 
+    if len(CorrLess) == 0:
+        interpolatedValue = np.nan
+    else:
+        n_neg = CorrLess[0]
+        neg_values = np.array([[n_neg-1, n_neg], [Corr[n_neg-1], Corr[n_neg]]])
+        difference = neg_values[1,0]/(neg_values[1,0] - neg_values[1,1])
+        interpolatedValue = neg_values[0,0] + difference
+ 
+    return interpolatedValue
+
+
+def KECalc(u, r):
+    Values = 2 * np.pi * 0.5 * u**2 * r
+    IntVals = np.zeros(u.shape[0])
+    for j in range(u.shape[0]):
+        plt.plot(r, Values[j, :])
+        IntVals[j] = integrate.simpson(r, Values[j, :])
+        plt.show()
+    totalKE = np.sum(IntVals)
+
+
+def FindPowerLaw(x, y):
+    # is x = y^coeff[0]
+    if np.any(y < 0):
+        print("Negative values encountered finding power law")
+    logx = np.log(x)
+    logy = np.log(y)
+    coeffs = np.polyfit(logx, logy, deg=1)
+    poly = np.poly1d(coeffs)
+    line = np.exp(poly(np.log(x)))
+    # line = np.exp(coeffs[0]*np.log(x) + coeffs[1])
+ 
+    return line, coeffs
+
+def loglogplot(axP, x, y, col, rpm, ann = 1):
+    axP.loglog(
+    x,
+    y,
+    color=col,
+    linestyle="None",
+    marker=".",
+    label="RPM - {}".format(rpm),
+    )
+    if ann == 1:
+        l, co = FindPowerLaw(x, y)
+        axP.loglog(x, l, color='k', linestyle="dotted")
+        axP.annotate(str(np.round(co[0], 3)), (x[-1], l[-1]))
+    else:
+        pass
+
+def InterpZeros(y):
+    if (y == 0).any() == True:
+        y = np.array(y)
+        x = np.arange(y.shape[0])
+        idx = np.nonzero(y)
+        f = interp1d(x[idx], y[idx], fill_value="extrapolate")
+        ynew = f(x)
+    else:
+        ynew = y
+    return ynew 
+
+def legendy(ax, loc='best'):
+    handles, labels = ax.get_legend_handles_labels()
+    by_label = dict(zip(labels, handles))
+    ax.legend(by_label.values(), by_label.keys(), loc=loc)
