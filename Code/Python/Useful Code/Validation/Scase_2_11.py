@@ -48,31 +48,30 @@ for j in range(0, m):          #Note: m = number of radial points
         r  [i,j] = sintheta[i]* sigma[j]
         Psi[i,j] = f[j]*sinthetasquare[i]
 
-
-
-#Calculate the z coordinate for each f. But calculate r via x and y
-#for j = 1:m          #Note: m = number of radial points
-#   for i = 1:n       #Note: n = number of angles
-#     x(i,j) = sintheta(i)*sigma(j);
-#     y(i,j) = costheta(i)*sigma(j);  
-#     r2(i,j) = sqrt(x(i,j)^2 + y(i,j)^2);
-#     F(i,j) = f(j);
-#   end    
-# end
-
+# now calculate for sigma <= 1
+        
 
 levels = np.linspace(-10, 10, 51)
 #surf(r,z,Psi)
 f1, ax1 = plt.subplots()
 cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')#, colors = 'black')#,'k-')
 # f1.colorbar(cont, ax = ax1)
-# ax1.plot_surface(r,z,Psi)
 # ax1. imshow(Psi, extent=[0, 4, -4, 4], origin='lower', cmap='RdGy')
 ax1.set_xlim([0, 4])
 ax1.set_ylim([-4, 4])
-plt.title(r'Contour plot of $\Psi$')
+plt.title(r'Contour plot of $\Psi$ with contour levels set to every 0.2')
 
 
+levels = np.linspace(-10, 10, 75)
+print(levels)
+#surf(r,z,Psi)
+f1, ax1 = plt.subplots()
+cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')
+# f1.colorbar(cont, ax = ax1)
+# ax1. imshow(Psi, extent=[0, 4, -4, 4], origin='lower', cmap='RdGy')
+ax1.set_xlim([0, 4])
+ax1.set_ylim([-4, 4])
+plt.title(r'Contour plot of $\Psi$ with contour levels set to ~ every 0.27')
 
 
 f2, ax2 = plt.subplots()
@@ -81,11 +80,3 @@ ax2.set_xlim([0, 3])
 ax2.set_ylim([-1.25, 1.25])
 plt.title(r'Contour plot of $\Psi$')
 plt.show()
-
-# Plot Psi but using the other way of calucatiing r, that is r2 above
-#figure
-#contour(r2,z,Psi)
-#pbaspect([1 2 1])
-# NOTE: Both Plots are the same, so I too plot out again
-
-
