@@ -57,4 +57,13 @@ cont = ax1.contour(r, z, Psi, levels, colors = 'black')# cmap = 'bwr')#, colors 
 ax1.set_xlim([0, 4])
 ax1.set_ylim([-4, 4])
 plt.title(r'Contour plot of $\Psi$ with contour levels set to every 0.2')
+
+
+f2, ax2 = plt.subplots()
+cont = ax2.contourf(r, z, Psi, levels, cmap = 'bwr')#, colors = 'black')#,'k-')
+ax2.set_xlim([0, 4])
+ax2.set_ylim([-4, 4])
+
+f3, ax3 = plt.subplots()
+ax3.imshow(Psi)#, colors = 'black')#,'k-')
 plt.show()
