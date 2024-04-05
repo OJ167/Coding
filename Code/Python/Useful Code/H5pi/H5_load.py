@@ -33,7 +33,7 @@ def descend_obj(obj,sep='\t'):
 h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L50']['RPM0']
+vels = h5file['Narrow']['U100']['L50']['RPM12']
 # vels = h5file['3D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]

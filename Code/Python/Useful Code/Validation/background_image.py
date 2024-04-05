@@ -22,7 +22,7 @@ from tkinter.filedialog import askdirectory
 h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L50']['RPM0']
+vels = h5file['Narrow']['U100']['L100']['RPM12']
 # vels = h5file['3D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
@@ -30,7 +30,7 @@ v = vels[:,:,:,1]
 oj.descend_obj(h5file)
 h5file.close()
 
-frame = 150
+frame = 350
 
 #background image is a reference from 0RPM 100, 100 background image
 # 'G:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/1/B/bgImage/image1_bg.tiff'
