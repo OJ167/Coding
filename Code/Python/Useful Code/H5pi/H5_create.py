@@ -73,7 +73,7 @@ def descend_obj(obj,sep='\t'):
 # Dir = 'F:/Testing/RPM-9.0__Upiston-50__Stroke-100/2023-08-19__FPS-90/'
 # Dir = 'F:/Testing/RPM-9.0__Upiston-50__Stroke-50/2023-05-24__FPS-90/'
 # Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-50/2023-05-19__FPS-90/'
-Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/'
+# Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/'
 
 
 #################red drive
@@ -89,33 +89,41 @@ Dir = 'F:/Testing/RPM-12.0__Upiston-50__Stroke-100/2023-08-21__FPS-90/'
 # Dir = 'G:/Testing/RPM-6.0__Upiston-100__Stroke-100/2023-08-18__FPS-90/'
 # Dir = 'G:/Testing/RPM-9.0__Upiston-100__Stroke-50/2023-05-12__FPS-90/'
 # Dir = 'G:/Testing/RPM-9.0__Upiston-100__Stroke-100/2023-08-19__FPS-90/'
-Dir = 'G:/Testing/RPM-12.0__Upiston-100__Stroke-50/2023-05-19__FPS-90/'
+# Dir = 'G:/Testing/RPM-12.0__Upiston-100__Stroke-50/2023-05-19__FPS-90/'
 # Dir = 'G:/Testing/RPM-12.0__Upiston-100__Stroke-100/2023-08-21__FPS-90/'
+# umean, vmean = oj.create_Mean(10, Dir) 
+
+
+######################0D0
+# Dir = 'F:/Testing/HLS/RPM-0.0__Upiston-100__Stroke-100/2024-04-05__FPS-150/'
+# Dir = '/'
+# Dir = '/'
+# Dir = '/'
+# Dir = '/'
+# Dir = '/'
+Dir = 'F:/Testing/HLS/RPM-12.0__Upiston-100__Stroke-100/2024-04-05__FPS-150/'
 umean, vmean = oj.create_Mean(10, Dir) 
-
-
-
 
 
 
 #################################################################################################################################
 Vels = np.stack((umean, vmean), axis=-1)
 
-## Use this to write ‘w’
-# h5file = h5py.File('F:/H5/meandataVLSFine.h5', 'w')
+# Use this to write ‘w’
+# h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'w')
 
-# ### Use this to append ‘a’
-h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'a')
+### Use this to append ‘a’
+h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'a')
 
 ############# these exist to correct incorrectly saved data and comment out the create_dataset line
-# h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r+')
-# data = h5file['3D0/U100/L100/RPM0']
+# h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r+')
+# data = h5file['0D0/U100/L100/RPM0']
 # data[...] = Vels
 
 
 
-# h5file.create_dataset('3D0/U100/L50/RPM12', data=Vels)
-h5file.create_dataset('Narrow/U100/L50/RPM12', data=Vels)
+h5file.create_dataset('0D0/U100/L100/RPM12', data=Vels)
+# h5file.create_dataset('Narrow/U100/L50/RPM12', data=Vels)
 
 descend_obj(h5file)
 
