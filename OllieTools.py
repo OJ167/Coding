@@ -270,6 +270,24 @@ def scaleVel(u, v, fps, heightPixels=1976, heightImage=0.405):
     v = factor * v
     return u, v
 
+def scaleVelNozzle(u, v, fps, heightPixels=1976, heightImage=0.405):
+    """
+    Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
+
+    INPUT:
+        u           : 3D Numpy tensor containing velocity data, has not been scaled.
+        v           : 3D Numpy tensor containing velocity data, has not been scaled.
+
+    OUTPUT:
+        u           : 3D Numpy tensor containing scaled velocity data.
+        v           : 3D Numpy tensor containing scaled velocity data.
+    """
+
+    factor = fps * heightImage / heightPixels
+    u = factor * u
+    v = factor * v
+    return u, v
+
 
 def calculate_vorticity(u, v):
     """
