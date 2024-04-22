@@ -49,6 +49,73 @@ plt.legend()
 # plt.show()
 
 
+
+########## Finding radial Velocities at the core location
+
+# vort_max_loc_x = np.zeros([u.shape[0]])
+# vort_max_loc_y = np.zeros([u.shape[0]])
+
+# for i in range(u.shape[0]):
+#     vort_max_loc_x[i] = VortLocMax[i,1]
+#     vort_max_loc_y[i] = VortLocMax[i,0]
+
+# print(vort_max_loc_x, vort_max_loc_y)
+# print(vort_max_loc_x.shape, vort_max_loc_y.shape)
+
+# f3, ax3 = plt.subplots(nrows=1, ncols=1)
+# ax3.plot(v[:, int(vort_max_loc_y[i]), int(vort_max_loc_x[i])])
+# # plt.show()
+
+
+
+########### Find Ring Expansion Rate ###########
+
+VortLocMax[:,0] = savgol_filter(VortLocMax[:,0], 21, 3)
+VortLocMax[:,1] = savgol_filter(VortLocMax[:,1], 21, 3)
+drdt = np.gradient(VortLocMax[:,0])
+
+f4, ax4 = plt.subplots(nrows=1, ncols=1)
+plt.title('Ring Expansion Rate')
+ax4.plot(drdt[71:500])
+ax4.plot(VortLocMax[71:500,0])
+# ax4.set_ylim([71, u.shape[2]])
+# ax4.set_xlim([25, u.shape[1]])
+plt.legend()
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####### Comparing different injection conditions #################
 index = 0
 
 #5050
@@ -75,6 +142,7 @@ vels = h5file['Narrow']['U100']['L100'][RPMs[index]]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 VortLocMax100100, VortLocMin100100 = oj.vorticityPeakTracking_inter(u[:,:,:], v[:,:,:]) # Axis 0 is radial, axis 1 is axial
+
 
 
 start_frame = 71
