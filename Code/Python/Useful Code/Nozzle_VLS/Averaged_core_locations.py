@@ -73,7 +73,7 @@ plt.show()
 
 
 ####### Comparing different injection conditions #################
-index = 6
+index = 3
 
 #5050
 vels = h5file['Narrow']['U50']['L50'][RPMs[index]]
@@ -84,6 +84,7 @@ VortLocMin5050[:,0] = abs(np.subtract(VortLocMin5050[:,0], int(u.shape[1]/2)))
 VortLocMax5050[:,0] = np.subtract(VortLocMax5050[:,0], int(u.shape[1]/2))
 VortLocAvg5050 = np.zeros([VortLocMax5050.shape[0], 2])
 VortLocAvg5050 = np.mean([VortLocMax5050, VortLocMin5050], axis = 0)
+Circ_5050    = oj.sum_Vorticity(u, v)
 
 #10050
 vels = h5file['Narrow']['U100']['L50'][RPMs[index]]
@@ -94,7 +95,7 @@ VortLocMin10050[:,0] = abs(np.subtract(VortLocMin10050[:,0], int(u.shape[1]/2)))
 VortLocMax10050[:,0] = np.subtract(VortLocMax10050[:,0], int(u.shape[1]/2))
 VortLocAvg10050 = np.zeros([VortLocMax10050.shape[0], 2])
 VortLocAvg10050 = np.mean([VortLocMax10050, VortLocMin10050], axis = 0)
-
+Circ_10050   = oj.sum_Vorticity(u, v)
 
 #50100
 vels = h5file['Narrow']['U50']['L100'][RPMs[index]]
@@ -105,6 +106,7 @@ VortLocMin50100[:,0] = abs(np.subtract(VortLocMin50100[:,0], int(u.shape[1]/2)))
 VortLocMax50100[:,0] = np.subtract(VortLocMax50100[:,0], int(u.shape[1]/2))
 VortLocAvg50100 = np.zeros([VortLocMax50100.shape[0], 2])
 VortLocAvg50100 = np.mean([VortLocMax50100, VortLocMin50100], axis = 0)
+Circ_50100   = oj.sum_Vorticity(u, v)
 
 #100100
 vels = h5file['Narrow']['U100']['L100'][RPMs[index]]
@@ -115,9 +117,11 @@ VortLocMin100100[:,0] = abs(np.subtract(VortLocMin100100[:,0], int(u.shape[1]/2)
 VortLocMax100100[:,0] = np.subtract(VortLocMax100100[:,0], int(u.shape[1]/2))
 VortLocAvg100100 = np.zeros([VortLocMax100100.shape[0], 2])
 VortLocAvg100100 = np.mean([VortLocMax100100, VortLocMin100100], axis = 0)
+Circ_100100  = oj.sum_Vorticity(u, v)
 
 start_frame = 71
-end_frame = 521
+end_frame = 521 #for 5 seconds
+# end_frame = 2499
 
 
 
@@ -138,27 +142,50 @@ end_frame = 521
 
 
 
-# f5, ax5 = plt.subplots(nrows=1, ncols=1)
-# plt.title('12 RPM Absolute Average Position of Vorticity Peaks in first 5 seconds')
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax5050  [start_frame:end_frame,0], color='c', label = '50 50')
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax10050 [start_frame:end_frame,0], color='b', label = '100 50')
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax50100 [start_frame:end_frame,0], color='r', label = '50 100')
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax100100[start_frame:end_frame,0], color='g', label = '100 100')
-# ax5.set_ylim([0, 50])
-# ax5.set_xlabel(r'$t$[s]')
-# ax5.set_ylabel(r'$r$')
-# plt.legend()
+f5, ax5 = plt.subplots(nrows=1, ncols=1)
+plt.title('12 RPM Absolute Average Position of Vorticity Peaks in first 5 seconds')
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax5050  [start_frame:end_frame,0], color='c', label = '50 50')
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax10050 [start_frame:end_frame,0], color='b', label = '100 50')
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax50100 [start_frame:end_frame,0], color='r', label = '50 100')
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocMax100100[start_frame:end_frame,0], color='g', label = '100 100')
+ax5.set_ylim([0, 50])
+ax5.set_xlabel(r'$t$[s]')
+ax5.set_ylabel(r'$r$')
+plt.legend()
 # plt.show()
 
 
-f6, ax6 = plt.subplots(nrows=1, ncols=1)
-plt.title('12 RPM Absolute Average Position of Vorticity Peaks in first 5 seconds')
-ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax5050  [start_frame:end_frame,1], color='c', label = '50 50')
-ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax10050 [start_frame:end_frame,1], color='b', label = '100 50')
-ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax50100 [start_frame:end_frame,1], color='r', label = '50 100')
-ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax100100[start_frame:end_frame,1], color='g', label = '100 100')
-ax6.set_ylim([25, 200])
-ax6.set_xlabel(r'$t$[s]')
-ax6.set_ylabel(r'$z$')
+# f6, ax6 = plt.subplots(nrows=1, ncols=1)
+# plt.title('0 RPM Absolute Average Position of Vorticity Peaks in first 5 seconds')
+# ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax5050  [start_frame:end_frame,1], color='c', label = '50 50')
+# ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax10050 [start_frame:end_frame,1], color='b', label = '100 50')
+# ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax50100 [start_frame:end_frame,1], color='r', label = '50 100')
+# ax6.scatter(Time[:(end_frame-start_frame)],     VortLocMax100100[start_frame:end_frame,1], color='g', label = '100 100')
+# ax6.set_ylim([25, 200])
+# ax6.set_xlabel(r'$t$[s]')
+# ax6.set_ylabel(r'$z$')
+# plt.legend()
+
+
+
+
+f7, ax7 = plt.subplots(nrows=1, ncols=1)
+ax7.set_title('measurement of circulation')
+ax7.scatter(Time[:(end_frame-start_frame)], Circ_5050[start_frame:end_frame], color='c', label = '50 50')
+ax7.scatter(Time[:(end_frame-start_frame)], Circ_10050[start_frame:end_frame], color='b', label = '100 50')
+ax7.scatter(Time[:(end_frame-start_frame)], Circ_50100[start_frame:end_frame], color='r', label = '50 100')
+ax7.scatter(Time[:(end_frame-start_frame)], Circ_100100[start_frame:end_frame], color='g', label = '100 100')
+plt.legend()
+
+
+f8, ax8 = plt.subplots(nrows=1, ncols=1)
+ax8.set_title('Radial Position of Vorticity Peaks Normalised by Circulation against Time')
+ax8.scatter(Time[:(end_frame-start_frame)],     (VortLocMax5050  [start_frame:end_frame,0]/Circ_5050[start_frame:end_frame]), color='c', label = '50 50')
+ax8.scatter(Time[:(end_frame-start_frame)],     (VortLocMax10050 [start_frame:end_frame,0]/Circ_10050[start_frame:end_frame]), color='b', label = '100 50')
+ax8.scatter(Time[:(end_frame-start_frame)],     (VortLocMax50100 [start_frame:end_frame,0]/Circ_50100[start_frame:end_frame]), color='r', label = '50 100')
+ax8.scatter(Time[:(end_frame-start_frame)],     (VortLocMax100100[start_frame:end_frame,0]/Circ_100100[start_frame:end_frame]), color='g', label = '100 100')
+ax8.set_ylim([0, 0.2])
+ax8.set_xlabel(r'$t$[s]')
+ax8.set_ylabel(r'$r/ \Gamma$')
 plt.legend()
 plt.show()
