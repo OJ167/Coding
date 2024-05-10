@@ -77,19 +77,29 @@ drdt = np.gradient(VortLocMax[:,0])
 f4, ax4 = plt.subplots(nrows=1, ncols=1)
 plt.title('Ring Expansion Rate')
 ax4.plot(drdt[71:500])
-ax4.plot(VortLocMax[71:500,0])
+# ax4.plot(VortLocMax[71:500,0])
 # ax4.set_ylim([71, u.shape[2]])
 # ax4.set_xlim([25, u.shape[1]])
 plt.legend()
+# plt.show()
+
+
+
+
+
+
+#### convolved smoothing for the ring expansion rate ####
+
+filt = np.ones(15)/15
+y_smooth = np.convolve(VortLocMax[:,0], filt, mode='valid')
+dysdx = np.gradient(y_smooth)
+
+f5, ax5 = plt.subplots(nrows=1, ncols=1)
+plt.title('Ring Expansion Rate')
+ax5.plot(drdt[71:500] , label='$r\'(t)$' )
+ax5.plot(dysdx[71:500], label='$r_{smooth}\'(t)$')
+plt.legend()
 plt.show()
-
-
-
-
-
-
-
-
 
 
 
