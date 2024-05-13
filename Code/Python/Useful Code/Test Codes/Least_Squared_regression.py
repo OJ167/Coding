@@ -93,7 +93,7 @@ ax6.plot(x, simple_gradient, 'o--', label = 'simple gradient')
 plt.legend()
 # plt.show()
 
-
+print(x)
 
 filt = np.ones(15)/15
 y_smooth = np.convolve(y, filt, mode='valid')
