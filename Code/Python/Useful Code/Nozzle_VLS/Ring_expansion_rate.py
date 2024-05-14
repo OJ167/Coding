@@ -49,22 +49,54 @@ def convolved_derivitive(y, x, len = 15):
     len must be odd
     '''
     filt = np.ones(len)/len
+    # print(len)
+    # print(filt)
     y_smooth = np.convolve(y, filt, mode='valid')
     # dysdx = np.gradient(y_smooth, x[5:-5])
-    print(len/2, " = len/2")
-    print(int(len/2), " = int len/2")
+    # print(len/2, " = len/2")
+    # print(int(len/2), " = int len/2")
     dysdx = np.gradient(y_smooth, x[int(len/2):-int(len/2)])
     return dysdx
 
 
 drdt = np.gradient(VortLocMax[:,0])
 
-drsdt = convolved_derivitive(VortLocMax[:,0], Time, 15)
+drsdt = convolved_derivitive(VortLocMax[108:,0], Time[108:], 15)
 
+print(drsdt.shape)
+print('drsdt position 57 = ', drsdt[58])
 
 f2, ax2 = plt.subplots(nrows=1, ncols=1)
+plt.title('Ring Expansion Rate')
 ax2.plot(VortLocMax[start_frame:end_frame,0]-95, label = 'Max')
 ax2.plot(drdt [start_frame:end_frame], label = 'dr/dt')
-ax2.plot(drsdt[start_frame-int(15/2):end_frame], label = 'drs/dt')
+# ax2.plot(drsdt[start_frame-int(15/2):end_frame], label = 'drs/dt')
+ax2.plot(drsdt[:end_frame], label = 'drs/dt')
+plt.legend()
+# plt.show()
+
+
+
+
+
+########### Force the location to be at the nozzle before generation
+
+VortLocMax[0:108,0] = 105 #####forcing the radial positon of the core to be at the nozzle (approximately) for the first 108 frames
+
+
+
+drdt = np.gradient(VortLocMax[:,0])
+
+drsdt = convolved_derivitive(VortLocMax[:,0], Time[:], 35)
+
+print('drsdt position 57 = ', drsdt[58])
+
+f2, ax2 = plt.subplots(nrows=1, ncols=1)
+plt.title('Ring Expansion Rate - forcing start position')
+ax2.plot(Time[:(end_frame-start_frame)], VortLocMax[start_frame:end_frame,0]-95, label = 'Max')
+ax2.plot(Time[:(end_frame-start_frame)], drdt [start_frame:end_frame], label = 'dr/dt')
+ax2.plot(Time[start_frame-int(35/2):end_frame], drsdt[start_frame-int(35/2):end_frame], label = 'drs/dt')
+ax2.set_xlabel(r'$t$[s]')
+# ax2.plot(drsdt[start_frame:end_frame], label = 'drs/dt')
 plt.legend()
 plt.show()
