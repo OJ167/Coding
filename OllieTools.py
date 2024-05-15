@@ -15,9 +15,10 @@ import concurrent.futures
 from scipy.fft import fft2,fftshift, ifft2, fft, fftfreq, ifft, rfft, rfftfreq
 import mat73
 import pathlib
-from scipy.interpolate import RectBivariateSpline
+from scipy.interpolate import interp1d, RectBivariateSpline
 import time
-
+import math
+import itertools
 
 #####Import Ollie Tools
 dirPath = "C:/Coding/Code"
@@ -1368,13 +1369,21 @@ def FFT(Array, captureRate):
     return Fourier, FFTfreq
 
 
+from decimal import Decimal
 
 def TwoPtCorrIWs(Arr):
     ExX = Arr.shape[2]
     ExY = Arr.shape[1]
  
-    nPairsHor = int(math.factorial(ExX+2-1)/ math.factorial(2) / math.factorial(ExX-1))
-    nPairsVer = int(math.factorial(ExY+2-1)/ math.factorial(2) / math.factorial(ExY-1))
+    nPairsHor = Decimal(math.factorial(ExX+2-1)/ math.factorial(2) / math.factorial(ExX-1))
+    nPairsVer = Decimal(math.factorial(ExY+2-1)/ math.factorial(2) / math.factorial(ExY-1))
+
+    nPairsHor = int(nPairsHor)
+    nPairsVer = int(nPairsVer)
+
+    print('end')
+    # nPairsHor = 72911  # there are problems in this part of the code - this is a bodge for a single data set
+    # nPairsVer = 337218 # there are problems in this part of the code - this is a bodge for a single data set
  
     corr_Hor = np.zeros(ExY * nPairsHor)
     dist_Hor = np.zeros(ExY * nPairsHor)

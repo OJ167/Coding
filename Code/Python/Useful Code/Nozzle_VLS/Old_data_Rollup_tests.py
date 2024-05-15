@@ -15,6 +15,7 @@ print(dirPath)
 plt.style.use(["science", "vibrant", "no-latex"])
 
 h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
+# h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 
 Vels = ['U50', 'U100']
 Len = ['L50', 'L100']
@@ -23,6 +24,8 @@ RPMs = ['RPM0' , 'RPM1', 'RPM2', 'RPM3' ,'RPM6', 'RPM9', 'RPM12']
 vels = h5file['Narrow'][Vels[0]][Len[0]][RPMs[0]]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
+
+print(u.shape)
 
 VortLocMax0, VortLocMin0 = oj.vorticityPeakTracking_inter(u[:,:,:], v[:,:,:]) # Axis 0 is radial, axis 1 is axial
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
