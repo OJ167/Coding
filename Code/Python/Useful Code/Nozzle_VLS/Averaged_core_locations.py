@@ -73,7 +73,7 @@ plt.show()
 
 
 ####### Comparing different injection conditions #################
-index = 6
+index = 0
 
 #5050
 vels = h5file['Narrow']['U50']['L50'][RPMs[index]]

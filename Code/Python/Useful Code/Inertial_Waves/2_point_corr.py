@@ -185,6 +185,7 @@ oj.tic()
 for i in range(Angles.shape[0]):
     oj.progressBar(i, Angles.shape[0])
     ang = Angles[i]
+    print(ang)
 
     if ang == 60:
         angMean[i] = 0 
