@@ -92,7 +92,7 @@ def animate_cube_streamline(
         ax.grid(False)
         ax.imshow(im,extent=[ z_nd_star[0], z_nd_star[-1], r_nd[0], r_nd[-1]], cmap = 'Greys_r')
         # ax.streamplot(z_nd_star, r_nd, u[i,:,:], v[i,:,:], color = color, broken_streamlines = False)
-        ax.streamplot(z_nd_star, r_nd, u[frame,:,:], v[frame,:,:], color = color, broken_streamlines = False, linewidth=V[:,:])
+        ax.streamplot(z_nd_star, r_nd, u[i,:,:], v[i,:,:], color = color, broken_streamlines = False, linewidth=V[:,:])
         ax.set_title("%03d" % (i))
         ax.set_xlim([z_nd[0], z_nd[-1]])
         ax.set_ylim([r_nd[0], r_nd[-1]])
@@ -125,11 +125,12 @@ def animate_cube_streamline(
 #             animate_cube_streamline(u, v, im, interval=11.1, color = 'g', save=1, output=output, Dir = "C:/Users/u2088308/Videos/", name = name, fps=90, scale = 1, fsize = (12, 10))
 
 
-for i in range(len(Rotations)):
+# for i in range(len(Rotations)):
+for i in range(1):
     vels = h5file['Narrow'][str(Injection[1])][str(Length[1])][str(Rotations[i])]
     u = vels[:,:,:,0]
     v = vels[:,:,:,1]
-    output = str(Rotations[i]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
-    name = str(Rotations[i]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
+    output = str(Rotations[0]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
+    name = str(Rotations[0]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
     print(name)
     animate_cube_streamline(u, v, im, interval=11.1, color = 'g', save=1, output=output, Dir = "C:/Users/u2088308/Videos/", name = name, fps=90, scale = 1, fsize = (12, 10))
