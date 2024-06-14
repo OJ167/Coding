@@ -33,9 +33,9 @@ def descend_obj(obj,sep='\t'):
 # h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
-h5file = h5py.File('F:/H5/LengthTest.h5', 'r')
+h5file = h5py.File('G:/H5/LengthTest.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L225']['RPM0']
+vels = h5file['Narrow']['U100']['L150']['RPM0']
 # vels = h5file['0D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
