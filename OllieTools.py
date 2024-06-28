@@ -1535,3 +1535,16 @@ def legendy(ax, loc='best'):
     handles, labels = ax.get_legend_handles_labels()
     by_label = dict(zip(labels, handles))
     ax.legend(by_label.values(), by_label.keys(), loc=loc)
+
+def load_multiple_rings(Dir, n = 10):
+    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export_fine.mat")
+    print(str(Dir), "\r")
+    u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
+    v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
+
+    for i in range(1, n+1):
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export_fine.mat")
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.scaleVelNozzle(u[(i-1),:,:,:], v[(i-1),:,:,:], 90)
+        oj.progressBar(i, n)
+
+    return u, v
