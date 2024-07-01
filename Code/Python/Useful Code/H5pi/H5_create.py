@@ -112,21 +112,38 @@ def descend_obj(obj,sep='\t'):
 # Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-75/2024-06-10__FPS-90/'
 # Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/'
 # Dir = 'F:/0RPM/RPM-0.0__Upiston-100__Stroke-125/2024-06-12__FPS-90/'
-Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-150/2024-06-11__FPS-90/'
+# Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-150/2024-06-11__FPS-90/'
 # Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-175/2024-06-11__FPS-90/'
 # Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-200/2024-06-11__FPS-90/'
 # Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-225/2024-06-11__FPS-90/'
 # Dir = 'F:/0RPM/RPM-0.0__Upiston-100__Stroke-240/2024-06-12__FPS-90/'
+# umean, vmean = oj.create_Mean(10, Dir) 
+
+
+
+#######################NEW LENGTH CHANGE TESTING
+# Dir = '/'
+# Dir = '/'
+# Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-50/2023-05-10__FPS-90/'
+# Dir = '/'
+# Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/'
+# Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-125/2024-06-28__FPS-90/'
+# Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-150/2024-06-28__FPS-90/'
+Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-175/2024-06-28__FPS-90/'
+# Dir = '/'
+# Dir = '/'
+# Dir = '/'
 umean, vmean = oj.create_Mean(10, Dir) 
+
 
 #################################################################################################################################
 Vels = np.stack((umean, vmean), axis=-1)
 
 # Use this to write ‘w’
-# h5file = h5py.File('F:/H5/LengthTest.h5', 'w')
+# h5file = h5py.File('G:/H5/LengthTestNEW.h5', 'w')
 
 ### Use this to append ‘a’
-h5file = h5py.File('G:/H5/LengthTest.h5', 'a')
+h5file = h5py.File('G:/H5/LengthTestNEW.h5', 'a')
 
 ############# these exist to correct incorrectly saved data and comment out the create_dataset line
 # h5file = h5py.File('G:/H5/LengthTest.h5', 'r+')
@@ -136,7 +153,7 @@ h5file = h5py.File('G:/H5/LengthTest.h5', 'a')
 
 
 # h5file.create_dataset('0D0/U100/L25/RPM0', data=Vels)
-h5file.create_dataset('Narrow/U100/L150/RPM0', data=Vels)
+h5file.create_dataset('Narrow/U100/L175/RPM0', data=Vels)
 
 descend_obj(h5file)
 
