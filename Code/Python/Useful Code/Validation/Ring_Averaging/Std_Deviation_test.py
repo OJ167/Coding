@@ -27,6 +27,7 @@ RPMs = ['RPM0']
 vels = h5file['Narrow']['U100'][Len[0]]['RPM0']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
+h5file.close()
 u, v = oj.scaleVelNozzle(u, v, 90)
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
 z_nd = z_nd - 0.55
@@ -34,9 +35,12 @@ Time = oj.frames_to_seconds(u, v, 90)
 print(z_nd.shape, r_nd.shape)
 
 
-data = u
-stn_dev = np.std(data, axis = 0)
 
+# data = u
+# stn_dev = np.std(u, axis = 0)
+
+# print(V.shape)
+# print(stn_dev.shape)
 
 # f1, ax1 = plt.subplots(nrows=1, ncols=1)
 # ax1.imshow(stn_dev, cmap = 'bwr')
@@ -47,7 +51,7 @@ stn_dev = np.std(data, axis = 0)
 # u, v = oj.load_multiple_rings(Dir, 10)
 
 # print(u.shape)
-# stn_dev = np.std(u[1:,:,:,:], axis = 0)
+# stn_dev = np.std(v[1:,:,:,:], axis = 0)
 # stn_dev = gaussian_filter(stn_dev, sigma = 1)
 # print(stn_dev.shape)
 
@@ -62,7 +66,7 @@ stn_dev = np.std(data, axis = 0)
 # ax[1,1].set_title('frame 1000')
 # ax[1,1].imshow(stn_dev[1000,:,:], cmap = 'bwr')
 # plt.legend()
-# # plt.show()
+# plt.show()
 
 
 # f3, ax = plt.subplots(nrows=2, ncols=2)
@@ -100,7 +104,7 @@ stn_dev = np.std(data, axis = 0)
 # X, Y = np.meshgrid(z_nd, r_nd)
 
 
-# ######### attempt at a 3d plot
+# # ######### attempt at a 3d plot
 # # z_nd, r_nd, stn_dev[:,:] = axes3d.get_test_data(0.05)
 
 # f5, ax5 = plt.subplots(nrows=1, ncols=1, subplot_kw={'projection': '3d'})
@@ -110,7 +114,7 @@ stn_dev = np.std(data, axis = 0)
 # ax5.set_zlabel(r'$\sigma$')
 # f5.colorbar(surface, shrink=0.5, aspect=5)
 # f5.suptitle('Standard Deviation of Axial Velocity at frame 500')
-# # plt.show()
+# plt.show()
 
 # ##### Finding the time series of the maximum standard deviation per frame
 # stn_dev_max = np.zeros(u.shape[1])
@@ -139,7 +143,7 @@ print(stn_dev_max.shape)
 
 for i in range(len(dirs_list)):
     u, v = oj.load_multiple_rings(dirs_list[i], 10)
-    stn_dev = np.std(u[1:,:,:,:], axis = 0)
+    stn_dev = np.std(v[1:,:,:,:], axis = 0)
     stn_dev = gaussian_filter(stn_dev, sigma = 1)
     for j in range(u.shape[1]):
         stn_dev_max[i, j] = np.max(stn_dev[j,:,:])

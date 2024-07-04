@@ -15,11 +15,11 @@ print(dirPath)
 # plt.style.use(["science", "vibrant", "no-latex"])
 plt.style.use(["notebook", "vibrant", "no-latex"])
 
-h5file = h5py.File('G:/H5/LengthTestNEW.h5', 'r')
+h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
 
 Vels = ['U100']
 # Len = ['L25', 'L50', 'L75', 'L100', 'L125', 'L150', 'L175', 'L200', 'L225', 'L240']
-Len = ['L25', 'L50', 'L75', 'L100', 'L125', 'L150', 'L175', 'L200']
+Len = ['L25', 'L50', 'L75', 'L100', 'L125', 'L150', 'L175', 'L200', 'L225', 'L240']
 RPMs = ['RPM0']
 
 vels = h5file['Narrow']['U100'][Len[0]]['RPM0']
@@ -64,8 +64,8 @@ ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[4,start_frame:end_fra
 ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[5,start_frame:end_frame,0], label = f'Len = {Len[5]}', ) # L = 150
 ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[6,start_frame:end_frame,0], label = f'Len = {Len[6]}', ) # L = 175
 ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[7,start_frame:end_frame,0], label = f'Len = {Len[7]}', ) # L = 200
-# ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}', ) # L = 225
-# ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}', ) # L = 240
+ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}', ) # L = 225
+ax1.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}', ) # L = 240
 ax1.set_ylim([0, 50])
 ax1.set_xlabel(r'$t$[s]')
 ax1.set_ylabel(r'$r$')
@@ -83,8 +83,8 @@ ax2.scatter(VortLocAvg[4,start_frame:end_frame,1],     VortLocAvg[4,start_frame:
 ax2.scatter(VortLocAvg[5,start_frame:end_frame,1],     VortLocAvg[5,start_frame:end_frame,0], label = f'Len = {Len[5]}') # L = 150
 ax2.scatter(VortLocAvg[6,start_frame:end_frame,1],     VortLocAvg[6,start_frame:end_frame,0], label = f'Len = {Len[6]}') # L = 175
 ax2.scatter(VortLocAvg[7,start_frame:end_frame,1],     VortLocAvg[7,start_frame:end_frame,0], label = f'Len = {Len[7]}') # L = 200
-# ax2.scatter(VortLocAvg[8,start_frame:end_frame,1],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}') # L = 225
-# ax2.scatter(VortLocAvg[9,start_frame:end_frame,1],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}') # L = 240
+ax2.scatter(VortLocAvg[8,start_frame:end_frame,1],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}') # L = 225
+ax2.scatter(VortLocAvg[9,start_frame:end_frame,1],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}') # L = 240
 ax2.set_ylim([0, 50])
 ax2.set_xlabel(r'$z$')
 ax2.set_ylabel(r'$r$')
@@ -106,8 +106,8 @@ ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[4,start_frame:end_fr
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[5,start_frame:end_frame], label = f'Len = {Len[5]}', ) # L = 150
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[6,start_frame:end_frame], label = f'Len = {Len[6]}', ) # L = 175
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[7,start_frame:end_frame], label = f'Len = {Len[7]}', ) # L = 200
-# ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
-# ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
+ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
+ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
 ax3.set_xlabel(r'$t$[s]')
 ax3.set_ylabel(r'$\Gamma$')
 plt.legend()
@@ -122,8 +122,8 @@ ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[4,start_frame:end_fra
 ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[5,start_frame:end_frame,1], label = f'Len = {Len[5]}', ) # L = 150
 ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[6,start_frame:end_frame,1], label = f'Len = {Len[6]}', ) # L = 175
 ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[7,start_frame:end_frame,1], label = f'Len = {Len[7]}', ) # L = 200
-# ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,1], label = f'Len = {Len[8]}', ) # L = 225
-# ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,1], label = f'Len = {Len[9]}', ) # L = 240
+ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,1], label = f'Len = {Len[8]}', ) # L = 225
+ax4.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,1], label = f'Len = {Len[9]}', ) # L = 240
 ax4.set_xlabel(r'$t$[s]')
 ax4.set_ylabel(r'$z$')
 plt.legend()
@@ -131,7 +131,7 @@ plt.legend()
 
 # repeat the test with old data
 
-h5file = h5py.File('G:/H5/LengthTest.h5', 'r')
+h5file = h5py.File('F:/H5/LengthTest.h5', 'r')
 for i in range(len(Len)):
     print(Len[i])
     vels = h5file['Narrow']['U100'][Len[i]]['RPM0']
@@ -156,8 +156,8 @@ ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[4,start_frame:end_fra
 ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[5,start_frame:end_frame,0], label = f'Len = {Len[5]}', ) # L = 150
 ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[6,start_frame:end_frame,0], label = f'Len = {Len[6]}', ) # L = 175
 ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[7,start_frame:end_frame,0], label = f'Len = {Len[7]}', ) # L = 200
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}', ) # L = 225
-# ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}', ) # L = 240
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}', ) # L = 225
+ax5.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}', ) # L = 240
 ax5.set_ylim([0, 50])
 ax5.set_xlabel(r'$t$[s]')
 ax5.set_ylabel(r'$r$')
@@ -175,8 +175,8 @@ ax6.scatter(VortLocAvg[4,start_frame:end_frame,1],     VortLocAvg[4,start_frame:
 ax6.scatter(VortLocAvg[5,start_frame:end_frame,1],     VortLocAvg[5,start_frame:end_frame,0], label = f'Len = {Len[5]}') # L = 150
 ax6.scatter(VortLocAvg[6,start_frame:end_frame,1],     VortLocAvg[6,start_frame:end_frame,0], label = f'Len = {Len[6]}') # L = 175
 ax6.scatter(VortLocAvg[7,start_frame:end_frame,1],     VortLocAvg[7,start_frame:end_frame,0], label = f'Len = {Len[7]}') # L = 200
-# ax6.scatter(VortLocAvg[8,start_frame:end_frame,1],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}') # L = 225
-# ax6.scatter(VortLocAvg[9,start_frame:end_frame,1],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}') # L = 240
+ax6.scatter(VortLocAvg[8,start_frame:end_frame,1],     VortLocAvg[8,start_frame:end_frame,0], label = f'Len = {Len[8]}') # L = 225
+ax6.scatter(VortLocAvg[9,start_frame:end_frame,1],     VortLocAvg[9,start_frame:end_frame,0], label = f'Len = {Len[9]}') # L = 240
 ax6.set_ylim([0, 50])
 ax6.set_xlabel(r'$z$')
 ax6.set_ylabel(r'$r$')
@@ -198,8 +198,8 @@ ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[4,start_frame:end_fr
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[5,start_frame:end_frame], label = f'Len = {Len[5]}', ) # L = 150
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[6,start_frame:end_frame], label = f'Len = {Len[6]}', ) # L = 175
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[7,start_frame:end_frame], label = f'Len = {Len[7]}', ) # L = 200
-# ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
-# ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
+ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
+ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
 ax7.set_xlabel(r'$t$[s]')
 ax7.set_ylabel(r'$\Gamma$')
 plt.legend()
@@ -214,8 +214,8 @@ ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[4,start_frame:end_fra
 ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[5,start_frame:end_frame,1], label = f'Len = {Len[5]}', ) # L = 150
 ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[6,start_frame:end_frame,1], label = f'Len = {Len[6]}', ) # L = 175
 ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[7,start_frame:end_frame,1], label = f'Len = {Len[7]}', ) # L = 200
-# ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,1], label = f'Len = {Len[8]}', ) # L = 225
-# ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,1], label = f'Len = {Len[9]}', ) # L = 240
+ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[8,start_frame:end_frame,1], label = f'Len = {Len[8]}', ) # L = 225
+ax8.scatter(Time[:(end_frame-start_frame)],     VortLocAvg[9,start_frame:end_frame,1], label = f'Len = {Len[9]}', ) # L = 240
 ax8.set_xlabel(r'$t$[s]')
 ax8.set_ylabel(r'$z$')
 plt.legend()
