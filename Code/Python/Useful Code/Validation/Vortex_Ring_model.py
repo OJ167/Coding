@@ -5,17 +5,17 @@ import sys
 from scipy.ndimage import gaussian_filter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-
-
-####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
+
+
+####Import Ollie Tools MAC
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -31,14 +31,14 @@ X, Y = np.meshgrid(x, y)              # generates a mesh grid
 
 ### Create one core
 Gamma1 = -1 #strength of the first vortex core
-x01, y01 = -20, 5 #core locations of the first core
+x01, y01 = 0, 5 #core locations of the first core
 u1 =  (Gamma1 / (2 * np.pi)) * (Y - y01) / ((X - x01)**2 + (Y - y01)**2)
 v1 = -(Gamma1 / (2 * np.pi)) * (X - x01) / ((X - x01)**2 + (Y - y01)**2)
 
 
 ### Create the second core
 Gamma2 = 1 #strength of the first vortex core
-x02, y02 = -20, -5 #core locations of the first core
+x02, y02 = 0, -5 #core locations of the first core
 u2 =  (Gamma2 / (2 * np.pi)) * (Y - y02) / ((X - x02)**2 + (Y - y02)**2)
 v2 = -(Gamma2 / (2 * np.pi)) * (X - x02) / ((X - x02)**2 + (Y - y02)**2)
 
@@ -83,8 +83,8 @@ for i in range(t_length):
     v2 = -(Gamma2 / (2 * np.pi)) * (X - (x02+i)) / ((X - (x02+i))**2 + (Y - y02)**2)
     u[i,:,:], v[i,:,:] = u1+u2, v1+v2
 
-u = gaussian_filter(u, 1)
-v = gaussian_filter(v, 1)
+# u = gaussian_filter(u, 1)
+# v = gaussian_filter(v, 1)
 
 frame = 50 
 f1, ax1 = plt.subplots()
@@ -120,7 +120,7 @@ ax4.plot(u[frame,:,frame], 'k')
 ax4.plot(49, 0.15, 'ro')
 # plt.show()
 
-# oj.animate_cube_quiver(u, v, u,)
+oj.animate_cube_quiver(u, v, u,)
 
 Circulation = oj.sum_Vorticity(u, v)
 print(Circulation.shape)
