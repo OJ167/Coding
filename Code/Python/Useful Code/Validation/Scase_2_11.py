@@ -59,6 +59,8 @@ cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')#, colors = '
 # ax1. imshow(Psi, extent=[0, 4, -4, 4], origin='lower', cmap='RdGy')
 ax1.set_xlim([0, 4])
 ax1.set_ylim([-4, 4])
+ax1.set_xlabel('r')
+ax1.set_ylabel('z')
 plt.title(r'Contour plot of $\Psi$ with contour levels set to every 0.2')
 
 
@@ -71,7 +73,9 @@ cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')
 # ax1. imshow(Psi, extent=[0, 4, -4, 4], origin='lower', cmap='RdGy')
 ax1.set_xlim([0, 4])
 ax1.set_ylim([-4, 4])
-plt.title(r'Contour plot of $\Psi$ with contour levels set to ~ every 0.27')
+ax1.set_xlabel('r')
+ax1.set_ylabel('z')
+# plt.title(r'Contour plot of $\Psi$ with contour levels set to ~ every 0.27')
 
 
 f2, ax2 = plt.subplots()

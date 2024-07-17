@@ -33,37 +33,37 @@ cmap = plt.get_cmap("jet_r")
 Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[1])]
 u1mean = vels[:,:,:,0]
 v1mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[2])]
 u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[3])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[4])]
 u6mean = vels[:,:,:,0]
 v6mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[5])]
 u9mean = vels[:,:,:,0]
 v9mean = vels[:,:,:,1]
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(Injection[1])]['L50'][str(Rotations[6])]
 u12mean = vels[:,:,:,0]
 v12mean = vels[:,:,:,1]
@@ -82,7 +82,7 @@ iw80 = oj.IWFilter(u12mean, 80, 90, 12)
 iw = oj.IWFilter(u12mean, 60, 90, 12)
 f1, ax1 = plt.subplots()
 plt.title("reconstructed velocity plot filtered for inertial wave frequency")
-ax1.contourf(z_nd, r_nd, iw[600,:,:], cmap = 'bwr')
+ax1.contourf(z_nd, r_nd, iw[600,:,:], cmap = 'seismic')
 ax1.set_xlabel("z/D")
 ax1.set_ylabel("r/D")
 # plt.show()
