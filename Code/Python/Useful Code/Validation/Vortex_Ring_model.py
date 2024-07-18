@@ -22,11 +22,14 @@ plt.style.use(["science", "vibrant", "no-latex"])
 
 
 #Create the field
-N = 100                               # Number of points in each direction
+Nx = 239                               # Number of points in each direction
+Ny = 149
+Nx = 100                               # Number of points in each direction
+Ny = 100
 x_start, x_end = 0, 100.0             # x-direction boundaries
 y_start, y_end = -50.0, 50.0          # y-direction boundaries
-x = np.linspace(x_start, x_end, N)    # computes a 1D-array for x
-y = np.linspace(y_start, y_end, N)    # computes a 1D-array for y
+x = np.linspace(x_start, x_end, Nx)    # computes a 1D-array for x
+y = np.linspace(y_start, y_end, Ny)    # computes a 1D-array for y
 X, Y = np.meshgrid(x, y)              # generates a mesh grid
 
 ### Create one core
@@ -71,8 +74,8 @@ plt.grid(True)
 
 t_length = 100
 
-u = np.zeros([t_length, N, N])
-v = np.zeros([t_length, N, N])
+u = np.zeros([t_length, Ny, Nx])
+v = np.zeros([t_length, Ny, Nx])
 
 for i in range(t_length):
     #Core 1
@@ -109,15 +112,14 @@ vorticity, vorticity_gauss = oj.calculate_vorticity(u, v)
 
 f3, ax3 = plt.subplots()
 ax3.set_title('vorticity plot')
-# ax3.contourf(X, Y, vorticity[frame,:,:], cmap = 'seismic')
-ax3.contourf(X, Y, v[frame,:,:], cmap = 'copper')
+ax3.contourf(X, Y, vorticity[frame,:,:], cmap = 'seismic')
+# ax3.contourf(X, Y, v[frame,:,:], cmap = 'copper')
 # plt.colorbar(cmap = 'seismic')
 
 
 
 f4, ax4 = plt.subplots()
-ax4.plot(u[frame,:,frame], 'k')
-ax4.plot(49, 0.15, 'ro')
+ax4.plot(v[frame,:,frame], 'k')
 # plt.show()
 
 oj.animate_cube_quiver(u, v, u,)
@@ -128,5 +130,5 @@ print(Circulation.shape)
 f5, ax5 = plt.subplots()
 ax5.set_title('Circulation Against Time')
 ax5.plot(Circulation)
-ax5.set_ylim(0, 3)
+# ax5.set_ylim(0, 3)
 plt.show()
