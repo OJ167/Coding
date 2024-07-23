@@ -49,8 +49,8 @@ V = np.sqrt(u[frame,:,:]**2 + v[frame,:,:]**2)
 im = plt.imread('C:/Users/u2088308/Pictures/image1_bg.tiff')
 f1, ax1 = plt.subplots(nrows=1, ncols=1)
 ax1.imshow(im,extent=[ z_nd_star[0], z_nd_star[-1], r_nd[0], r_nd[-1]], cmap = 'Greys_r')
-ax1.streamplot(z_nd_star, r_nd, u[frame,:,:], v[frame,:,:], color = 'g', broken_streamlines = False, linewidth=V[:,:])
-# ax1.streamplot(z_nd_star, r_nd, u[frame,:,:], v[frame,:,:], cmap = 'Greens', broken_streamlines = False, color=V[:,:])
+# ax1.streamplot(z_nd_star, r_nd, u[frame,:,:], v[frame,:,:], color = 'g', broken_streamlines = False, linewidth=V[:,:])
+ax1.streamplot(z_nd_star, r_nd, u[frame,:,:], v[frame,:,:], color = 'g', broken_streamlines = False)#, color=V[:,:])
 ax1.set_xlim([z_nd_star[0], z_nd_star[-1]])
 ax1.set_ylim([r_nd[0], r_nd[-1]])
 ax1.grid(False)
@@ -133,4 +133,4 @@ for i in range(1):
     output = str(Rotations[0]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
     name = str(Rotations[0]) + "_" + str(Injection[1]) + "_" + str(Length[1]) + ".mp4"
     print(name)
-    animate_cube_streamline(u, v, im, interval=11.1, color = 'g', save=1, output=output, Dir = "C:/Users/u2088308/Videos/", name = name, fps=90, scale = 1, fsize = (12, 10))
+    animate_cube_streamline(u, v, im, interval=11.1, color = 'g', save=0, output=output, Dir = "C:/Users/u2088308/Videos/", name = name, fps=90, scale = 1, fsize = (12, 10))

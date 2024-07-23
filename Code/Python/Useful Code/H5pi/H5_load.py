@@ -30,13 +30,13 @@ def descend_obj(obj,sep='\t'):
 
 ################ To load in. move this to another file 
 
-# h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
-h5file = h5py.File('F:/H5/LengthTest.h5', 'r')
+# h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 # h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L225']['RPM0']
+vels = h5file['Narrow']['U100']['L100']['RPM12']
 # vels = h5file['0D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
@@ -44,7 +44,7 @@ v = vels[:,:,:,1]
 umean = np.mean(u, axis=0)
 vmean = np.mean(v, axis=0)
 
-frame = 750
+frame = 500
 u_gauss, v_gauss = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
 
 # descend_obj(h5file)
@@ -100,7 +100,7 @@ ax6.streamplot(z_nd, r_nd, u_gauss[frame,:,:], v_gauss[frame,:,:], color = 'b')
 # im = plt.imread('G:/Testing/RPM-6.0__Upiston-100__Stroke-100/2023-08-18__FPS-90/3/B/00000499.tiff')
 f6, ax7 = plt.subplots(nrows=1, ncols=1)
 # ax7.imshow(im,extent=[ z_nd[0], z_nd[-1], r_nd[0], r_nd[-1]], cmap = 'Greys_r')
-ax7.streamplot(z_nd, r_nd, u_gauss[frame,:,:], v_gauss[frame,:,:], color = 'b', broken_streamlines = False)
+ax7.streamplot(z_nd, r_nd, u_gauss[frame,:,:], v_gauss[frame,:,:], color = 'k', broken_streamlines = False)
 
 
 V = np.sqrt(np.square(u_gauss[:,:,:]) + np.square(v_gauss[:,:,:]))
