@@ -5,17 +5,17 @@ import sys
 from scipy.ndimage import gaussian_filter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-
-
-####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
+# dirPath = "C:/Coding"
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
+
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -86,8 +86,8 @@ for i in range(t_length):
     v2 = -(Gamma2 / (2 * np.pi)) * (X - (x02+i)) / ((X - (x02+i))**2 + (Y - y02)**2)
     u[i,:,:], v[i,:,:] = u1+u2, v1+v2
 
-# u = gaussian_filter(u, 1)
-# v = gaussian_filter(v, 1)
+u = gaussian_filter(u, 1)
+v = gaussian_filter(v, 1)
 
 frame = 50 
 f1, ax1 = plt.subplots()
@@ -123,6 +123,7 @@ ax4.plot(v[frame,:,frame], 'k')
 # plt.show()
 
 oj.animate_cube_quiver(u, v, u,)
+# oj.animate_cube_contourf(u)
 
 Circulation = oj.sum_Vorticity(u, v)
 print(Circulation.shape)
@@ -131,4 +132,14 @@ f5, ax5 = plt.subplots()
 ax5.set_title('Circulation Against Time')
 ax5.plot(Circulation)
 # ax5.set_ylim(0, 3)
+# plt.show()
+
+VortLocMax, VortLocMin = oj.vorticityPeakTracking_inter(u, v)
+print(VortLocMax.shape)
+
+f6, ax6 = plt.subplots()
+ax6.set_title('vortex tracking')
+ax6.plot(VortLocMax[:,1]+5, 'o-',label = 'local maximum')
+ax6.plot(VortLocMin[:,1], 'o-',label = 'local minimum')
+plt.legend()
 plt.show()
