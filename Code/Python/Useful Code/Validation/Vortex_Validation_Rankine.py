@@ -13,17 +13,17 @@ import matplotlib.cm
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-
-
-####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
+# dirPath = "C:/Coding"
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
+
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])

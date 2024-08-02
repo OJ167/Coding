@@ -16,17 +16,17 @@ from scipy.sparse.linalg import spsolve
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-
-
-####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
+# dirPath = "C:/Coding"
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
+
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -123,7 +123,7 @@ x0, y0 = 0, 0  # Vortex center coordinates
 
 # Grid parameters
 x_min, x_max, y_min, y_max = -10, 10, -10, 10
-num_points = 100
+num_points = 101
 x = np.linspace(x_min, x_max, num_points)
 y = np.linspace(y_min, y_max, num_points)
 X, Y = np.meshgrid(x, y)
