@@ -16,21 +16,23 @@ from scipy.sparse.linalg import spsolve
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-
-
-####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
 
+
+####Import Ollie Tools MAC
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
+
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
+matplotlib.rc('xtick', labelsize=8) 
+matplotlib.rc('ytick', labelsize=8) 
 
 ###########################################
 ####THIS IS THE ONE TO USE FOR THESIS WORK
@@ -133,8 +135,9 @@ u =  (Gamma / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
 v = -(Gamma / (2 * np.pi)) * (X - x0) / ((X - x0)**2 + (Y - y0)**2)
 
 # Plot the streamlines
-plt.figure(figsize=(8, 6))
-plt.streamplot(X, Y, u, v, density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="b")
+# plt.figure(figsize=(8, 6))
+plt.figure(figsize=(5.5, 4))
+plt.streamplot(X, Y, u, v, density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="k")
 
 
 # Plot the vortex center
@@ -147,6 +150,7 @@ plt.xlabel('X')
 plt.ylabel('Y')
 plt.title('2D Vortex Flow Field')
 plt.grid(True)
+# plt.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/Single_Vortex.png', dpi = 400)
 # plt.show()
 
 
@@ -173,27 +177,50 @@ ax3.plot(((u.shape[0]-1)/2), ((u.shape[1]-1)/2), 'ro')
 # f3.colorbar(matplotlib.cm.ScalarMappable(cmap="bwr"), ax=ax3)
 
 
-fig, ax = plt.subplots(2, 2, sharex=True, sharey=True)
-ax[0,0].plot(u[int(u.shape[0]/2),:], c = "b") # u deviation in x
-ax[0,1].plot(u[:,int(u.shape[1]/2)], c = "b") # u deviation in y
+fig, ax = plt.subplots(2, 2, sharex=True, sharey=True, figsize=(5.5, 4))
+ax[0,0].plot(u[int(u.shape[0]/2),:], c = "b", label = 'u deviation in x') # u deviation in x
+ax[0,1].plot(u[:,int(u.shape[1]/2)], c = "b", label = 'u deviation in y') # u deviation in y
 # ax[0,1].axvline(x = (u.shape[0]-1)/2, linestyle = "--")
-ax[1,0].plot(v[int(v.shape[0]/2),:], c = "b") # v deviation in x
+ax[1,0].plot(v[int(v.shape[0]/2),:], c = "b", label = 'v deviation in x') # v deviation in x
 # ax[1,0].axvline(x = (v.shape[0]-1)/2, linestyle = "--")
-ax[1,1].plot(v[:,int(v.shape[1]/2)], c = "b") # v deviation in y
+ax[1,1].plot(v[:,int(v.shape[1]/2)], c = "b", label = 'v deviation in y') # v deviation in y
 ax[0,0].set_title("u deviation in x")
 ax[0,1].set_title("u deviation in y")
 ax[1,0].set_title("v deviation in x")
 ax[1,1].set_title("v deviation in y")
-plt.legend()
-plt.show()
+plt.legend(fontsize=6)
+# fig.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/quadplot_5.5_4_400_8.png', dpi = 400)
+# plt.show()
 
 sVorticity = sum_Vorticity(u, v)
 print(sVorticity)
 
 
+### plotting a range of k values and comparing the value of gamma to theoretical values of gamma
+sVorticity = np.zeros(11)
+theoreticalVorticity = np.zeros(11)
+for i in range(11):
+    # Calculate velocity components due to the vortex
+    u =  (i / (2 * np.pi)) * (Y - y0) / ((X - x0)**2 + (Y - y0)**2)
+    v = -(i / (2 * np.pi)) * (X - x0) / ((X - x0)**2 + (Y - y0)**2)
+    if u.shape[0] % 2 != 0:
+        u[int((u.shape[0]/2)),int((u.shape[1]/2))] = 0
+        v[int((v.shape[0]/2)),int((v.shape[1]/2))] = 0
+    sVorticity[i] = sum_Vorticity(u, v)
+    theoreticalVorticity[i] = i*2*np.pi
 
 
-
+f4, ax4 = plt.subplots(figsize=(5.5, 4))
+plt.title("Theoretical Against Measured Circulation")
+ax4.plot(sVorticity, 'o', color = 'b',label = "Measured Circulation")
+ax4.plot(theoreticalVorticity, linestyle = 'dashed', color = 'k', label = "Theoretical Circulation")
+ax4.set_xlabel("$k$")
+ax4.set_ylabel(r"$\Gamma$")
+ax4.set_xlim(0, 10)
+ax4.set_ylim(0, 65)
+plt.legend()
+f4.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/Theoretical_Against_Measured_Circulation.png', dpi = 400)
+plt.show()
 
 
 
