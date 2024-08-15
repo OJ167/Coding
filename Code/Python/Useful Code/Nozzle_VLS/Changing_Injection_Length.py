@@ -5,6 +5,7 @@ from scipy.signal import savgol_filter
 import os
 import sys
 from scipy.ndimage import gaussian_filter
+import matplotlib
 
 
 #####Import Ollie Tools
@@ -12,10 +13,12 @@ dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
-# plt.style.use(["science", "vibrant", "no-latex"])
-plt.style.use(["notebook", "vibrant", "no-latex"])
+plt.style.use(["science", "vibrant", "no-latex"])
+# plt.style.use(["notebook", "vibrant", "no-latex"])
+matplotlib.rc('xtick', labelsize=8) 
+matplotlib.rc('ytick', labelsize=8) 
 
-h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
+h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
 
 Vels = ['U100']
 # Len = ['L25', 'L50', 'L75', 'L100', 'L125', 'L150', 'L175', 'L200', 'L225', 'L240']
@@ -96,7 +99,7 @@ plt.legend()
 
 
 
-f3, ax3 = plt.subplots(nrows=1, ncols=1)
+f3, ax3 = plt.subplots(nrows=1, ncols=1, figsize=(5.5, 4))
 plt.title('Circulation against time')
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[0,start_frame:end_frame], label = f'Len = {Len[0]}', ) # L = 25
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[1,start_frame:end_frame], label = f'Len = {Len[1]}', ) # L = 50
@@ -109,7 +112,8 @@ ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[7,start_frame:end_fr
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
 ax3.set_xlabel(r'$t$[s]')
-ax3.set_ylabel(r'$\Gamma$')
+ax3.set_ylabel(r'$\Gamma$ [cm$^2$s$^-1$]')
+f3.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Circulation_plot_new_data.png', dpi = 400)
 plt.legend()
 
 f4, ax4 = plt.subplots(nrows=1, ncols=1)
@@ -131,7 +135,7 @@ plt.legend()
 
 # repeat the test with old data
 
-h5file = h5py.File('F:/H5/LengthTest.h5', 'r')
+h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 for i in range(len(Len)):
     print(Len[i])
     vels = h5file['Narrow']['U100'][Len[i]]['RPM0']
@@ -188,8 +192,8 @@ plt.legend()
 
 
 
-f7, ax7 = plt.subplots(nrows=1, ncols=1)
-plt.title('Circulation against time')
+f7, ax7 = plt.subplots(nrows=1, ncols=1, figsize=(5.5, 4))
+plt.title('Vortex Ring Circulation Against Time')
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[0,start_frame:end_frame], label = f'Len = {Len[0]}', ) # L = 25
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[1,start_frame:end_frame], label = f'Len = {Len[1]}', ) # L = 50
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[2,start_frame:end_frame], label = f'Len = {Len[2]}', ) # L = 75
@@ -201,7 +205,8 @@ ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[7,start_frame:end_fr
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_frame], label = f'Len = {Len[8]}', ) # L = 225
 ax7.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
 ax7.set_xlabel(r'$t$[s]')
-ax7.set_ylabel(r'$\Gamma$')
+ax7.set_ylabel(r'$\Gamma$ [cm$^2$s$^-1$]')
+f7.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Circulation_plot_old_data.png', dpi = 400)
 plt.legend()
 
 f8, ax8 = plt.subplots(nrows=1, ncols=1)

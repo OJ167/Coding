@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sys
 from scipy.ndimage import gaussian_filter
+import matplotlib.colors as colors
+import matplotlib.cm
 
 #####Import Ollie Tools
 dirPath = "C:/Coding"
@@ -19,6 +21,8 @@ print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
+matplotlib.rc('xtick', labelsize=8) 
+matplotlib.rc('ytick', labelsize=8) 
 
 
 #Create the field
@@ -118,8 +122,11 @@ ax3.contourf(X, Y, vorticity[frame,:,:], cmap = 'seismic')
 
 
 
-f4, ax4 = plt.subplots()
-ax4.plot(v[frame,:,frame], 'k')
+f4, ax4 = plt.subplots(figsize=(5.5, 4))
+ax4.plot(u[frame,:,frame], 'k')
+ax4.set_xlabel(r'$r$')
+ax4.set_ylabel(r'$u$')
+# f4.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/PLACEHOLDER_Sim_Ring_u_Profile.png', dpi = 400)
 # plt.show()
 
 oj.animate_cube_quiver(u, v, u,)
@@ -137,9 +144,12 @@ ax5.plot(Circulation)
 VortLocMax, VortLocMin = oj.vorticityPeakTracking_inter(u, v)
 print(VortLocMax.shape)
 
-f6, ax6 = plt.subplots()
-ax6.set_title('vortex tracking')
+f6, ax6 = plt.subplots(figsize=(5.5, 4))
+ax6.set_title('Simulated Vortex Ring Tracking')
 ax6.plot(VortLocMax[:,1]+5, 'o-',label = 'local maximum')
 ax6.plot(VortLocMin[:,1], 'o-',label = 'local minimum')
+ax6.set_xlabel(r'$t$')
+ax6.set_ylabel(r'$z$')
 plt.legend()
+f6.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/PLACEHOLDER_Sim_Ring_tracking.png', dpi = 400)
 plt.show()
