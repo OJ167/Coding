@@ -3,7 +3,8 @@ close all
 clear
 
 %load the intermediate result from PIVfft_multi. It contains all information that was generated during the cross-correlation window deformation.
-load analysis_data.mat
+%load analysis_data.mat
+load E:\PIV_lab_Uncertainty_analysis\analysis_data.mat
 %We need to use this data to perform the uncertainty calculation.
 %The idea is from this paper: https://github.com/Shrediquette/PIVlab/files/6736049/PIV_uncertainty_sciacchitano2013.pdf
 %Their code is available here:
@@ -16,7 +17,7 @@ load analysis_data.mat
 %The "mismatch" is then a measure for the uncertainty (after some statistical stuff that I still have to look at).
 tic
 %% Uncertainty calculation
-example_index = 207; %figures are plotted with "interrogation area number X" to show some emeplary figures.
+example_index = 201; %figures are plotted with "interrogation area number X" to show some emeplary figures.
 
 %image1_cut are all interrogation areas from image A
 %image2_cut are all interrogation areas from image B (deformed, ideally they should then look like image1_cut)

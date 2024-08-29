@@ -127,6 +127,11 @@ vels = h5file['Narrow'][Vels[0]][Len[0]][RPMs[0]]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
+dir = 'F:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-17__FPS-60/'
+u, v = oj.load_multiple_rings(dir, 10)
+
+u = np.mean(u, axis=0)
+v = np.mean(v, axis=0)
 
 plt.rcParams['figure.constrained_layout.use'] = True
 plt.rcParams['figure.figsize'] = (8, 6)
@@ -166,6 +171,8 @@ Angles = np.linspace(10, 80, dtype='int')
 # right = 53
 left  = 71
 right = 73
+left  = 59###############Temp line
+right = 60###############Temp line
 
 
 runRot = 6
@@ -179,7 +186,11 @@ data = h5file['Narrow'][Vels[0]][Len[0]]['RPM12']
 uTemp = data[:, :, : ,0] #* mask #/ vel0[runInj]
 vTemp = data[:, :, : ,1] #* mask #/ vel0[runInj]
 
+uTemp = np.rot90(u)###############Temp line
+vTemp = v###############Temp line
+
 vmean = np.mean(vTemp, axis=0)
+vmean = np.mean(uTemp, axis=0) ###############Temp line
 angMean = np.zeros(Angles.shape[0])
 oj.tic()
 for i in range(Angles.shape[0]):
@@ -190,7 +201,8 @@ for i in range(Angles.shape[0]):
     if ang == 60:
         angMean[i] = 0 
     else:
-        IWsF = oj.IWFilter(vTemp, ang, fps=fps[runInj], rpm = RealRpm[runRot])#, phase = 1)
+        # IWsF = oj.IWFilter(vTemp, ang, fps=fps[runInj], rpm = RealRpm[runRot])#, phase = 1)
+        IWsF = oj.IWFilter(uTemp, ang, fps=fps[runInj], rpm = RealRpm[runRot])###############Temp line
         # print(IWsF.shape)
 
         _,_,_,_,_,_,angDL = oj.TwoPtCorrIWs(IWsF[:, 2:, :left])

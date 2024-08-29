@@ -3,7 +3,8 @@ close all
 clear
 
 %load the intermediate result from PIVfft_multi. It contains all information that was generated during the cross-correlation window deformation.
-load analysis_data.mat
+%load analysis_data.mat
+load E:\PIV_lab_Uncertainty_analysis\analysis_data.mat
 %We need to use this data to perform the uncertainty calculation.
 %The idea is from this paper: https://github.com/Shrediquette/PIVlab/files/6736049/PIV_uncertainty_sciacchitano2013.pdf
 %Their code is available here:
