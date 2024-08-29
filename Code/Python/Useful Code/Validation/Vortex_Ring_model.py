@@ -94,12 +94,16 @@ u = gaussian_filter(u, 1)
 v = gaussian_filter(v, 1)
 
 frame = 50 
-f1, ax1 = plt.subplots()
-ax1.streamplot(X, Y, u[frame,:,:], v[frame,:,:], density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="b")
+f1, ax1 = plt.subplots(figsize=(5.5, 4))
+ax1.set_title('Simulated Vortex Ring Streamlines')
+ax1.streamplot(X, Y, u[frame,:,:], v[frame,:,:], density=2, linewidth=1, arrowsize=2, arrowstyle='->', color="k")
 ax1.plot(x01+frame, y01, 'ro')  # Red dot for core 1 center
-ax1.plot(x02+frame, y02, 'ko')  # Black dot for core 2 centre
+ax1.plot(x02+frame, y02, 'bo')  # Black dot for core 2 centre
+ax1.set_xlabel(r'$z$')
+ax1.set_ylabel(r'$r$')
 plt.xlim(0, 100)
 plt.ylim(-50, 50)
+f1.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Ch5_Intial_and_Validation/Simulated flows/PLACEHOLDER_Sim_Ring_streamplot.png', dpi = 400)
 
 
 
@@ -151,5 +155,5 @@ ax6.plot(VortLocMin[:,1], 'o-',label = 'local minimum')
 ax6.set_xlabel(r'$t$')
 ax6.set_ylabel(r'$z$')
 plt.legend()
-f6.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/PLACEHOLDER_Sim_Ring_tracking.png', dpi = 400)
+# f6.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/PLACEHOLDER_Sim_Ring_tracking.png', dpi = 400)
 plt.show()

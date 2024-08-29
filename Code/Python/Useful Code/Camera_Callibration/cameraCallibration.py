@@ -13,8 +13,9 @@ print(dirPath)
 
 ##### THIS CODE WORKS TO UNDISTORT IMAGES
 
-Dir = "G:/Experiments/Calibration/grid images/single/*"
-file_path = "G:/Experiments/Calibration/grid images/"
+Dir = "G:/Experiments/Calibration/single/*"
+Dir = "G:/Experiments/Calibration/grid images/*"
+# file_path = "G:/Experiments/Calibration/grid images/"
 # Dir = 'F:/Calibration3D0/Big/*'
 
 ################ FIND CHESSBOARD CORNERS - OBJECT POINTS AND IMAGE POINTS #############################
@@ -67,7 +68,7 @@ for image in images:
         cv.imwrite(f"G:/Experiments/Calibration/grid images/{image}dots.tiff", img)
         cv.waitKey(10)
 
-cv.imwrite(f"G:/Experiments/Calibration/grid images/single/dots.png", img)
+# cv.imwrite(f"G:/Experiments/Calibration/single/dots.png", img)
 
 # cv.destroyAllWindows()
 
@@ -86,14 +87,15 @@ h, w = img.shape[:2]
 newCameraMatrix, roi = cv.getOptimalNewCameraMatrix(cameraMatrix, dist, (w,h), 1, (w,h))
 
 
-
+img = cv.imread("G:/Experiments/Calibration/grid images/5.tiff")
 # Undistort
 dst = cv.undistort(img, cameraMatrix, dist, None, newCameraMatrix)
 
 # crop the image
 x, y, w, h = roi
 dst = dst[y:y+h, x:x+w]
-# cv.imwrite('G:/Testing/Callibration_images/caliResult1.png', dst)
+cv.imwrite('G:/Testing/Callibration_images/caliResult5.png', dst)
+cv.imwrite('G:/Experiments/Calibration/grid images/caliResult5.png', dst)
 # cv.imwrite('F:/Calibration3D0/Big/caliResult1.png', dst)
 
 
