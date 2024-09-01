@@ -1,9 +1,16 @@
 # Servo Library for ESP32
 
+Specifically for the V3.0.0 of Arduino ESP32. All ADC's have been updated to work correctly with the new release
+
+https://github.com/espressif/arduino-esp32/releases
+
 This library attempts to faithfully replicate the semantics of the
 Arduino Servo library (see http://www.arduino.cc/en/Reference/Servo)
 for the ESP32, with two (optional) additions. The two new functions
 expose the ability of the ESP32 PWM timers to vary timer width.
+# Documentation by Doxygen
+
+[ESP32Servo Doxygen](https://madhephaestus.github.io/ESP32Servo/annotated.html)
 
 ## License
 
