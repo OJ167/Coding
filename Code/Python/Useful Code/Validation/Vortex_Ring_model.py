@@ -7,17 +7,17 @@ import matplotlib.colors as colors
 import matplotlib.cm
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-
-
-####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
+# dirPath = "C:/Coding"
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
+
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -103,7 +103,7 @@ ax1.set_xlabel(r'$z$')
 ax1.set_ylabel(r'$r$')
 plt.xlim(0, 100)
 plt.ylim(-50, 50)
-f1.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Ch5_Intial_and_Validation/Simulated flows/PLACEHOLDER_Sim_Ring_streamplot.png', dpi = 400)
+# f1.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Ch5_Intial_and_Validation/Simulated flows/PLACEHOLDER_Sim_Ring_streamplot.png', dpi = 400)
 
 
 
