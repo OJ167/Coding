@@ -926,7 +926,7 @@ def create_Mean(
 
     u_mean = np.mean(u[1:], 0)
     v_mean = np.mean(v[1:], 0)
-    u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
+    # u_mean, v_mean = gaussian_filter(u_mean, sigma=0.7), gaussian_filter(v_mean, sigma=0.7)
 
     return u_mean, v_mean
 

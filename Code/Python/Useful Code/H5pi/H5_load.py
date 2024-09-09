@@ -9,19 +9,19 @@ import matplotlib.cm
 import matplotlib.colors as colors
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-# plt.style.use(["science", "vibrant", "no-latex"])
+dirPath = "C:/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+plt.style.use(["science", "vibrant", "no-latex"])
 
 from tkinter.filedialog import askdirectory
 
 ####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -42,15 +42,15 @@ def descend_obj(obj,sep='\t'):
 
 ################ To load in. move this to another file 
 
-# h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 # h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
 
-h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5')
-h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
-h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5')
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
 
 vels = h5file['Narrow']['U100']['L50']['RPM0']
 # vels = h5file['0D0']['U100']['L100']['RPM12']
@@ -60,7 +60,10 @@ v = vels[:,:,:,1]
 umean = np.mean(u, axis=0)
 vmean = np.mean(v, axis=0)
 
-frame = 500
+u, v = oj.importData73('F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
+u, v = oj.create_Mean(10, 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
+
+frame = 150
 u_gauss, v_gauss = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
 
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
@@ -181,4 +184,8 @@ ax8.plot(V[frame,:,51])
 # ax3.plot(r2*d, pf)
 # ax3.set_xlabel("$r/d$")
 # ax3.set_ylabel(r"$U_{az}$")
+f8, ax9 = plt.subplots(nrows=1, ncols=1)
+plt.title("Profile at y = 51")
+ax9.plot(u[frame,:,51], 'o-')
+ax9.plot(v[frame,:,51], 'o-')
 plt.show()
