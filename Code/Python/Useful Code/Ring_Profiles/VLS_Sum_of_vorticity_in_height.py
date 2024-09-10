@@ -51,7 +51,7 @@ f1, (ax1, ax2) = plt.subplots(ncols=2, nrows=1)
 ax1.contourf(enst[frame, :,:], cmap = 'seismic')
 ax2.plot(vert_sum[frame,:], linestyle='dotted')
 
-plt.show()
+# plt.show()
 
 # Generate Figure 2
 f2, ax3 = plt.subplots()
