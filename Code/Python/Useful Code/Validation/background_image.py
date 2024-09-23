@@ -8,21 +8,28 @@ from scipy.ndimage import gaussian_filter
 
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
+# dirPath = "C:/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 plt.style.use(["science", "vibrant", "no-latex"])
 
 from tkinter.filedialog import askdirectory
 
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ################ To load in. move this to another file 
 
-h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
+# h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5', 'r')
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L100']['RPM12']
+vels = h5file['Narrow']['U100']['L100']['RPM3']
 # vels = h5file['3D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
@@ -39,10 +46,11 @@ frame = 350
 
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
 
-im = plt.imread('C:/Users/u2088308/Pictures/image1_bg.tiff')
+# im = plt.imread('C:/Users/u2088308/Pictures/image1_bg.tiff')
+im = plt.imread('/Volumes/HLS_0D0/image1_bg.tiff')
 f1, ax1 = plt.subplots(nrows=1, ncols=1)
 ax1.imshow(im,extent=[ z_nd[0], z_nd[-1], r_nd[0], r_nd[-1]], cmap = 'Greys_r')
-ax1.streamplot(z_nd, r_nd, u[frame,:,:], v[frame,:,:], color = 'g', broken_streamlines = False)
+ax1.streamplot(z_nd, r_nd, u[frame,:,:], v[frame,:,:], color = 'g',)# broken_streamlines = False)
 
 
 

@@ -16,27 +16,28 @@ from scipy.fft import fft, fftfreq, rfft, rfftfreq
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-
-
-####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
+# dirPath = "C:/Coding"
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
 
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+
 # oj.tic()
 # h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
-h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
-
+# h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0meandataHLS.h5', 'r')
+h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 
 frame = 750
 frametime = frame/150
 d = 0.1
-vels = h5file['3D0']['U100']['L100']['RPM3']
+vels = h5file['3D0']['U100']['L100']['RPM0']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 # h5file.close()
@@ -83,12 +84,12 @@ y = np.linspace(0 , u.shape[1], u.shape[1])
 X, Y = np.meshgrid(x, y) 
 
 
-# r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[frame,:,:], v_gaussian[frame,:,:])
-# r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=30, rBins=45)
-# inds = (r.flatten()).argsort()
-# r2 = (r.flatten())[inds]
-# U_r2 = (U_r.flatten())[inds]
-# pr = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
+r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[frame,:,:], v_gaussian[frame,:,:])
+r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=30, rBins=45)
+inds = (r.flatten()).argsort()
+r2 = (r.flatten())[inds]
+U_r2 = (U_r.flatten())[inds]
+pr = np.poly1d(np.polyfit(r2, U_r2, 11))(r2) #This turns the graph into a polynomial line
 
 
 radial_Position = np.zeros(u.shape[0])
@@ -109,27 +110,34 @@ for i in range(u.shape[0]):
     radial_Position[i] = max
 
 
-# rate = rpm[6]/60
+rate = rpm[6]/60
 
-# f5, ax = plt.subplots(2, 2)
-# plt.suptitle("Radial Velocity Graphs")
-# ax[0,0].plot(pr)
-# ax[0,0].set_title(r"$U_{r}$ Polynomial" + f" - Time = {frametime}")
-# ax[0,0].set_xlabel("$r/d$")
-# ax[0,0].set_ylabel(r"$U_{r}$")
-# ax[0,1].plot(time*rate, U_r_Mean)
-# ax[0,1].set_title(r"$U_{r}$ Mean/time")
-# ax[0,1].set_xlabel("$Time [s]$")
-# ax[0,1].set_ylabel(r"$\bar{U}_{r}$")
-# ax[1,0].plot(time, U_r_Peak)
-# ax[1,0].set_title(r"$U_{r}$ Peak/time")
-# ax[1,0].set_xlabel("$Time [s]$")
-# ax[1,0].set_ylabel(r"$U_{r} Peak$")
-# ax[1,1].plot(time, radial_Position)
-# ax[1,1].set_title(r"$U_{r}$ Peak location")
-# ax[1,1].set_xlabel("not defined")
-# ax[1,1].set_ylabel("radial location")
-# plt.show()
+f5, ax = plt.subplots(2, 2)
+plt.suptitle("Radial Velocity Graphs")
+ax[0,0].plot(pr)
+ax[0,0].set_title(r"$U_{r}$ Polynomial" + f" - Time = {frametime}")
+ax[0,0].set_xlabel("$r/d$")
+ax[0,0].set_ylabel(r"$U_{r}$")
+ax[0,1].plot(time*rate, U_r_Mean)
+ax[0,1].set_title(r"$U_{r}$ Mean/time")
+ax[0,1].set_xlabel("$Time [s]$")
+ax[0,1].set_ylabel(r"$\bar{U}_{r}$")
+ax[1,0].plot(time, U_r_Peak)
+ax[1,0].set_title(r"$U_{r}$ Peak/time")
+ax[1,0].set_xlabel("$Time [s]$")
+ax[1,0].set_ylabel(r"$U_{r} Peak$")
+ax[1,1].plot(time, radial_Position)
+ax[1,1].set_title(r"$U_{r}$ Peak location")
+ax[1,1].set_xlabel("not defined")
+ax[1,1].set_ylabel("radial location")
+plt.show()
+
+f6, ax7 = plt.subplots()
+plt.suptitle(r"$U_{r}$ Peak/time")
+ax7.plot(time, U_r_Peak,  color = 'b')
+ax7.set_xlabel("$Time [s]$")
+ax7.set_ylabel(r"$U_{r} Peak$")
+plt.show()
 
 radial_Positionr = np.zeros([7, u.shape[0]])
 U_r_Mean =         np.zeros([7, u.shape[0]])
@@ -139,6 +147,10 @@ radial_Positionaz = np.zeros([7, u.shape[0]])
 U_az_Mean =         np.zeros([7, u.shape[0]])
 U_az_Peak =         np.zeros([7, u.shape[0]])
 
+
+######
+# multiple rings
+######
 oj.tic()
 for i in range(len(rpm)):
 # for i in range(2):
