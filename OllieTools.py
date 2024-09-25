@@ -1550,3 +1550,22 @@ def load_multiple_rings(Dir, n = 10):
         oj.progressBar(i, n)
 
     return u, v
+
+def calculate_divergence(u, v):
+    """
+    calculates divergence of velocity field
+     
+    INPUT:
+        u           : 3D Numpy tensor containing velocity data
+        v           : 3D Numpy tensor containing velocity data
+
+    OUTPUT:
+        divergence   : 3D Numpy tensor containing divergence data
+        divergence_gauss : 3D Numpy tensor containing divergence data after a gausian filter
+
+    """
+    du = np.gradient(u, axis = 2)
+    dv = np.gradient(v, axis = 1)
+    divergence = du + dv
+    divergence_gauss = gaussian_filter(divergence, sigma = 0.7)
+    return divergence, divergence_gauss

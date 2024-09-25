@@ -42,8 +42,8 @@ def descend_obj(obj,sep='\t'):
 
 ################ To load in. move this to another file 
 
-h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
-# h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+# h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 # h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
@@ -52,16 +52,16 @@ h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
 
-vels = h5file['Narrow']['U100']['L50']['RPM0']
-# vels = h5file['0D0']['U100']['L100']['RPM12']
+# vels = h5file['Narrow']['U100']['L50']['RPM0']
+vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
 umean = np.mean(u, axis=0)
 vmean = np.mean(v, axis=0)
 
-u, v = oj.importData73('F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
-u, v = oj.create_Mean(10, 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
+# u, v = oj.importData73('F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
+# u, v = oj.create_Mean(10, 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
 
 frame = 150
 u_gauss, v_gauss = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
@@ -188,4 +188,13 @@ f8, ax9 = plt.subplots(nrows=1, ncols=1)
 plt.title("Profile at y = 51")
 ax9.plot(u[frame,:,51], 'o-')
 ax9.plot(v[frame,:,51], 'o-')
+plt.show()
+
+divergence, divergence_gauss = oj.calculate_divergence(u, v)
+
+f9, ax = plt.subplots(nrows=2, ncols=2)
+ax[0,0].imshow(divergence_gauss[750,:,:], cmap = 'bwr')
+ax[0,1].quiver(z_nd, r_nd, u_gauss[750,:,:], v_gauss[750,:,:])
+ax[1,0].imshow(divergence_gauss[1350,:,:], cmap = 'bwr')
+ax[1,1].quiver(z_nd, r_nd, u_gauss[1350,:,:], v_gauss[1350,:,:])
 plt.show()

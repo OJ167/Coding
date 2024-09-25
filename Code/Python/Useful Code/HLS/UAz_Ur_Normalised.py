@@ -16,28 +16,28 @@ from scipy.fft import fft, fftfreq, rfft, rfftfreq
 # from colorspacious import cspace_converter
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
-
-
-####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
 
+
+####Import Ollie Tools MAC
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
+
 # oj.tic()
 # h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
-# h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
-h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0meandataHLS.h5', 'r')
-h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0meandataHLS.h5', 'r')
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 
 frame = 750
 frametime = frame/150
 d = 0.1
-vels = h5file['3D0']['U100']['L100']['RPM0']
+vels = h5file['3D0']['U100']['L100']['RPM6']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 # h5file.close()
@@ -147,7 +147,7 @@ radial_Positionaz = np.zeros([7, u.shape[0]])
 U_az_Mean =         np.zeros([7, u.shape[0]])
 U_az_Peak =         np.zeros([7, u.shape[0]])
 
-
+exit()
 ######
 # multiple rings
 ######
