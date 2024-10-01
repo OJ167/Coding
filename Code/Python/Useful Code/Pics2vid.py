@@ -2,17 +2,22 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
 import glob
+import h5py
 import cv2
-
-
 import os
 import sys
 
-dirPath = os.getcwd()
+
+# dirPath = os.getcwd()
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+
+dirPath = "C:/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
+print(dirPath)
 
-dir = 'F:\Warwick Work/vids for conf/test/*'
+dir = 'F:/Warwick Work/vids for conf/test/*'
 
 def loadImages(dir, n=1, clip=0):
     """
