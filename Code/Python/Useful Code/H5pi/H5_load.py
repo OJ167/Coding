@@ -9,19 +9,19 @@ import matplotlib.cm
 import matplotlib.colors as colors
 
 #####Import Ollie Tools
-dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-plt.style.use(["science", "vibrant", "no-latex"])
+# dirPath = "C:/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
+# plt.style.use(["science", "vibrant", "no-latex"])
 
 from tkinter.filedialog import askdirectory
 
 ####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
 plt.style.use(["science", "vibrant", "no-latex"])
@@ -43,11 +43,13 @@ def descend_obj(obj,sep='\t'):
 ################ To load in. move this to another file 
 
 # h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
-h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+# h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 # h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
 
+
+h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
