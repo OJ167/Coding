@@ -30,14 +30,14 @@ matplotlib.rc('ytick', labelsize=8)
 
 h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 
-vels = h5file['Narrow']['U100']['L50']['RPM0']
+vels = h5file['Narrow']['U100']['L100']['RPM0']
 # vels = h5file['0D0']['U100']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 h5file.close()
 
-u, v = oj.importData73('F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
-u, v = oj.create_Mean(10, 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
+# u, v = oj.importData73('G:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
+# u, v = oj.create_Mean(10, 'G:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
 
 axial_distance = 51
 frame = 150
