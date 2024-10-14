@@ -1569,3 +1569,16 @@ def calculate_divergence(u, v):
     divergence = du + dv
     divergence_gauss = gaussian_filter(divergence, sigma = 0.7)
     return divergence, divergence_gauss
+
+def thesis_plot_settings():
+    settings = {
+        'figure.figsize': (5.5, 4),
+        'font.size': 12,
+        'lines.linewidth': 2,
+        'axes.labelsize': 10,
+        'xtick.labelsize': 8,
+        'ytick.labelsize': 8,
+        'legend.fontsize': 10,
+        'figure.dpi': 400,
+    }
+    plt.rcParams.update(settings)

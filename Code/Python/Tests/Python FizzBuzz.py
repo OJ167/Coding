@@ -8,7 +8,7 @@ y = "buzz"
 z = "FIZZBUZZ!!!"
 temp = 0
 
-while temp <= 99:
+while temp <= 999:
     temp +=1
     if temp%3 == 0 and temp%5 == 0:
         print(z)
