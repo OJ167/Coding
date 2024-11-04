@@ -573,11 +573,12 @@ def NDUnitsForPlotsNozzle(shapeX, shapeY, widthM = 0.13574, HeightM = 0.21719, j
     zeroPos = int(jetLocPix/pixX * shapeX)
 
     r = np.linspace(-widthM * zeroPos/shapeX, widthM * (shapeX-zeroPos)/shapeX, shapeX+1)
-    r_nd = r / d
+    r_nd = r / d*2
 
     z = np.linspace(0, HeightM, shapeY)
     z_nd = z / d
-
+    z_nd = z_nd - 0.55
+    
     return r_nd, z_nd
 
 
@@ -647,58 +648,58 @@ def animate_cube_contourf_points(
     # anim.save(output, writer="ffmpeg", fps=fps, dpi=160)
 
 
-def load():
-    global dirRoot, mtx, dist, short, FileListTop, FileListBot, number, n 
-    Port = 'F'
-    short = 1
-    dirRoot = "F:/1.Experiments/RPM-30__Pump-10/2022-09-08__FPS-30/1"
+# def load():
+#     global dirRoot, mtx, dist, short, FileListTop, FileListBot, number, n 
+#     Port = 'F'
+#     short = 1
+#     dirRoot = "F:/1.Experiments/RPM-30__Pump-10/2022-09-08__FPS-30/1"
 
-    mtx, dist = oj.load_coefficients(f'{Port}:/1. Calibration files/07-03-23/calibration_chessboard.yml')
-    # mtxB, distB = sb.load_coefficients(f'{Port}:/.EXPERIMENTS/Calibration Files/22-09-01/CalB/calibration_chessboard.yml')
-    # mtxT, distT = sb.load_coefficients('F:/2.Calibration Files/22-05-12/calibration_chessboard.yml')
+#     mtx, dist = oj.load_coefficients(f'{Port}:/1. Calibration files/07-03-23/calibration_chessboard.yml')
+#     # mtxB, distB = sb.load_coefficients(f'{Port}:/.EXPERIMENTS/Calibration Files/22-09-01/CalB/calibration_chessboard.yml')
+#     # mtxT, distT = sb.load_coefficients('F:/2.Calibration Files/22-05-12/calibration_chessboard.yml')
 
-    dirTop = str(dirRoot + "/T/*")
-    dirBot = str(dirRoot + "/B/*")
-    chars = len(os.listdir(str(dirTop)[:-1])[0])
+#     dirTop = str(dirRoot + "/T/*")
+#     dirBot = str(dirRoot + "/B/*")
+#     chars = len(os.listdir(str(dirTop)[:-1])[0])
 
-    if chars > 12:
-        oj.renameFiles(str(dirTop)[:-1])
-        oj.renameFiles(str(dirBot)[:-1])
-        print("Files Renamed")
-    else:
-        pass
+#     if chars > 12:
+#         oj.renameFiles(str(dirTop)[:-1])
+#         oj.renameFiles(str(dirBot)[:-1])
+#         print("Files Renamed")
+#     else:
+#         pass
 
-    FileListTop = sorted(glob.glob(dirTop))
-    FileListBot = sorted(glob.glob(dirBot))
-    # Define cropping size
-    n = 55
+#     FileListTop = sorted(glob.glob(dirTop))
+#     FileListBot = sorted(glob.glob(dirBot))
+#     # Define cropping size
+#     n = 55
 
-    number = list(range(0, len(FileListBot) - 2))
-
-
-def process_image(number):
-    top = cv2.imread(FileListTop[number])
-    dstTop = cv2.undistort(top, mtx, dist, None, None)[:-n, :]
-    bottom = cv2.imread(FileListBot[number+2])
-    dstBottom = cv2.undistort(bottom, mtx, dist, None, None)[n:, :] 
-    merged = cv2.vconcat([dstTop, dstBottom]) #[top,bottom])
-    numPad = str(number)
-    numPad = numPad.zfill(5)
-    cv2.imwrite(str(dirRoot + f"/M/Image_{numPad}.tiff"), merged)
-    if short == 1:
-        if number % 60 == 0:
-            cv2.imwrite(str(dirRoot + f'/Short/{str(int(numPad/60))}.tiff'), merged)
-        else:
-            pass
-    else:
-        pass
-    print(f"done     file: {number}")
+#     number = list(range(0, len(FileListBot) - 2))
 
 
-if __name__ == "__main__":
-    load()
-    with concurrent.futures.ThreadPoolExecutor() as executor:
-        executor.map(process_image, number)
+# def process_image(number):
+#     top = cv2.imread(FileListTop[number])
+#     dstTop = cv2.undistort(top, mtx, dist, None, None)[:-n, :]
+#     bottom = cv2.imread(FileListBot[number+2])
+#     dstBottom = cv2.undistort(bottom, mtx, dist, None, None)[n:, :] 
+#     merged = cv2.vconcat([dstTop, dstBottom]) #[top,bottom])
+#     numPad = str(number)
+#     numPad = numPad.zfill(5)
+#     cv2.imwrite(str(dirRoot + f"/M/Image_{numPad}.tiff"), merged)
+#     if short == 1:
+#         if number % 60 == 0:
+#             cv2.imwrite(str(dirRoot + f'/Short/{str(int(numPad/60))}.tiff'), merged)
+#         else:
+#             pass
+#     else:
+#         pass
+#     print(f"done     file: {number}")
+
+
+# if __name__ == "__main__":
+#     load()
+#     with concurrent.futures.ThreadPoolExecutor() as executor:
+#         executor.map(process_image, number)
 
 
 def renameFiles(dir):
