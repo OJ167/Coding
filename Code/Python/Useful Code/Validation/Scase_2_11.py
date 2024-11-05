@@ -65,7 +65,7 @@ plt.title(r'Contour plot of $\Psi$ with contour levels set to every 0.2')
 
 
 levels = np.linspace(-10, 10, 75)
-print(levels)
+# print(levels)
 #surf(r,z,Psi)
 f1, ax1 = plt.subplots()
 cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')
