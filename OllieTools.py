@@ -576,8 +576,9 @@ def NDUnitsForPlotsNozzle(shapeX, shapeY, widthM = 0.13574, HeightM = 0.21719, j
     r_nd = r / d*2
 
     z = np.linspace(0, HeightM, shapeY)
-    z_nd = z / d
-    z_nd = z_nd - 0.55
+    z_nd = z / d*2
+    # z_nd = z_nd - 0.55
+    z_nd = z_nd - 1.1
     
     return r_nd, z_nd
 
@@ -1581,5 +1582,6 @@ def thesis_plot_settings():
         'ytick.labelsize': 8,
         'legend.fontsize': 10,
         'figure.dpi': 400,
+        'figure.constrained_layout.use': True
     }
     plt.rcParams.update(settings)
