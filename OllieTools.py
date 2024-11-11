@@ -1585,3 +1585,4 @@ def thesis_plot_settings():
         'figure.constrained_layout.use': True
     }
     plt.rcParams.update(settings)
+    print('Thesis plot settings applied')

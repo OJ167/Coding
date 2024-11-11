@@ -3,6 +3,7 @@ import numpy as np
 
 import os
 import sys
+import h5py
 
 # dirPath = os.getcwd()
 # sys.path.insert(0, dirPath)
@@ -16,6 +17,11 @@ from scipy import ndimage
 import concurrent.futures
 from scipy.fft import fft2,fftshift, ifft2
 
+dirPath = "C:/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+oj.thesis_plot_settings()
  
 
 def draw_cicle(shape, diameter):
@@ -47,9 +53,9 @@ def LowPass2D(Im, Circle, FiltStrength = 4):
     Guass = ndimage.gaussian_filter(Subtracted, FiltStrength)
     return Guass
 
-FPS = 25
+FPS = 60
 frameStart = 60
-frameEnd = 350
+frameEnd = 1250
 totalFrames = frameEnd - frameStart
 
 frame_slicer3001 = 50
@@ -57,7 +63,9 @@ frame_slicer3001 = 50
 nums = [int(0.1*totalFrames), int(0.3*totalFrames), int(0.5*totalFrames), int(0.7*totalFrames)]
 length = int(len(nums))
 
-Dir = 'E:\Repeatibility/3RPM\Ring1_3RPM\Side/*'
+Dir = 'E:/Repeatibility/0RPM/Ring7_0RPM/Side/*'
+# Dir = 'E:/Repeatibility/3RPM/Ring1_3RPM/Side/*'
+
 FileList = sorted(glob.glob(Dir)) [frameStart:frameEnd] #specific frames desired (start:stop:step)
 col = 1
 Im0 = cv2.imread(FileList[0])
@@ -87,26 +95,31 @@ for n in range(len(nums)):
         COMTotal[:,n] = 0
 
 
-plot1Time = str(int(0.1*totalFrames)/FPS)
+plot1Time = str(round(int(0.1*totalFrames)/FPS, 2))
 plot1frames = str(0.1*totalFrames)
-plot2Time = str(int(0.3*totalFrames)/FPS)
+plot2Time = str(round(int(0.3*totalFrames)/FPS, 2))
 plot2frames = str(0.3*totalFrames)
-plot3Time = str(int(0.5*totalFrames)/FPS)
+plot3Time = str(round(int(0.5*totalFrames)/FPS, 2))
 plot3frames = str(0.5*totalFrames)
-plot4Time = str(int(0.7*totalFrames)/FPS)
+plot4Time = str(round(int(0.7*totalFrames)/FPS, 2))
 plot4frames = str(0.7*totalFrames)
 
-f1, ((ax11, ax12), (ax13, ax14)) = plt.subplots(nrows=2, ncols=2, figsize = (6,4) )#, layout='constrained'
+f1, ((ax11, ax12), (ax13, ax14)) = plt.subplots(nrows=2, ncols=2, figsize = (5.5, 4) , layout='constrained')
 ax11.contourf(ImPro[:,:,0], cmap = "hot")
-ax11.scatter(COMTotal[1,0], COMTotal[0,0], c = "b")
-ax11.set_title("Time = " + plot1Time + "s" + plot1frames)
+ax11.scatter(COMTotal[1,0], COMTotal[0,0], c = "b", s=5)
+ax11.set_title("(a) Time = " + plot1Time + "s", fontsize=9)
+ax11.set_xticklabels([])
 ax12.contourf(ImPro[:,:,1], cmap = "hot")
-ax12.scatter(COMTotal[1,1], COMTotal[0,1], c = "b")
-ax12.set_title("Time = " + plot2Time + "s" + plot2frames)
+ax12.scatter(COMTotal[1,1], COMTotal[0,1], c = "b", s=5)
+ax12.set_title("(b) Time = " + plot2Time + "s", fontsize=9)
+ax12.set_xticklabels([])
+ax12.set_yticklabels([])
 ax13.contourf(ImPro[:,:,2], cmap = "hot")
-ax13.scatter(COMTotal[1,2], COMTotal[0,2], c = "b")
-ax13.set_title("Time = " + plot3Time + "s" + plot3frames)
+ax13.scatter(COMTotal[1,2], COMTotal[0,2], c = "b", s=5)
+ax13.set_title("(c) Time = " + plot3Time + "s", fontsize=9)
 ax14.contourf(ImPro[:,:,3], cmap = "hot")
-ax14.scatter(COMTotal[1,3], COMTotal[0,3], c = "b")
-ax14.set_title("Time = " + plot4Time + "s" + plot4frames)
+ax14.scatter(COMTotal[1,3], COMTotal[0,3], c = "b", s=5)
+ax14.set_title("(c) Time = " + plot4Time + "s", fontsize=9)
+ax14.set_yticklabels([])
+f1.savefig('C:/Coding/binarised_flow_vis.png', dpi = 400)
 plt.show()

@@ -8,9 +8,17 @@ dirPath = os.getcwd()
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 
+dirPath = "C:/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+oj.thesis_plot_settings()
+
 # data = np.load("F:\Experiments\FlowVis\Dye Videos\Ring_Tracking_Results\Variables/Vars.npz")
-data = np.load('/Volumes/OllieSSD/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
+# data = np.load('/Volumes/OllieSSD/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
 # data = np.load('/Volumes/OllieSSD/Experiments/FlowVis/Dye Videos/Repeatability/Ring Tracking Data/Variables/0RPM.npz')
+
+data = np.load('F:/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
 
 Ring1_0 = np.asarray(data["Ring1_0"])
 # Ring2_0 = np.asarray(data["Ring2_0"])
@@ -26,9 +34,9 @@ Ring2_6 = np.asarray(data["Ring2_6"])
 # Ring2_87 = np.asarray(data["Ring2_87"])
 Ring3_87 = np.asarray(data["Ring3_87"])
 
-plt.style.reload_library()
-plt.style.use('science')
-
+# plt.style.reload_library()
+# plt.style.use('science')
+plt.figure(figsize=(5.5, 3.5))
 plt.plot(Ring1_0[1,1:264]/95  ,  label = "0.0RPM")
 # plt.plot(Ring2_0[1,1:]  ,  label = "Ring2_0")
 # plt.plot(Ring3_0[1,1:]  ,  label = "Ring3_0")
@@ -83,9 +91,10 @@ plt.plot(Ring3_87[1,1:]/95 ,  label = "8.7RPM")
 
 # plt.xlabel('Time [Frames]')
 # plt.xticks(Ring1_0[:,2]/100)
-plt.xlabel('[T/(Dp/Up)]')
-plt.ylabel('[Z/Dp]')
-plt.title("Multiple Ring Displacement")
+plt.xlabel(r'$t/(D_{0}/U_{0})$')
+plt.ylabel(r'$z/D_{0}$')
+# plt.title("Multiple Ring Displacement")
 
 plt.legend()
+plt.savefig('C:/Coding/Flow_vis_tracking.png', dpi = 400)
 plt.show()

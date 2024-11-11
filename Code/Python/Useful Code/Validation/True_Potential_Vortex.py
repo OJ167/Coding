@@ -29,10 +29,11 @@ print(dirPath)
 # print(dirPath)
 
 ##### Set plot style #####
-plt.style.use(["science", "vibrant", "no-latex"])
-cmap = plt.get_cmap("jet_r")
-matplotlib.rc('xtick', labelsize=8) 
-matplotlib.rc('ytick', labelsize=8) 
+# plt.style.use(["science", "vibrant", "no-latex"])
+# cmap = plt.get_cmap("jet_r")
+# matplotlib.rc('xtick', labelsize=8) 
+# matplotlib.rc('ytick', labelsize=8) 
+oj.thesis_plot_settings()
 
 ###########################################
 ####THIS IS THE ONE TO USE FOR THESIS WORK
@@ -148,9 +149,10 @@ plt.xlim(x_min, x_max)
 plt.ylim(y_min, y_max)
 plt.xlabel('X')
 plt.ylabel('Y')
-plt.title('2D Vortex Flow Field')
+# plt.title('2D Vortex Flow Field')
 plt.grid(True)
 # plt.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/Single_Vortex.png', dpi = 400)
+# plt.savefig('C:/Coding/Single_Vortex.png', dpi = 400)
 # plt.show()
 
 
@@ -219,7 +221,7 @@ ax4.set_ylabel(r"$\Gamma$")
 ax4.set_xlim(0, 10)
 ax4.set_ylim(0, 65)
 plt.legend()
-f4.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/Theoretical_Against_Measured_Circulation.png', dpi = 400)
+# f4.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Simulated flows/Theoretical_Against_Measured_Circulation.png', dpi = 400)
 plt.show()
 
 

@@ -9,22 +9,24 @@ import matplotlib.cm
 import matplotlib.colors as colors
 
 #####Import Ollie Tools
-# dirPath = "C:/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
+dirPath = "C:/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 # plt.style.use(["science", "vibrant", "no-latex"])
+
+oj.thesis_plot_settings()
 
 from tkinter.filedialog import askdirectory
 
 ####Import Ollie Tools MAC
-dirPath = "/Users/olliejackson/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
+# dirPath = "/Users/olliejackson/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
 
 ##### Set plot style #####
-plt.style.use(["science", "vibrant", "no-latex"])
+# plt.style.use(["science", "vibrant", "no-latex"])
 matplotlib.rc('xtick', labelsize=8) 
 matplotlib.rc('ytick', labelsize=8) 
 
@@ -46,16 +48,16 @@ def descend_obj(obj,sep='\t'):
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
-# h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'r')
+h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
 
 
-h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
+# h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
 
-# vels = h5file['Narrow']['U100']['L50']['RPM0']
-vels = h5file['3D0']['U100']['L100']['RPM3']
+vels = h5file['Narrow']['U100']['L75']['RPM0']
+# vels = h5file['3D0']['U100']['L100']['RPM3']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -79,13 +81,15 @@ vmin = np.min(umean[:,:])
 vmax = np.max(umean[:,:])
 norm = colors.TwoSlopeNorm(vmin=vmin, vcenter=0, vmax=vmax)
 
-f1, (ax1) = plt.subplots(nrows=1, ncols=1, figsize=(5.5, 4))
-# ax1.contourf(z_nd, r_nd, umean[:,:], cmap = "seismic")
-ax1.imshow(umean[:,:], cmap = "seismic")
-f1.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap="seismic"), label = r'axial velocity [m s^{-1}]')#, ax=ax1)
-ax1.set_xlabel('z/d')
-ax1.set_ylabel('r/d')
-plt.title("Axial Velocity Contour")
+f1, (ax1) = plt.subplots(nrows=1, ncols=1, figsize=(5.5, 3.5), layout="constrained")
+ax1.contourf(z_nd, r_nd, umean[:,:], cmap = "bwr", norm=norm)
+# ax1.imshow(umean[:,:], cmap = "seismic")
+f1.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap="bwr"), ax=ax1, label = r'$\overline{u} ~[m/s]$')#, ax=ax1)
+ax1.axhline(0, color = 'k', linestyle = '--', linewidth=0.5)
+ax1.set_xlabel(r'$z/r{0}$')
+ax1.set_ylabel(r'$r/r{0}$')
+f1.savefig('C:/Coding/umean75.png', dpi = 400)
+# plt.title("Axial Velocity Contour")
 # plt.show()
 
 
@@ -190,7 +194,7 @@ f8, ax9 = plt.subplots(nrows=1, ncols=1)
 plt.title("Profile at y = 51")
 ax9.plot(u[frame,:,51], 'o-')
 ax9.plot(v[frame,:,51], 'o-')
-plt.show()
+# plt.show()
 
 divergence, divergence_gauss = oj.calculate_divergence(u, v)
 
