@@ -917,13 +917,15 @@ def create_Mean(
 ):
     ######## Importing multiple rings #####
     # n = 10
-    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export_fine.mat")
+    # u, v = oj.importData73(str(Dir) + "1/Data/PIV_export_fine.mat")
+    u, v = oj.importData73(str(Dir) + "1/Data/PIV_export.mat")
     print(str(Dir), "\r")
     u = np.zeros([n, u.shape[0], u.shape[1], u.shape[2]])
     v = np.zeros([n, v.shape[0], v.shape[1], v.shape[2]])
 
     for i in range(1, n+1):
-        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export_fine.mat")
+        # u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export_fine.mat")
+        u[(i-1),:,:,:], v[(i-1),:,:,:] = oj.importData73(str(Dir) + str(i) + "/Data/PIV_export.mat")
         oj.progressBar(i, n)
 
     u_mean = np.mean(u[1:], 0)

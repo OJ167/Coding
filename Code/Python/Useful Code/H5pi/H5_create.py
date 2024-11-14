@@ -132,19 +132,28 @@ def descend_obj(obj,sep='\t'):
 # Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-150/2024-06-28__FPS-90/'
 # Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-175/2024-06-28__FPS-90/'
 # Dir = 'G:/Testing/RPM-0.0__Upiston-100__Stroke-200/2024-07-02__FPS-90/'
-Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-225/2024-07-03__FPS-90/'
+# Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-225/2024-07-03__FPS-90/'
 # Dir = 'F:/Testing/RPM-0.0__Upiston-100__Stroke-240/2024-07-03__FPS-90/'
-umean, vmean = oj.create_Mean(10, Dir) 
+# umean, vmean = oj.create_Mean(10, Dir) 
 
+
+#################################### WIDE FOV TESTING
+
+# Dir = 'F:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-27__FPS-60/'
+# Dir = 'F:/Testing/RPM-3.0__Upiston-200__Stroke-100/2023-03-14__FPS-60/'
+# Dir = 'F:/Testing/RPM-6.0__Upiston-200__Stroke-100/2023-03-15__FPS-60/'
+# Dir = 'F:/Testing/RPM-9.0__Upiston-200__Stroke-100/2023-03-16__FPS-60/'
+Dir = 'F:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-17__FPS-60/'
+umean, vmean = oj.create_Mean(10, Dir) 
 
 #################################################################################################################################
 Vels = np.stack((umean, vmean), axis=-1)
 
 # Use this to write ‘w’
-# h5file = h5py.File('G:/H5/LengthTestNEW.h5', 'w')
+# h5file = h5py.File('E:/H5/WideFOV.h5', 'w')
 
 ### Use this to append ‘a’
-h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'a')
+h5file = h5py.File('E:/H5/WideFOV.h5', 'a')
 
 ############# these exist to correct incorrectly saved data and comment out the create_dataset line
 # h5file = h5py.File('G:/H5/LengthTestNEW.h5', 'r+')
@@ -154,7 +163,8 @@ h5file = h5py.File('F:/H5/LengthTestNEW.h5', 'a')
 
 
 # h5file.create_dataset('0D0/U100/L25/RPM0', data=Vels)
-h5file.create_dataset('Narrow/U100/L225/RPM0', data=Vels)
+# h5file.create_dataset('Narrow/U100/L225/RPM0', data=Vels)
+h5file.create_dataset('Wide/U200/L100/RPM12', data=Vels)
 
 descend_obj(h5file)
 

@@ -48,7 +48,8 @@ def descend_obj(obj,sep='\t'):
 # h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
-h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
+# h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
+h5file = h5py.File('E:/H5/WideFOV.h5', 'r')
 
 
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
@@ -56,8 +57,9 @@ h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
 
-vels = h5file['Narrow']['U100']['L75']['RPM0']
+# vels = h5file['Narrow']['U100']['L75']['RPM0']
 # vels = h5file['3D0']['U100']['L100']['RPM3']
+vels = h5file['Wide']['U200']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -67,7 +69,7 @@ vmean = np.mean(v, axis=0)
 # u, v = oj.importData73('F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/2/Data/PIV_export_fine.mat')
 # u, v = oj.create_Mean(10, 'F:/Testing/RPM-0.0__Upiston-100__Stroke-100/2023-08-22__FPS-90/')
 
-frame = 150
+frame = 300
 u_gauss, v_gauss = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
 
 r_nd, z_nd = oj.NDUnitsForPlotsNozzle(u.shape[1], u.shape[2])
@@ -88,7 +90,7 @@ f1.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap="bwr"), ax=ax1, label =
 ax1.axhline(0, color = 'k', linestyle = '--', linewidth=0.5)
 ax1.set_xlabel(r'$z/r{0}$')
 ax1.set_ylabel(r'$r/r{0}$')
-f1.savefig('C:/Coding/umean75.png', dpi = 400)
+# f1.savefig('C:/Coding/umean75.png', dpi = 400)
 # plt.title("Axial Velocity Contour")
 # plt.show()
 
@@ -110,14 +112,14 @@ ax2. quiver(z_nd, r_nd, u_gauss[frame,:,:], v_gauss[frame,:,:])
 
 
 f3, ax3 = plt.subplots(nrows=1, ncols=1)
-ax3.plot(u[frame,80,:])
+ax3.plot(u[frame,35,:])
 ax3.plot(u_gauss[frame,:,32])
 
 
 
 
 uProf_sav = np.zeros([u.shape[2]])
-uProf_sav = savgol_filter(u[frame,80,:] , 19, 2)
+uProf_sav = savgol_filter(u[frame,35,:] , 19, 2)
 vProf_sav = np.zeros([v.shape[1]])
 vProf_sav = savgol_filter(u_gauss[frame,:,51], 19, 2)
 
