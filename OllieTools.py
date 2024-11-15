@@ -253,7 +253,7 @@ def importVorticity(dir):
     return vorticity
 
 
-def scaleVel(u, v, fps, heightPixels=1976, heightImage=0.405):
+def scaleVel(u, v, fps, heightPixels=1920, heightImage=0.405):
     """
     Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
 
@@ -271,7 +271,7 @@ def scaleVel(u, v, fps, heightPixels=1976, heightImage=0.405):
     v = factor * v
     return u, v
 
-def scaleVelNozzle(u, v, fps, heightPixels=1976, heightImage=0.405):
+def scaleVelNozzle(u, v, fps, heightPixels=1920, heightImage=0.214):
     """
     Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
 
