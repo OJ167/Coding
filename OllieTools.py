@@ -1588,3 +1588,34 @@ def thesis_plot_settings():
     }
     plt.rcParams.update(settings)
     print('Thesis plot settings applied')
+
+
+def GenPlotMulti(nrows, ncols, xlabel=r'$r / d$', ylabel=r"$z / d$", cols = [0, 1, 2, 3, 4, 5, 6], rows = [0, 1, 2, 3, 4, 5, 6]):
+
+# Note most of this doesnt need adjusting hopefully, however the 1.6 in the last for loop is a reference to how far (in a multiple of the axis width) from the y axis the right labels are placed and therefore this will change depending on the plot dims.
+# This is mostly useful for when you need to preserve the aspect ratio.
+
+    f, axs = plt.subplots(nrows=nrows, ncols=ncols, figsize=(10,6), sharex = 'all', sharey = 'all')
+
+    pad = 10
+
+    for ax, col in zip(axs[0], cols):
+        ax.annotate('Re = {}'.format(col), xy=(0.5, 1), xytext=(0, pad),
+            xycoords='axes fraction', textcoords='offset points',
+            size='large', ha='center', va='baseline')
+
+    for ax, row in zip(axs[:,0], rows):
+        ax.annotate('Ek = {}'.format(row), xy=(0, 0.5), xytext=(-ax.yaxis.labelpad - pad, 0),
+            xycoords=ax.yaxis.label, textcoords='offset points', rotation= 90,
+            size='large', ha='right', va='center')
+        
+    for ax, row in zip(axs[:,-1], rows):
+        ax.annotate(r'$u_{f} / u_{inj}$', xy=(1.6, 0.5), xytext=(pad, 0),
+            xycoords='axes fraction', textcoords='offset points', rotation= 90,
+            size='large', ha='left', va='center')
+        
+    plt.setp(axs[-1, :], xlabel=xlabel)
+    plt.setp(axs[:, 0], ylabel=ylabel)
+    
+
+    return f, axs
