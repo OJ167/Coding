@@ -113,7 +113,7 @@ ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[8,start_frame:end_fr
 ax3.scatter(Time[:(end_frame-start_frame)],     Circulation[9,start_frame:end_frame], label = f'Len = {Len[9]}', ) # L = 240
 ax3.set_xlabel(r'$t$[s]')
 ax3.set_ylabel(r'$\Gamma$ [cm$^2$s$^-1$]')
-f3.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Circulation_plot_new_data.png', dpi = 400)
+# f3.savefig('//cantus.ads.warwick.ac.uk/User44/u/u2088308/Documents/My Pictures/Thesis Images/Circulation_plot_new_data.png', dpi = 400)
 plt.legend()
 
 f4, ax4 = plt.subplots(nrows=1, ncols=1)
