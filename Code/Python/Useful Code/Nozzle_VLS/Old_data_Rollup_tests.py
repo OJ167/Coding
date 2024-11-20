@@ -73,7 +73,7 @@ ax4.plot(Time[71:500], VortLocMin12[71:500,0], label = '12RPM Min')
 ax4.plot(Time[71:500], VortLocMax0[71:500,0], label = '0RPM Max')
 ax4.plot(Time[71:500], VortLocMax12[71:500,0], label = '12RPM Max')
 plt.legend()
-# plt.show()
+plt.show()
 
 VortLocMax_i = np.zeros([len(RPMs[:]), 2699, 2])
 VortLocMin_i = np.zeros([len(RPMs[:]), 2699, 2])

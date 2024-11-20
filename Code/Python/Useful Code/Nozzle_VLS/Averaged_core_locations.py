@@ -21,7 +21,7 @@ Vels = ['U50', 'U100']
 Len = ['L50', 'L100']
 RPMs = ['RPM0' , 'RPM1', 'RPM2', 'RPM3' ,'RPM6', 'RPM9', 'RPM12']
 
-vels = h5file['Narrow'][Vels[0]][Len[0]][RPMs[4]]
+vels = h5file['Narrow'][Vels[0]][Len[0]][RPMs[0]]
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 u, v = oj.scaleVelNozzle(u, v, 90)

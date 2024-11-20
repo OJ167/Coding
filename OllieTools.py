@@ -1619,3 +1619,24 @@ def GenPlotMulti(nrows, ncols, xlabel=r'$r / d$', ylabel=r"$z / d$", cols = [0, 
     
 
     return f, axs
+
+def normalise_injection_time(u, v, start_frame = 71, end_frame = 521):
+    """
+    normalise the time of the vortex ring by the time taken for the ring to be injected. 
+    This looks at the maximum r value of the vortex ring and finds the time at which this occurs using the normal vortex tracking method.
+    """
+    Time = oj.frames_to_seconds(u, v, 90)
+    VortLocMax, VortLocMin = oj.vorticityPeakTracking_inter(u[:,:,:], v[:,:,:]) # Axis 0 is radial, axis 1 is axial
+    VortLocMin[:,0] = abs(np.subtract(VortLocMin[:,0], int(u.shape[1]/2)))
+    VortLocMax[:,0] = np.subtract(VortLocMax[:,0], int(u.shape[1]/2))
+    VortLocAvg = np.zeros([VortLocMax.shape[0], 2])
+    VortLocAvg = np.mean([VortLocMax, VortLocMin], axis = 0)
+
+    vort_max_temp = VortLocAvg[:,0]
+    t_inj = np.argmax(vort_max_temp[start_frame:end_frame])
+    t_inj = t_inj / 90
+    end_frame_star = int(end_frame*t_inj)
+    t_star = Time/t_inj
+    print("t_inj: ", t_inj)
+    print("end_frame_star: ", end_frame_star)
+    return t_star, end_frame_star
