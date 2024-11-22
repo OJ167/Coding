@@ -1640,3 +1640,20 @@ def normalise_injection_time(u, v, start_frame = 71, end_frame = 521):
     print("t_inj: ", t_inj)
     print("end_frame_star: ", end_frame_star)
     return t_star, end_frame_star
+
+
+def convolved_derivitive(y, x, len = 15): 
+    '''
+    Convolved derivitive of a function dy/dx with length len coresponing to the number of points to average over
+    len must be odd
+    '''
+    filt = np.ones(len)/len
+    # print(len)
+    # print(filt)
+    y_smooth = np.convolve(y, filt, mode='valid')
+    # dysdx = np.gradient(y_smooth, x[5:-5])
+    # print(len/2, " = len/2")
+    # print(int(len/2), " = int len/2")
+    dysdx = np.gradient(y_smooth, x[int(len/2):-int(len/2)])
+
+    return dysdx

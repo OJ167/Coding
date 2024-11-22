@@ -35,22 +35,22 @@ Stroke = ['L50', 'L100']
 
 
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][Injection[0]][Stroke[0]][str(Rotations[0])]
 u5050 = vels[:,:,:,0]
 v5050 = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][Injection[1]][Stroke[0]][str(Rotations[0])]
 u10050 = vels[:,:,:,0]
 v10050 = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][Injection[0]][Stroke[1]][str(Rotations[0])]
 u50100 = vels[:,:,:,0]
 v50100 = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
 vels = h5file['Narrow'][Injection[1]][Stroke[1]][str(Rotations[0])]
 u100100 = vels[:,:,:,0]
 v100100 = vels[:,:,:,1]

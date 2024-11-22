@@ -56,6 +56,7 @@ def convolved_derivitive(y, x, len = 15):
     # print(len/2, " = len/2")
     # print(int(len/2), " = int len/2")
     dysdx = np.gradient(y_smooth, x[int(len/2):-int(len/2)])
+
     return dysdx
 
 
@@ -71,7 +72,7 @@ plt.title('Ring Expansion Rate')
 ax2.plot(VortLocMax[start_frame:end_frame,0]-95, label = 'Max')
 ax2.plot(drdt [start_frame:end_frame], label = 'dr/dt')
 # ax2.plot(drsdt[start_frame-int(15/2):end_frame], label = 'drs/dt')
-ax2.plot(drsdt[:end_frame], label = 'drs/dt')
+ax2.plot(drsdt[:end_frame]-95, label = 'drs/dt')
 plt.legend()
 # plt.show()
 
@@ -96,7 +97,38 @@ plt.title('Ring Expansion Rate - forcing start position')
 ax2.plot(Time[:(end_frame-start_frame)], VortLocMax[start_frame:end_frame,0]-95, label = 'Max')
 ax2.plot(Time[:(end_frame-start_frame)], drdt [start_frame:end_frame], label = 'dr/dt')
 ax2.plot(Time[start_frame-int(35/2):end_frame], drsdt[start_frame-int(35/2):end_frame], label = 'drs/dt')
+ax2.plot(Time[start_frame-int(35):end_frame]-0.534, drsdt[start_frame-int(35):end_frame]*10, label = 'drs/dt aligned')
+ax2.plot()
 ax2.set_xlabel(r'$t$[s]')
 # ax2.plot(drsdt[start_frame:end_frame], label = 'drs/dt')
+plt.legend()
+plt.show()
+
+
+import numpy as np
+
+# Sample data
+x = np.linspace(0, 10, 100)
+y = np.sin(x) + np.random.randn(100) * 0.1
+
+# Define a smoothing kernel
+kernel_size = 25
+kernel = np.ones(kernel_size) / kernel_size
+
+# Smooth the signal
+smoothed_y = np.convolve(y, kernel, mode='same')
+
+# Calculate the derivative of the smoothed signal
+dy_dx = np.gradient(smoothed_y)
+
+# Shift the smoothed signal to align with the derivative
+offset = kernel_size // 2
+shifted_smoothed_y = np.roll(smoothed_y, offset)
+
+# Plot the original, smoothed, and shifted signals
+plt.plot(x, y, label='Original')
+plt.plot(x, smoothed_y, label='Smoothed')
+plt.plot(x, shifted_smoothed_y, label='Shifted Smoothed')
+plt.plot(x, dy_dx, label='Derivative')
 plt.legend()
 plt.show()
