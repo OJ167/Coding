@@ -13,7 +13,7 @@ sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
 plt.style.use(["science", "vibrant", "no-latex"])
-
+oj.thesis_plot_settings()
 
 h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
@@ -97,7 +97,7 @@ plt.title('Ring Expansion Rate - forcing start position')
 ax2.plot(Time[:(end_frame-start_frame)], VortLocMax[start_frame:end_frame,0]-95, label = 'Max')
 ax2.plot(Time[:(end_frame-start_frame)], drdt [start_frame:end_frame], label = 'dr/dt')
 ax2.plot(Time[start_frame-int(35/2):end_frame], drsdt[start_frame-int(35/2):end_frame], label = 'drs/dt')
-ax2.plot(Time[start_frame-int(35):end_frame]-0.534, drsdt[start_frame-int(35):end_frame]*10, label = 'drs/dt aligned')
+ax2.plot(Time[start_frame-int(35):end_frame]-0.534, drsdt[start_frame-int(35):end_frame], label = 'drs/dt aligned')
 ax2.plot()
 ax2.set_xlabel(r'$t$[s]')
 # ax2.plot(drsdt[start_frame:end_frame], label = 'drs/dt')
