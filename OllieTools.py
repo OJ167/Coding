@@ -253,7 +253,7 @@ def importVorticity(dir):
     return vorticity
 
 
-def scaleVel(u, v, fps, heightPixels=1920, heightImage=0.405):
+def scaleVel(u, v, fps, heightPixels=1920, heightImage=1.05):
     """
     Scales velocity fields for u and v based on image height, n pixels and the fps of the camera.
 
@@ -1379,8 +1379,8 @@ def TwoPtCorrIWs(Arr):
     ExX = Arr.shape[2]
     ExY = Arr.shape[1]
  
-    nPairsHor = Decimal(math.factorial(ExX+2-1)// math.factorial(2) // math.factorial(ExX-1))
-    nPairsVer = Decimal(math.factorial(ExY+2-1)// math.factorial(2) // math.factorial(ExY-1))
+    nPairsHor = math.factorial(ExX+2-1)// math.factorial(2) // math.factorial(ExX-1)
+    nPairsVer = math.factorial(ExY+2-1)// math.factorial(2) // math.factorial(ExY-1)
 
     nPairsHor = int(nPairsHor)
     nPairsVer = int(nPairsVer)

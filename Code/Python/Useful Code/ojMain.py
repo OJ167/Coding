@@ -47,13 +47,18 @@ cmap = plt.get_cmap("jet_r")
 # u, v = oj.importData("G:/Testing/PIV_Comparison/PIVlab_GUI")
 # u, v = oj.importData73("G:/Testing/PIV_Comparison/PIV_export.mat")
 
-u,  v = oj.importData73("G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-27__FPS-60/8/Data/PIV_export.mat")
+# u,  v = oj.importData73("G:/Testing/RPM-0.0__Upiston-200__Stroke-100/2023-02-27__FPS-60/8/Data/PIV_export.mat") # this is the one to uncomment
 # u,  v = oj.importData73("G:/Testing/RPM-3.0__Upiston-200__Stroke-100/2023-03-14__FPS-60/1/Data/PIV_export.mat")
 # u,  v = oj.importData73("G:/Testing/RPM-6.0__Upiston-200__Stroke-100/2023-03-15__FPS-60/10/Data/PIV_export.mat")
 # u,  v = oj.importData73("G:/Testing/RPM-9.0__Upiston-200__Stroke-100/2023-03-16__FPS-60/5/Data/PIV_export.mat")
 # u,  v = oj.importData73("G:/Testing/RPM-12.0__Upiston-200__Stroke-100/2023-03-17__FPS-60/1/Data/PIV_export.mat")
 
-
+import h5py
+h5file = h5py.File('E:/H5/WideFOV.h5', 'r')
+vels = h5file['Wide']['U200']['L100']['RPM12']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+h5file.close()
 u_gaussian, v_gaussian = gaussian_filter(u, sigma=0.7), gaussian_filter(v, sigma=0.7)
 
 time = oj.frames_to_seconds(u, v, 60)
@@ -188,7 +193,7 @@ vfft_u2 = oj.IWFilter(u, 75, 60, 9)
 f2, (ax1, ax2) = plt.subplots(nrows = 2, ncols = 1)
 ax1.contourf(vfft_u[500,:,:], cmap="bwr")
 ax2.contourf(vfft_u2[500,:,:], cmap="bwr")
-# plt.show()
+plt.show()
 
 # vfft_u = oj.IWFilter(u, 45, 60, 6)
 # f2, ax1 = plt.subplots(nrows = 1, ncols = 1)
