@@ -803,7 +803,7 @@ def load_coefficients(path):
 
 def sum_kinetic_energy(u, v):
     V = np.sqrt((abs(u))**2 + (abs(v))**2)
-    kinetic_energy = np.square(V)
+    kinetic_energy = 0.5*np.square(V)
     sum_kinetic_energy = np.sum(kinetic_energy, axis=(1,2))
     # print(sum_kinetic_energy.shape)
     return kinetic_energy, sum_kinetic_energy
@@ -1657,3 +1657,40 @@ def convolved_derivitive(y, x, len = 15):
     dysdx = np.gradient(y_smooth, x[int(len/2):-int(len/2)])
 
     return dysdx
+
+
+def DimensionalScaleWide(shapeX, shapeY, widthM = 0.66, HeightM = 1.066, jetLocPix = 600, pixX = 1200, d = 0.05):
+    '''
+    convert from PIV pixel units to dimensional units in meters for the wide FOV
+
+    shapeX becomes Radial
+    shapeY becomes Z
+
+    '''
+    shapeX = shapeX -1
+    zeroPos = int(jetLocPix/pixX * shapeX)
+
+    r_d = np.linspace(-widthM * zeroPos/shapeX, widthM * (shapeX-zeroPos)/shapeX, shapeX+1)
+    z_d = np.linspace(0, HeightM, shapeY)
+
+    return r_d, z_d
+
+
+def new_sum_kinetic(u, v):
+    '''
+    Produces the kinetic energy of the flow field by taking into account the different volume fractions
+    of the PIV points based on the radial position of the point.
+    '''
+    r_d, z_d = DimensionalScaleWide(u.shape[1], u.shape[2])
+    #volume fraction of each point
+    vol = 2*np.pi*r_d**2
+    Vol = np.zeros([u.shape[1], u.shape[2]])
+
+    for i in range(Vol.shape[1]):
+        Vol[:,i] = vol
+    V = np.sqrt((abs(u))**2 + (abs(v))**2)
+    kinetic_energy = 0.5*np.square(V)*Vol
+    sum_kinetic_energy = np.sum(kinetic_energy, axis=(1,2))
+
+    return kinetic_energy, sum_kinetic_energy, Vol
+
