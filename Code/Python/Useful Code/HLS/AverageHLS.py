@@ -89,9 +89,9 @@ plt.legend()
 # plt.show()
 
 
-# f3, ax3 = plt.subplots()
-# ax3.quiver(r, r, U_az[:,:],  )
-# plt.show()
+f3, ax3 = plt.subplots()
+ax3.contourf(U_az[:,:])
+plt.show()
 
 # f4, ax4 = plt.subplots()
 # ax4.quiver(r[:,:])
@@ -126,7 +126,8 @@ def create_Mean(
 
     return u_mean, v_mean, u, v
 
-u_mean20, v_mean20, u, v = create_Mean(10, "F:/Testing/3Do/RPM-3.0__Upiston-100__Stroke-100/2023-09-18__FPS-150/")
+# u_mean20, v_mean20, u, v = create_Mean(10, "F:/Testing/3Do/RPM-3.0__Upiston-100__Stroke-100/2023-09-18__FPS-150/")
+u_mean20, v_mean20 =  u, v
 
 f1, ax = plt.subplots(2, 2, sharex=True, sharey=True)
 plt.suptitle("20 ring mean")

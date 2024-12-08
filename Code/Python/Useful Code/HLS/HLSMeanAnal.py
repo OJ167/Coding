@@ -24,7 +24,19 @@ nInj = PRPM.shape[0]
 
 d = 0.05
 
-h5file = h5py.File('F:/H5/3D0meandataHLS.h5', 'r')
+h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
+
+vels = h5file['3D0']['U100']['L100']['RPM3']
+u = vels[:,:,:,0]
+v = vels[:,:,:,1]
+
+umean = np.mean(u, axis=0)
+vmean = np.mean(v, axis=0)
+x = 55
+y = 35
+x = np.linspace(0 , umean.shape[1], umean.shape[1])
+y = np.linspace(0 , umean.shape[0], umean.shape[0])
+X, Y = np.meshgrid(x, y) 
 
 r, theta, U_r, U_az, x0, y0= oj.ConvertCylindrical(x, y, X, Y, umean, vmean)
 r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=5, rBins=5)
@@ -63,7 +75,7 @@ for runRot in range(nRot):
         umean = np.mean(vels0[:,:,:,0], axis=0)
         vmean = np.mean(vels0[:,:,:,1], axis=0)
         
-        Xnd, Ynd = oj.NDUnitsForPlotsHLS(vmean.shape[1], vmean.shape[0])
+        Xnd, Ynd = oj.NDUnitsForPlotsHoriz(vmean.shape[1], vmean.shape[0])
         X = Xnd * d
         Y = Ynd * d
         XndPlot, YndPlot = np.meshgrid(Xnd, Ynd)

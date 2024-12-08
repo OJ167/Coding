@@ -582,6 +582,24 @@ def NDUnitsForPlotsNozzle(shapeX, shapeY, widthM = 0.13574, HeightM = 0.21719, j
     
     return r_nd, z_nd
 
+def NDUnitsForPlotsHoriz(shapeX, shapeY, widthM = 0.34091, HeightM = 0.54545, jetLocPix = 600, pixX = 1200, d = 0.05):
+    """
+    shapeX becomes Radial
+    shapeY becomes Z
+    """
+    shapeX = shapeX -1
+    zeroPoss = int(jetLocPix/pixX * shapeX)
+    zeroPosl = int(jetLocPix/pixX * shapeY)
+
+    r = np.linspace(-widthM * zeroPoss/shapeX, widthM * (shapeX-zeroPoss)/shapeX, shapeX+1)
+    r_nd = r / d*2
+
+    # z = np.linspace(0, HeightM, shapeY)
+    z = np.linspace(-HeightM * zeroPosl/shapeY, HeightM * (shapeY-zeroPosl)/shapeY, shapeY)
+    z_nd = z / d*2
+    
+    return r_nd, z_nd
+
 
 def InterpZeros(y):
     if (y==0).any() == True:
