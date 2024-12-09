@@ -461,7 +461,8 @@ def IWFilter(inputArray, input_ang, fps, rpm, forcedFreq = 0):
 
     thresh = 0.03
     # thresh = 0.09
-    # thresh = 0.1
+    thresh = 0.1
+    # thresh = 0.3
 
     v_FFT = fft(v_fluc, axis=0)
     FFTFreq = fftfreq(v_fluc.shape[0], 1 / fps)
@@ -1403,7 +1404,7 @@ def TwoPtCorrIWs(Arr):
     nPairsHor = int(nPairsHor)
     nPairsVer = int(nPairsVer)
 
-    print('end')
+    # print('end')
     # nPairsHor = 72911  # there are problems in this part of the code - this is a bodge for a single data set
     # nPairsVer = 337218 # there are problems in this part of the code - this is a bodge for a single data set
  
