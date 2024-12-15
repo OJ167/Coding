@@ -35,7 +35,7 @@ h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 frame = 750
 frametime = frame/150
 d = 0.1
-vels = h5file['3D0']['U100']['L100']['RPM3']
+vels = h5file['3D0']['U100']['L100']['RPM0']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 h5file.close()
