@@ -27,10 +27,11 @@ print(dirPath)
 # sys.path.insert(0, dirPath)
 # import OllieTools as oj
 # print(dirPath)
+oj.thesis_plot_settings()
 
 # oj.tic()
-# h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
-h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
+h5file = h5py.File('E:/H5/3D0meandataHLS.h5', 'r')
+# h5file = h5py.File('E:/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0meandataHLS.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 
@@ -82,9 +83,10 @@ plt.legend()
 x = np.linspace(0 , u.shape[2], u.shape[2])
 y = np.linspace(0 , u.shape[1], u.shape[1])
 X, Y = np.meshgrid(x, y) 
+xc = u.shape[2]/2
+yc = u.shape[1]/2
 
-
-r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[frame,:,:], v_gaussian[frame,:,:])
+r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(xc, yc, x, y, u_gaussian[frame,:,:], v_gaussian[frame,:,:])
 r_arr, theta_arr, U_rBins, U_azBins = oj.binCylindrical(r, theta, U_r, U_az, thetaBins=30, rBins=45)
 inds = (r.flatten()).argsort()
 r2 = (r.flatten())[inds]
@@ -98,7 +100,7 @@ U_r_Peak = np.zeros(u.shape[0])
 
 for i in range(u.shape[0]):
 # for i in range(10): # for testing
-    r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[i,:,:], v_gaussian[i,:,:])
+    r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(xc, yc, x, y, u_gaussian[i,:,:], v_gaussian[i,:,:])
     inds = (r.flatten()).argsort()
     r2 = (r.flatten())[inds]
     U_r2 = (U_r.flatten())[inds]
@@ -147,7 +149,7 @@ radial_Positionaz = np.zeros([7, u.shape[0]])
 U_az_Mean =         np.zeros([7, u.shape[0]])
 U_az_Peak =         np.zeros([7, u.shape[0]])
 
-exit()
+# exit()
 ######
 # multiple rings
 ######
@@ -161,7 +163,7 @@ for i in range(len(rpm)):
     u_gaussian, v_gaussian = gaussian_filter(u, sigma=6), gaussian_filter(v, sigma=6)
 
     for j in range(u.shape[0]):
-        r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(120, 75, x, y, u_gaussian[j,:,:], v_gaussian[j,:,:])
+        r, theta, U_r, U_az, x0, y0 = oj.ConvertCylindrical(xc, yc, x, y, u_gaussian[j,:,:], v_gaussian[j,:,:])
         inds = (r.flatten()).argsort()
         r2 = (r.flatten())[inds]
         U_r2 = (U_r.flatten())[inds]
@@ -261,6 +263,6 @@ ax11.plot(time*rate[5]-0.159, U_az_Peak[5,:], label = '9RPM')
 ax11.plot(time*rate[6]-0.257, U_az_Peak[6,:], label = '12RPM')
 ax11.legend()
 ax11.set_title(r"$U_{az}$ Peak/time")
-ax11.set_xlabel("$Number of rotations$")
+ax11.set_xlabel("$Number ~of ~rotations$")
 ax11.set_ylabel(r"$U_{az}$")
 plt.show()

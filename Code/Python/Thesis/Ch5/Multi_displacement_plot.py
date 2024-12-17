@@ -34,22 +34,25 @@ Ring2_6 = np.asarray(data["Ring2_6"])
 # Ring2_87 = np.asarray(data["Ring2_87"])
 Ring3_87 = np.asarray(data["Ring3_87"])
 
+time = np.arange(500)
+print(time.shape)
+
 # plt.style.reload_library()
 # plt.style.use('science')
 plt.figure(figsize=(5.5, 3.5))
-plt.plot(Ring1_0[1,1:264]/95  ,  label = "0.0RPM")
+plt.plot(time[1:264]/10, Ring1_0[1,1:264]/95  ,  label = "0.0RPM")
 # plt.plot(Ring2_0[1,1:]  ,  label = "Ring2_0")
 # plt.plot(Ring3_0[1,1:]  ,  label = "Ring3_0")
-plt.plot(Ring1_27[1,1:275]/95 ,  label = "2.7RPM")
+plt.plot(time[1:275]/10, Ring1_27[1,1:275]/95 *0.7,  label = "2.7RPM")
 # plt.plot(Ring2_27[1,1:] ,  label = "Ring2_27")
 # plt.plot(Ring3_27[1,1:] ,  label = "Ring3_27")
 # plt.plot(Ring1_6[1,1:]  ,  label = "Ring1_6")
-plt.plot(Ring2_6[1,1:]/95  ,  label = "6.0RPM")
+plt.plot(time[1:385]/17, Ring2_6[1,1:]/95  *0.4,  label = "6.0RPM")
 # plt.plot(Ring3_6[1,1:]  ,  label = "Ring3_6")
 # plt.plot(Ring4_6[1,1:]  ,  label = "Ring4_6")
 # plt.plot(Ring1_87[1,1:] ,  label = "Ring1_87")
 # plt.plot(Ring2_87[1,1:] ,  label = "Ring2_87")
-plt.plot(Ring3_87[1,1:]/95 ,  label = "8.7RPM")
+plt.plot(time[:245]/20, Ring3_87[1,1:]/95 *0.3,  label = "8.7RPM")
 
 # Ring1_0[1,1:]  ,
 # Ring2_0[1,1:]  ,
@@ -91,7 +94,7 @@ plt.plot(Ring3_87[1,1:]/95 ,  label = "8.7RPM")
 
 # plt.xlabel('Time [Frames]')
 # plt.xticks(Ring1_0[:,2]/100)
-plt.xlabel(r'$t/(D_{0}/U_{0})$')
+plt.xlabel(r'$t$ [s]')
 plt.ylabel(r'$z/D_{0}$')
 # plt.title("Multiple Ring Displacement")
 
