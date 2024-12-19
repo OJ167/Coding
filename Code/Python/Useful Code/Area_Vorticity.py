@@ -27,7 +27,8 @@ print(dirPath)
 # print(dirPath)
 
 ##### Set plot style #####
-plt.style.use(["science", "vibrant", "no-latex"])
+# plt.style.use(["science", "vibrant", "no-latex"])
+oj.thesis_plot_settings()
 
 Rotations = ['RPM0', 'RPM1', 'RPM2', 'RPM3', 'RPM6', 'RPM9', 'RPM12']
 Injection = ['U50', 'U100']
@@ -36,37 +37,37 @@ I = 'U50'
 S = 'L50'
 
 
-h5file = h5py.File('E:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[0])]
 u0mean = vels[:,:,:,0]
 v0mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[1])]
 u1mean = vels[:,:,:,0]
 v1mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[2])]
 u2mean = vels[:,:,:,0]
 v2mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[3])]
 u3mean = vels[:,:,:,0]
 v3mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[4])]
 u6mean = vels[:,:,:,0]
 v6mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[5])]
 u9mean = vels[:,:,:,0]
 v9mean = vels[:,:,:,1]
 
-h5file = h5py.File('G:/H5/meandataVLS.h5', 'r')
+h5file = h5py.File('E:/H5/meandataVLSFine.h5', 'r')
 vels = h5file['Narrow'][str(I)][str(S)][str(Rotations[6])]
 u12mean = vels[:,:,:,0]
 v12mean = vels[:,:,:,1]
@@ -136,29 +137,29 @@ ax3.scatter(6, GammaMax6, label = "6RPM" )
 ax3.scatter(9, GammaMax9, label = "9RPM" )
 ax3.scatter(12, GammaMax12, label = "12RPM" )
 ax3.set_xlabel("RPM")
-ax3.set_ylabel("$\Gamma_{peak} \: [cm^{2}s^{-1}]$")
+ax3.set_ylabel("$\Gamma_{peak} ~[cm^{2}s^{-1}]$")
 ax3.set_ylim(0)
 plt.legend()
 plt.show()
 
 
 
-Vorticity0r, Vorticity0  = oj.calculate_vorticity(u0mean, v0mean)
-Vorticity1r, Vorticity1  = oj.calculate_vorticity(u1mean, v1mean)
-Vorticity2r, Vorticity2  = oj.calculate_vorticity(u2mean, v2mean)
-Vorticity3r, Vorticity3  = oj.calculate_vorticity(u3mean, v3mean)
-Vorticity6r, Vorticity6  = oj.calculate_vorticity(u6mean, v6mean)
-Vorticity9r, Vorticity9  = oj.calculate_vorticity(u9mean, v9mean)
-Vorticity12r, Vorticity12 = oj.calculate_vorticity(u12mean, v12mean)
+# Vorticity0r, Vorticity0  = oj.calculate_vorticity(u0mean, v0mean)
+# Vorticity1r, Vorticity1  = oj.calculate_vorticity(u1mean, v1mean)
+# Vorticity2r, Vorticity2  = oj.calculate_vorticity(u2mean, v2mean)
+# Vorticity3r, Vorticity3  = oj.calculate_vorticity(u3mean, v3mean)
+# Vorticity6r, Vorticity6  = oj.calculate_vorticity(u6mean, v6mean)
+# Vorticity9r, Vorticity9  = oj.calculate_vorticity(u9mean, v9mean)
+# Vorticity12r, Vorticity12 = oj.calculate_vorticity(u12mean, v12mean)
 
 
-Enst0  = np.square(Vorticity0)
-Enst1  = np.square(Vorticity1)
-Enst2  = np.square(Vorticity2)
-Enst3  = np.square(Vorticity3)
-Enst6  = np.square(Vorticity6)
-Enst9  = np.square(Vorticity9)
-Enst12 = np.square(Vorticity12)
+# Enst0  = np.square(Vorticity0)
+# Enst1  = np.square(Vorticity1)
+# Enst2  = np.square(Vorticity2)
+# Enst3  = np.square(Vorticity3)
+# Enst6  = np.square(Vorticity6)
+# Enst9  = np.square(Vorticity9)
+# Enst12 = np.square(Vorticity12)
 
 # f1, ax1 = plt.subplots(nrows=1, ncols=1)
 # ax1.imshow(Enst0[500,:,:])
@@ -266,19 +267,20 @@ svul6  = oj.sum_Vorticity(u6mean [:,:20,18:], v6mean [:,:20,18:]) +  oj.sum_Vort
 svul9  = oj.sum_Vorticity(u9mean [:,:20,18:], v9mean [:,:20,18:]) +  oj.sum_Vorticity(u9mean [:,53:,18:], v9mean [:, 53:, 18:])
 svul12 = oj.sum_Vorticity(u12mean[:,:20,18:], v12mean[:,:20,18:]) +  oj.sum_Vorticity(u12mean[:,53:,18:], v12mean[:, 53:, 18:])
 
-f5, ax7 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True)
-ax7.plot(time, svul0[:] , label = "0 RPM")
-ax7.plot(time, svul1[:] , label = "1 RPM")
-ax7.plot(time, svul2[:] , label = "2 RPM")
-ax7.plot(time, svul3[:] , label = "3 RPM")
-ax7.plot(time, svul6[:] , label = "6 RPM")
-ax7.plot(time, svul9[:] , label = "9 RPM")
-ax7.plot(time, svul12[:], label = "12 RPM")
-ax7.set_xlabel("T [s]")
-ax7.set_ylabel('$\Gamma$')
-plt.title("Circulation at large r 50/50")
+Eks = ['infinity', 0.0000102, 0.0000051, 0.0000034, 0.0000017, 0.0000011, 0.00000085]
+f5, ax7 = plt.subplots(nrows=1, ncols=1, sharex=True, sharey=True, figsize=(5.5, 4))
+ax7.plot(time, svul0[:] , label = "Ek = {}".format(Eks[0]))
+ax7.plot(time, svul1[:] , label = "Ek = {}".format(Eks[1]))
+ax7.plot(time, svul2[:] , label = "Ek = {}".format(Eks[2]))
+ax7.plot(time, svul3[:] , label = "Ek = {}".format(Eks[3]))
+ax7.plot(time, svul6[:] , label = "Ek = {}".format(Eks[4]))
+ax7.plot(time, svul9[:] , label = "Ek = {}".format(Eks[5]))
+ax7.plot(time, svul12[:], label = "Ek = {}".format(Eks[6]))
+ax7.set_xlabel(r"t/t_{0}")
+ax7.set_ylabel('$\Gamma$ [cm$^2$/s]')
+# plt.title("Circulation at large r 50/50")
 plt.legend()
-
+plt.show()
 
 seul0  = oj.sum_Enstrophy(u0mean [:,:18,18:], v0mean [:,:18,18:]) +  oj.sum_Enstrophy(u0mean [:,51:,18:], v0mean [:, 51:, 18:])
 seul1  = oj.sum_Enstrophy(u1mean [:,:18,18:], v1mean [:,:18,18:]) +  oj.sum_Enstrophy(u1mean [:,51:,18:], v1mean [:, 51:, 18:])

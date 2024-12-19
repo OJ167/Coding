@@ -1713,3 +1713,32 @@ def new_sum_kinetic(u, v):
 
     return kinetic_energy, sum_kinetic_energy, Vol
 
+def Ek(TableRPM):
+    if TableRPM == 0:
+        l = 0.05  # Characteristic length
+        vk = 0.000001  # Kinematic viscosity
+        Omega = 7.2921 * (10)**(-5) 
+        Ek = vk / (2 * Omega * l**2)
+    else:
+        l = 0.05  # Characteristic length
+        vk = 0.000001  # Kinematic viscosity
+        Omega = 2 * np.pi * float(TableRPM) / 60
+        Ek = vk / (2 * Omega * l**2)
+    return Ek
+
+def Ro(U0, TableRPM):
+    d = 0.05  # Diameter of hole
+    l = 0.05  # Characteristic length
+
+    if TableRPM == 0:
+        Omega = 7.2921 * (10)**(-5) 
+        Ro = U0 / (2 * Omega * l)    
+    else:
+        Omega = 2 * np.pi * float(TableRPM) / 60
+        Ro = np.round(U0 / (2 * Omega * l),2)
+    return Ro
+
+def Rej(u0, l0):
+    vk = 0.000001  # Kinematic viscosity
+    Re = u0 * l0 / (2*vk)
+    return Re
