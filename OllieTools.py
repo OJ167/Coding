@@ -1732,7 +1732,9 @@ def Ro(U0, TableRPM):
 
     if TableRPM == 0:
         Omega = 7.2921 * (10)**(-5) 
-        Ro = U0 / (2 * Omega * l)    
+        # Ro = np.round(U0 / (2 * Omega * l), 2)
+        Ro = r'$\infty$'    
+        # Ro = 0
     else:
         Omega = 2 * np.pi * float(TableRPM) / 60
         Ro = np.round(U0 / (2 * Omega * l),2)
