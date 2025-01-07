@@ -1,5 +1,14 @@
 import numpy as np  
 import matplotlib.pyplot as plt 
+import sys
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
+
+oj.thesis_plot_settings()
 
 # Set Rossby number
 Ro = 0.1
@@ -67,7 +76,7 @@ plt.title(r'Contour plot of $\Psi$ with contour levels set to every 0.2')
 levels = np.linspace(-10, 10, 75)
 # print(levels)
 #surf(r,z,Psi)
-f1, ax1 = plt.subplots()
+f1, ax1 = plt.subplots(figsize = (1.5, 3))
 cont = ax1.contour(r,z,Psi,levels, colors = 'black')# cmap = 'bwr')
 # f1.colorbar(cont, ax = ax1)
 # ax1. imshow(Psi, extent=[0, 4, -4, 4], origin='lower', cmap='RdGy')
