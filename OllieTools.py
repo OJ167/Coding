@@ -26,7 +26,7 @@ sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
 
-plt.style.use(["science", "vibrant", "no-latex"])
+# plt.style.use(["science", "vibrant", "no-latex"])
 cmap = plt.get_cmap("jet_r")
 
 
