@@ -10,22 +10,22 @@ import matplotlib.colors as colors
 
 #####Import Ollie Tools
 dirPath = "C:/Coding"
-sys.path.insert(0, dirPath)
-import OllieTools as oj
-print(dirPath)
-# plt.style.use(["science", "vibrant", "no-latex"])
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
+# # plt.style.use(["science", "vibrant", "no-latex"])
 
-oj.thesis_plot_settings()
 
 from tkinter.filedialog import askdirectory
 
 ####Import Ollie Tools MAC
-# dirPath = "/Users/olliejackson/Coding"
-# sys.path.insert(0, dirPath)
-# import OllieTools as oj
-# print(dirPath)
+dirPath = "/Users/olliejackson/Coding"
+sys.path.insert(0, dirPath)
+import OllieTools as oj
+print(dirPath)
 
 ##### Set plot style #####
+oj.thesis_plot_settings()
 # plt.style.use(["science", "vibrant", "no-latex"])
 matplotlib.rc('xtick', labelsize=8) 
 matplotlib.rc('ytick', labelsize=8) 
@@ -49,17 +49,17 @@ def descend_obj(obj,sep='\t'):
 # h5file = h5py.File('F:/H5/0D0HLSFine.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTest.h5', 'r')
 # h5file = h5py.File('E:/H5/LengthTestNEW.h5', 'r')
-h5file = h5py.File('E:/H5/WideFOV.h5', 'r')
+# h5file = h5py.File('E:/H5/WideFOV.h5', 'r')
 
 
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/3D0HLSFine.h5', 'r')
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/meandataVLSFine.h5')
-# h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
+h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTestNEW.h5') #75 or 240
 # h5file = h5py.File('/Volumes/HLS_0D0/H5/LengthTest.h5') #200
 
-# vels = h5file['Narrow']['U100']['L75']['RPM0']
+vels = h5file['Narrow']['U100']['L75']['RPM0']
 # vels = h5file['3D0']['U100']['L100']['RPM3']
-vels = h5file['Wide']['U200']['L100']['RPM12']
+# vels = h5file['Wide']['U200']['L100']['RPM12']
 u = vels[:,:,:,0]
 v = vels[:,:,:,1]
 
@@ -88,12 +88,13 @@ ax1.contourf(z_nd, r_nd, umean[:,:], cmap = "bwr", norm=norm)
 # ax1.imshow(umean[:,:], cmap = "seismic")
 f1.colorbar(matplotlib.cm.ScalarMappable(norm=norm, cmap="bwr"), ax=ax1, label = r'$\overline{u} ~[m/s]$')#, ax=ax1)
 ax1.axhline(0, color = 'k', linestyle = '--', linewidth=0.5)
-ax1.set_xlabel(r'$z/r{0}$')
+ax1.set_xlabel(r'$x/r{0}$')
 ax1.set_ylabel(r'$r/r{0}$')
 # f1.savefig('C:/Coding/umean75.png', dpi = 400)
+f1.savefig('/Volumes/HLS_0D0/My Pictures/Correction Images/Ch5_Initial_and_Validation/umean75.png', dpi = 400)
 # plt.title("Axial Velocity Contour")
 # plt.show()
-
+exit()
 
 f1, (ax1) = plt.subplots(nrows=1, ncols=1)
 ax1.contourf(z_nd, r_nd, u[frame,:,:], cmap = "seismic")
