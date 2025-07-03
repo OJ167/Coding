@@ -1597,6 +1597,10 @@ def thesis_plot_settings():
     settings = {
         'figure.figsize': (5.5, 4),
         'font.size': 12,
+        # 'font.family': 'serif',
+        # ['dejavusans', 'dejavuserif', 'cm', 'stix', 'stixsans', 'custom']
+        'font.family': 'sans-serif',
+        'mathtext.fontset': 'dejavuserif',
         'lines.linewidth': 2,
         'axes.labelsize': 10,
         'xtick.labelsize': 8,
@@ -1605,6 +1609,9 @@ def thesis_plot_settings():
         'figure.dpi': 400,
         'figure.constrained_layout.use': True
     }
+    import scienceplots
+
+    plt.style.use(["science", "vibrant", "no-latex"])
     plt.rcParams.update(settings)
     print('Thesis plot settings applied')
 
