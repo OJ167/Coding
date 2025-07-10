@@ -14,7 +14,7 @@ print(dirPath)
 
 u0 = 0.1
 l0 = 0.1
-omega = 12
+omega = 1
 
 Re = oj.Rej(u0, l0)
 print('Re_j = ', Re)

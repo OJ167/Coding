@@ -8,17 +8,27 @@ dirPath = os.getcwd()
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 
-dirPath = "C:/Coding"
+#####Import Ollie Tools
+# dirPath = "C:/Coding"
+# sys.path.insert(0, dirPath)
+# import OllieTools as oj
+# print(dirPath)
+# oj.thesis_plot_settings()
+
+####Import Ollie Tools MAC
+dirPath = "/Users/olliejackson/Coding"
 sys.path.insert(0, dirPath)
 import OllieTools as oj
 print(dirPath)
+
 oj.thesis_plot_settings()
 
 # data = np.load("F:\Experiments\FlowVis\Dye Videos\Ring_Tracking_Results\Variables/Vars.npz")
 # data = np.load('/Volumes/OllieSSD/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
 # data = np.load('/Volumes/OllieSSD/Experiments/FlowVis/Dye Videos/Repeatability/Ring Tracking Data/Variables/0RPM.npz')
 
-data = np.load('F:/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
+# data = np.load('F:/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
+data = np.load('/Volumes/Crucial X6/Experiments/FlowVis/Dye Videos/Ring_Tracking_Results/Variables/Vars.npz')
 
 Ring1_0 = np.asarray(data["Ring1_0"])
 # Ring2_0 = np.asarray(data["Ring2_0"])
@@ -95,9 +105,10 @@ plt.plot(time[:245]/20, Ring3_87[1,1:]/95 *0.3,  label = "8.7RPM")
 # plt.xlabel('Time [Frames]')
 # plt.xticks(Ring1_0[:,2]/100)
 plt.xlabel(r'$t$ [s]')
-plt.ylabel(r'$z/D_{0}$')
+plt.ylabel(r'$x/D_{0}$')
 # plt.title("Multiple Ring Displacement")
 
 plt.legend()
-plt.savefig('C:/Coding/Flow_vis_tracking.png', dpi = 400)
+# plt.savefig('C:/Coding/Flow_vis_tracking.png', dpi = 400)
+plt.savefig('/Volumes/HLS_0D0/My Pictures/Correction Images/Flow_vis_tracking.png', dpi = 400)
 plt.show()
