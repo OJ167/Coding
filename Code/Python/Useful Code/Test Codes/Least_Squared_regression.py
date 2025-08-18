@@ -9,8 +9,8 @@ from scipy.interpolate import make_interp_spline, BSpline#from sam
 from scipy.signal import savgol_filter #my old fave
 
 
-plt.style.use(['notebook', 'grid'])
-plt.style.use(['science', 'no-latex', 'grid'])
+# plt.style.use(['notebook', 'grid'])
+# plt.style.use(['science', 'no-latex', 'grid'])
 
 
 N = 360 # Number of samples
@@ -79,7 +79,8 @@ print(sum)
 
 ############## calculating a derivative of a noisy function ################
 
-x, y = np.loadtxt('C:/Coding/Code/Python/Useful Code/Test Codes/Data/coviddata.txt')
+# x, y = np.loadtxt('C:/Coding/Code/Python/Useful Code/Test Codes/Data/coviddata.txt')
+x, y = np.loadtxt('/Users/olliejackson/Coding/Code/Python/Useful Code/Test Codes/Data/coviddata.txt')
 dydx = np.gradient(y,x)
 
 f5, ax5 = plt.subplots()
