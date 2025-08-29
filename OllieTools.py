@@ -6,7 +6,7 @@ import os
 import sys
 
 import h5py
-import cv2
+# import cv2
 import glob
 from scipy import ndimage, io
 from scipy.ndimage.filters import gaussian_filter
@@ -451,7 +451,8 @@ def IWFilter(inputArray, input_ang, fps, rpm, forcedFreq = 0):
     """
     v_fluc = inputArray.copy()
     v1 = np.mean(v_fluc, axis=0)
-    v_fluc -= v1
+    print(f'fluctuation mean {np.mean(v1)}')
+    # v_fluc -= v1
     if forcedFreq == 0:
         filtfreq = FiltFreqCalc(input_ang,fps=fps,rpm=rpm)
     else:
